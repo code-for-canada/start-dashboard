@@ -2,6 +2,10 @@ import React from "react";
 import { NavLink as RouterNavLink } from "react-router-dom";
 import { Container, Nav, Navbar } from "react-bootstrap";
 
+import { useAuth0 } from "@auth0/auth0-react";
+import LogoutButton from "./logout-button";
+import LoginButton from "./login-button";
+
 const MainNav = () => (
   <Nav className="mr-auto">
     <Nav.Link
@@ -10,28 +14,28 @@ const MainNav = () => (
       exact
       activeClassName="router-link-exact-active"
     >
-      Home
+      Dashboard
     </Nav.Link>
     <Nav.Link
       as={RouterNavLink}
-      to="/profile"
+      to="/update"
       exact
       activeClassName="router-link-exact-active"
     >
-      Profile
-    </Nav.Link>
-    <Nav.Link
-      as={RouterNavLink}
-      to="/external-api"
-      exact
-      activeClassName="router-link-exact-active"
-    >
-      External API
+      Artwork Update
     </Nav.Link>
   </Nav>
 );
 
-const AuthNav = () => null;
+const AuthNav = () => {
+  const { isAuthenticated } = useAuth0();
+
+  return (
+    <Nav className="justify-content-end">
+      {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+    </Nav>
+  );
+};
 
 const NavBar = () => {
   return (
