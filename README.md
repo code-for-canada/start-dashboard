@@ -1,16 +1,16 @@
-# Easy User Authentication for React Apps
+# StART Dashboard
 
-This repository hosts a React project that defines a Single-Page Application (SPA). You'll secure access to some of its routes using Auth0 User Authentication.
+Internal dashboard for Street Art Toronto
 
 ## Get Started
 
-Install the client project dependencies:
+Install dependencies:
 
 ```bash
 yarn
 ```
 
-Run the client project:
+Run the project:
 
 ```bash
 yarn start
