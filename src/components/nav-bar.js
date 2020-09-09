@@ -14,6 +14,14 @@ const MainNav = () => (
       exact
       activeClassName="router-link-exact-active"
     >
+      Home
+    </Nav.Link>
+    <Nav.Link
+      as={RouterNavLink}
+      to="/dashboard"
+      exact
+      activeClassName="router-link-exact-active"
+    >
       Dashboard
     </Nav.Link>
     <Nav.Link
