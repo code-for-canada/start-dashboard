@@ -6,15 +6,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 import LogoutButton from "./logout-button";
 import LoginButton from "./login-button";
 
+
 const MainNav = () => (
-  <Nav className="mr-auto">
+  <Nav className="ml-auto">
     <Nav.Link
       as={RouterNavLink}
       to="/"
       exact
       activeClassName="router-link-exact-active"
     >
-      Home
+      Dashboard
     </Nav.Link>
     <Nav.Link
       as={RouterNavLink}
@@ -24,35 +25,28 @@ const MainNav = () => (
     >
       Map
     </Nav.Link>
-    <Nav.Link
-      as={RouterNavLink}
-      to="/update"
-      exact
-      activeClassName="router-link-exact-active"
-    >
-      Progress Update
-    </Nav.Link>
   </Nav>
 );
 
-const AuthNav = () => {
-  const { isAuthenticated } = useAuth0();
-
+const AuthNav = ({ isAuthenticated }) => {
   return (
-    <Nav className="justify-content-end">
+    <Nav className="justify-content-end ml-4">
       {isAuthenticated ? <LogoutButton /> : <LoginButton />}
     </Nav>
   );
 };
 
 const NavBar = () => {
+  const { isAuthenticated, user } = useAuth0();
+  const userName = user['https://streetartoronto.ca/name']
+
   return (
-    <Navbar bg="light" expand="md">
-      <Container>
-        <Navbar.Brand as={RouterNavLink} className="logo" to="/" />
-        <MainNav />
-        <AuthNav />
-      </Container>
+    <Navbar bg="light" expand="md" className="px-4">
+        <div className="text-bold">
+          {`Hi, ${userName}! 👋`}
+        </div>
+        <MainNav userName={userName} />
+        <AuthNav isAuthenticated={isAuthenticated} />
     </Navbar>
   );
 };
