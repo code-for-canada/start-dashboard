@@ -6,7 +6,7 @@ const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
   return (
     <Button
-      onClick={() => loginWithRedirect({ redirectUri: 'http://localhost:3000/dashboard' })}
+      onClick={() => loginWithRedirect()}
       variant="primary"
       className="btn-margin"
     >
