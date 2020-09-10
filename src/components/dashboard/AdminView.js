@@ -24,7 +24,7 @@ const AdminDashboard = (user) => {
 
       <div className="col-md-8">
         <div className="mb-3">
-          <h2 className="mb-2">Artwork Progress Board</h2>
+          <h2 className="mb-2">Artwork Status Board</h2>
           <EmbeddedIframe title="Artwork Progress Board" src="https://airtable.com/embed/shrTlL5928ssPbMeP?backgroundColor=red&viewControls=on" />
         </div>
         <div className="mb-3">
