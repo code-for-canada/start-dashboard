@@ -18,11 +18,11 @@ const MainNav = () => (
     </Nav.Link>
     <Nav.Link
       as={RouterNavLink}
-      to="/dashboard"
+      to="/map"
       exact
       activeClassName="router-link-exact-active"
     >
-      Dashboard
+      Map
     </Nav.Link>
     <Nav.Link
       as={RouterNavLink}
@@ -30,7 +30,7 @@ const MainNav = () => (
       exact
       activeClassName="router-link-exact-active"
     >
-      Artwork Update
+      Progress Update
     </Nav.Link>
   </Nav>
 );

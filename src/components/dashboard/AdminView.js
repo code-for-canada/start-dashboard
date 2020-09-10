@@ -1,10 +1,12 @@
 import React from "react";
+import { Container } from "react-bootstrap";
+
 import EmbeddedIframe from './EmbeddedIframe'
 
 const AdminDashboard = (user) => {
   return (
-    <div>
-      <h1 className="mb-4">Admin Dashboard</h1>
+    <Container className="flex-grow-1 mt-5">
+      <h1 className="mb-4">Admin Dashboard Demo</h1>
 
       <div className="mb-3">
         <h2>Artwork Status Updates</h2>
@@ -20,7 +22,7 @@ const AdminDashboard = (user) => {
         <h2>New Submissions</h2>
         <EmbeddedIframe title="New Submissions" src="https://airtable.com/embed/shrbgSefEwH2I8pgM?backgroundColor=red&viewControls=on" />
       </div>
-    </div>
+    </Container>
   )
 };
 
