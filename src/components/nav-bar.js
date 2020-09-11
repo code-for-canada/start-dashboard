@@ -13,6 +13,7 @@ const MainNav = () => (
       as={RouterNavLink}
       to="/"
       exact
+      className="text-dark"
       activeClassName="router-link-exact-active"
     >
       Dashboard
@@ -21,6 +22,7 @@ const MainNav = () => (
       as={RouterNavLink}
       to="/map"
       exact
+      className="text-dark"
       activeClassName="router-link-exact-active"
     >
       Map
@@ -41,7 +43,7 @@ const NavBar = () => {
   const userName = user['https://streetartoronto.ca/name']
 
   return (
-    <Navbar bg="light" expand="md" className="px-4">
+    <Navbar bg="white" expand="md" className="px-4 shadow-depth">
         <div className="text-bold">
           {`Hi, ${userName}! 👋`}
         </div>
