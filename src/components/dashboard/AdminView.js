@@ -33,6 +33,17 @@ const AdminDashboard = (user) => {
         </div>
       </div>
 
+      <div className="col-md-12">
+        <div className="mb-3">
+          <h2 className="mb-2">Artworks</h2>
+          <EmbeddedIframe title="Artworks" src="https://airtable.com/embed/shrdDGqIxvtiIjFzZ?backgroundColor=red&viewControls=on" />
+        </div>
+        <div className="mb-3">
+          <h2 className="mb-2">Artists</h2>
+          <EmbeddedIframe title="Artists" src="https://airtable.com/embed/shrJegAZi7w7Kj5ue?backgroundColor=red&viewControls=on" />
+        </div>
+      </div>
+
     </div>
   )
 };
