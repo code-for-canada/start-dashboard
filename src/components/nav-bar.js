@@ -27,6 +27,15 @@ const MainNav = () => (
     >
       Map
     </Nav.Link>
+    <Nav.Link
+      as={RouterNavLink}
+      to="/location"
+      exact
+      className="text-dark"
+      activeClassName="router-link-exact-active"
+    >
+      Add location
+    </Nav.Link>
   </Nav>
 );
 
@@ -44,11 +53,19 @@ const NavBar = () => {
 
   return (
     <Navbar bg="white" expand="md" className="px-4 shadow-depth">
-        <div className="text-bold">
+      <Container>
+        <Nav.Link
+          as={RouterNavLink}
+          to="/"
+          exact
+          className="text-dark text-bold"
+          activeClassName="router-link-exact-active"
+        >
           {`Hi, ${userName}! 👋`}
-        </div>
+        </Nav.Link>
         <MainNav userName={userName} />
         <AuthNav isAuthenticated={isAuthenticated} />
+      </Container>
     </Navbar>
   );
 };

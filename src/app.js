@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import { Loading, PrivateRoute } from "./components";
-import { Home, Profile, Update, Dashboard, InternalMap } from "./views";
+import { Home, Profile, Update, Dashboard, InternalMap, LocationForm } from "./views";
 
 import "./assets/scss/main.scss";
 
@@ -23,6 +23,7 @@ const App = () => {
       <PrivateRoute path="/update" component={Update} />
       <PrivateRoute path="/profile" component={Profile} />
       <PrivateRoute path="/map" component={InternalMap} />
+      <PrivateRoute path="/location" component={LocationForm} />
     </Switch>
   );
 };
