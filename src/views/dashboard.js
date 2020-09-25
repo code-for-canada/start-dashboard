@@ -4,6 +4,7 @@ import StaffView from '../components/dashboard/StaffView';
 import AdvisoryCommitteeView from '../components/dashboard/AdvisoryCommitteeView';
 import CuratorView from '../components/dashboard/CuratorView';
 import ArtistView from '../components/dashboard/ArtistView';
+import GuestView from '../components/dashboard/GuestView';
 import DashboardLayout from './dashboard-layout'
 
 const dashboardViews = {
@@ -11,6 +12,7 @@ const dashboardViews = {
   'Advisory Committee': AdvisoryCommitteeView,
   'Curator': CuratorView,
   'Artist': ArtistView,
+  'Guest': GuestView
 }
 
 const Dashboard = () => {
@@ -18,7 +20,7 @@ const Dashboard = () => {
   const DashboardView = dashboardViews[user['https://streetartoronto.ca/role']]
 
   if (!DashboardView) {
-    return <DashboardLayout><ArtistView user={user} /></DashboardLayout>
+    return <DashboardLayout><GuestView user={user} /></DashboardLayout>
   }
 
   return <DashboardLayout><DashboardView user={user} /></DashboardLayout>

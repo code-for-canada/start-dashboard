@@ -26,8 +26,8 @@ const StaffDashboard = ({user}) => {
           <EmbeddedIframe title="Artwork Status Board" src="https://airtable.com/embed/shrTlL5928ssPbMeP?backgroundColor=red&viewControls=on" />
         </Panel>
 
-        <Panel title='Submissions' defaultOpen={true} defaultSmall={false} editLink="https://streetartto.submittable.com/submissions" editText="Edit in Submittable">
-          <EmbeddedIframe title="Submissions" src="https://airtable.com/embed/shrxT5GoyFQC61w5O?backgroundColor=red&viewControls=on" />
+        <Panel title='Submissions' defaultOpen={true} defaultSmall={false} editLink="https://airtable.com/tblcX15UBd7NvgZNz/viwueBRerPXEtZvi9?blocks=hide" editText="Edit in Airtable">
+          <EmbeddedIframe title="Submissions" src="https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on" />
         </Panel>
 
         <Panel title='Artworks' defaultOpen={true} defaultSmall={false} editLink="https://airtable.com/tbl5ApSEOzPpe4fwp/viw2swQLeJ9xwU82F?blocks=hide" editText="Edit in Airtable">
