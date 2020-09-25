@@ -1,0 +1,61 @@
+main {
+  flex: 1 1 auto;
+}
+
+
+.panel {
+  transition: all 0.3s ease;
+
+  .header {
+    background-color: $white;
+    border: 1px solid #cccccc;
+    margin-bottom: 5px;
+
+    h2 {
+      font-size: 1.25rem;
+    }
+  }
+
+  .body {
+    transition: all 0.3s ease;
+    height: 500px;
+  }
+
+  &.open {
+    .body {
+      height: 500px;
+    }
+  }
+
+  &.closed {
+    .body {
+      height: 0;
+      overflow: hidden;
+    }
+
+  }
+
+  &.small {
+    .body {
+      width: 50%;
+      overflow: hidden;
+    }
+
+  }
+
+  &.large {
+    .body {
+      width: 100%;
+      overflow: hidden;
+    }
+
+  }
+
+  .iframe-container {
+    height: inherit;
+
+    iframe {
+      height: inherit;
+    }
+  }
+}

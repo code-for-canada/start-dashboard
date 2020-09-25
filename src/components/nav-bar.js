@@ -52,7 +52,7 @@ const NavBar = () => {
   const userName = user['https://streetartoronto.ca/name']
 
   return (
-    <Navbar bg="white" expand="md" className="px-4 shadow-depth">
+    <Navbar bg="white" expand="md" collapseOnSelect className="px-4 shadow-depth">
       <Container>
         <Nav.Link
           as={RouterNavLink}
@@ -63,8 +63,11 @@ const NavBar = () => {
         >
           {`Hi, ${userName}! 👋`}
         </Nav.Link>
-        <MainNav userName={userName} />
-        <AuthNav isAuthenticated={isAuthenticated} />
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <MainNav userName={userName} />
+          <AuthNav isAuthenticated={isAuthenticated} />
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );
