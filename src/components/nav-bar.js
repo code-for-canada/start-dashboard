@@ -61,7 +61,7 @@ const NavBar = () => {
           className="text-dark text-bold"
           activeClassName="router-link-exact-active"
         >
-          {`Hi, ${userName}! 👋`}
+          {userName ? `Hi, ${userName}! 👋` : 'StART Guest' }
         </Nav.Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
