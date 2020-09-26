@@ -29,6 +29,7 @@
     "startto-map": "^0.1.7"
   },
   "scripts": {
+    "setup": "cp -n sample.env .env || echo .env file already exists. Skipping...",
     "start": "concurrently --kill-others 'npm run server' 'react-scripts start'",
     "build": "react-scripts build",
     "test": "react-scripts test",
