@@ -5,7 +5,7 @@ const app = express();
 var Airtable = require('airtable')
 require('dotenv').config()
 
-const base = new Airtable({ apiKey: process.env.REACT_APP_AIRTABLE_TOKEN }).base(process.env.REACT_APP_AIRTABLE_BASE)
+const base = new Airtable({ apiKey: process.env.START_AIRTABLE_TOKEN }).base(process.env.START_AIRTABLE_BASE)
 
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.urlencoded({ extended: true }));
