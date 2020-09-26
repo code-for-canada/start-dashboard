@@ -253,7 +253,7 @@ class LocationForm extends Component{
     }
 
     axios({
-      url: '/location',
+      url: '/api/location',
       method: 'POST',
       data: locationData
     })

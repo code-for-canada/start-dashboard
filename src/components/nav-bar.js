@@ -49,7 +49,7 @@ const AuthNav = ({ isAuthenticated }) => {
 
 const NavBar = () => {
   const { isAuthenticated, user } = useAuth0();
-  const userName = user['https://streetartoronto.ca/name']
+  const userName = user['https://streetartoronto.ca/name'] || user.nickname
 
   return (
     <Navbar bg="white" expand="md" collapseOnSelect className="px-4 shadow-depth">

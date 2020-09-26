@@ -1,7 +1,9 @@
 import React from "react";
-import DefaultLayout from './default-layout';
+import { Container } from "react-bootstrap";
+
+import DefaultLayout from '../layouts/default-layout';
 import LocationForm from '../components/forms/LocationForm'
-import { Container, Row, Col } from "react-bootstrap";
+import { DEFAULT_MAP_CENTER } from '../utils/constants'
 
 const AddLocation = () => (
   <DefaultLayout>
@@ -9,9 +11,9 @@ const AddLocation = () => (
     <div className="row mb-4">
       <div className="col-12 my-5">
         <LocationForm
-          center={{lat: 43.65347810000001, lng: -79.3841277}}
+          center={ DEFAULT_MAP_CENTER }
           height='400px'
-          zoom={14}
+          zoom={ 14 }
         />
       </div>
     </div>

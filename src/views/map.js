@@ -1,6 +1,6 @@
 import React from "react";
 import StartMap from 'startto-map'
-import DefaultLayout from './default-layout'
+import DefaultLayout from '../layouts/default-layout'
 
 const InternalMap = () => (
   <DefaultLayout>

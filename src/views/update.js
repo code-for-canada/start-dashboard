@@ -1,5 +1,5 @@
 import React from "react";
-import DefaultLayout from './default-layout';
+import DefaultLayout from '../layouts/default-layout';
 
 const StatusUpdate = () => (
   <DefaultLayout>

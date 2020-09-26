@@ -1,11 +1,11 @@
 import React from "react";
-import { useAuth0 } from '@auth0/auth0-react';
+import { useAuth0 } from "@auth0/auth0-react";
 import StaffView from '../components/dashboard/StaffView';
 import AdvisoryCommitteeView from '../components/dashboard/AdvisoryCommitteeView';
 import CuratorView from '../components/dashboard/CuratorView';
 import ArtistView from '../components/dashboard/ArtistView';
 import GuestView from '../components/dashboard/GuestView';
-import DashboardLayout from './dashboard-layout'
+import DashboardLayout from '../layouts/dashboard-layout'
 
 const dashboardViews = {
   'StART Staff': StaffView,
@@ -17,13 +17,13 @@ const dashboardViews = {
 
 const Dashboard = () => {
   const { user } = useAuth0();
-  const DashboardView = dashboardViews[user['https://streetartoronto.ca/role']]
+  const DashboardView = dashboardViews[user['https://streetartoronto.ca/role']] || GuestView
 
-  if (!DashboardView) {
-    return <DashboardLayout><GuestView user={user} /></DashboardLayout>
-  }
-
-  return <DashboardLayout><DashboardView user={user} /></DashboardLayout>
+  return (
+    <DashboardLayout>
+      <DashboardView />
+    </DashboardLayout>
+  )
 };
 
 export default Dashboard;

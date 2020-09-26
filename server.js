@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-app.post('/location', function(req, res) {
+app.post('/api/location', function(req, res) {
   console.log("req.body", req.body)
   const location = req.body
   base('locations').create([

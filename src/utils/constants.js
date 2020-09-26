@@ -1,3 +1,5 @@
+export const DEFAULT_MAP_CENTER = { lat: 43.65347810000001, lng: -79.3841277 }
+
 // This can be editted quite easily for a new look.
 // See: https://mapstyle.withgoogle.com/
 export const MAP_STYLE_BASE = [
