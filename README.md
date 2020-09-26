@@ -7,11 +7,11 @@ Internal dashboard for Street Art Toronto
 Install dependencies:
 
 ```bash
-yarn
+npm install
 ```
 
 Run the project:
 
 ```bash
-yarn start
+npm start
 ```
