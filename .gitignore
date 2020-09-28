@@ -702,3 +702,4 @@ MigrationBackup/
 
 # Project-specific files
 .env
+/build
