@@ -22,5 +22,5 @@ See `docs/development.md` for instructions on creating credentials.
 Run the project:
 
 ```bash
-npm start
+npm run dev
 ```

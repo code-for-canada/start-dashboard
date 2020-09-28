@@ -30,7 +30,7 @@
   },
   "scripts": {
     "setup": "cp -n sample.env .env || echo .env file already exists. Skipping...",
-    "start": "concurrently --kill-others 'npm run server' 'react-scripts start'",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
