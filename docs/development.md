@@ -1,5 +1,8 @@
 # StART Dashboard: Developer Docs
 
+Note: To find any pre-created credentials for this project, please see the
+"StART: Passwords" Google Doc.
+
 ## Auth0 Account
 
 All configuration mentioned will be added to your `.env` file in the project's root directory.
