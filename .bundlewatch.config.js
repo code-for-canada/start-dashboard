@@ -10,7 +10,7 @@ module.exports = {
   },
   "files": [
     {
-      "path": "build/*.js",
+      "path": "build/static/js/*.js",
       "maxSize": "250 kB",
     },
   ]
