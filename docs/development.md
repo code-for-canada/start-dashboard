@@ -8,8 +8,7 @@ Note: To find any pre-created credentials for this project, please see the
 All configuration mentioned will be added to your `.env` file in the project's root directory.
 
 1. Sign up for an Auth0 account.
-2. Visit your applications listing page:  
-   `https://manage.auth0.com/dashboard/us/YOURUSERNAME/applications`
+2. Visit your applications listing page: https://manage.auth0.com/#/applications/
 3. Click the app name, "Default App".
 4. In the "Settings" tab:
     - Note the Domain and enter it as `REACT_APP_AUTH0_DOMAIN` in your `.env` config.
