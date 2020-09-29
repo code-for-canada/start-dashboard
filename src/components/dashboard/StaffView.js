@@ -1,22 +1,116 @@
-import React from "react";
-import { Container, Row } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, Container, Row } from "react-bootstrap";
 
 import EmbeddedIframe from './EmbeddedIframe'
 import Panel from './Panel'
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
+import VisibilityIcon from '@material-ui/icons/Visibility'
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
-const ViewControlBlock = () => (
-  <>
-    <h4 className="my-3">All views</h4>
-    <ul>
-      <li>Project Updates <a href="#">hide</a></li>
-      <li>Submit Update</li>
-      <li>Artwork Status Board</li>
-      <li>Submissions</li>
-      <li>Artworks</li>
-      <li>Artists</li>
-    </ul>
-  </>
+const IconButton = props => (
+  <button
+    {...props}
+    className="btn btn-secondary btn-sm"
+    type="button"
+  />
 )
+
+const ShowHideButton = props => {
+  const [ isVisible, setVisible ] = useState(props.isVisible)
+
+  return(
+    <IconButton onClick={() => setVisible(!isVisible)}>
+      {isVisible
+        ? <VisibilityIcon />
+        : <VisibilityOffIcon />
+      }
+    </IconButton>
+  )
+}
+
+const MoveUpButton = props => (
+  <IconButton {...props}>
+    <KeyboardArrowUpIcon />
+  </IconButton>
+)
+
+const MoveDownButton = props => (
+  <IconButton {...props}>
+    <KeyboardArrowDownIcon />
+  </IconButton>
+)
+
+const ViewControlBlockItem = props => {
+  const { name, isVisible, firstItem, lastItem } = props
+
+  const moveDown = () => {
+    console.log('moving down!')
+  }
+
+  const moveUp = () => {
+    console.log('moving up!')
+  }
+
+  return(
+    <tr>
+      <td className="align-middle"><nobr>{name}</nobr></td>
+      <td>
+        <div className="btn-group" role="group" aria-label={`Actions on view: ${name}`}>
+            <ShowHideButton isVisible={isVisible} />
+            <MoveUpButton disabled={firstItem} onClick={moveUp} />
+            <MoveDownButton disabled={lastItem} onClick={moveDown} />
+        </div>
+      </td>
+    </tr>
+  )
+}
+
+const ViewControlBlock = () => {
+  const initialData = [
+    {
+      name: 'Project Updates',
+      isVisible: true,
+      order: 0,
+    },
+    {
+      name: 'Submit Update',
+      isVisible: true,
+      order: 1,
+    },
+    {
+      name: 'Artwork Status Board',
+      isVisible: false,
+      order: 2,
+    },
+    {
+      name: 'Submissions',
+      isVisible: true,
+      order: 3,
+    },
+    {
+      name: 'Artworks',
+      isVisible: true,
+      order: 4,
+    },
+    {
+      name: 'Artists',
+      isVisible: false,
+      order: 5,
+    },
+  ]
+
+  return(
+    <>
+      <h4 className="my-3">All views</h4>
+      <table className="table table-sm">
+        <tbody>
+          {initialData.map((view, index) => <ViewControlBlockItem {...view} key={view.name} firstItem={index === 0} lastItem={index === initialData.length - 1} />)}
+        </tbody>
+      </table>
+    </>
+  )
+}
 
 const Sidebar = props => (
   <div className="col-2 order-2" id="sticky-sidebar">
