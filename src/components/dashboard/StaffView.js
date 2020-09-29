@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button, Container, Row } from "react-bootstrap";
+import React from 'react'
+import { Button, Col, Container, Row } from 'react-bootstrap'
 
 import EmbeddedIframe from './EmbeddedIframe'
 import Panel from './Panel'
@@ -100,11 +100,11 @@ const PanelControlBlock = props => {
 }
 
 const Sidebar = props => (
-  <div className="col-2 order-2" id="sticky-sidebar">
+  <Col xs={2} className="order-2" id="sticky-sidebar">
     <div className="sticky-top">
       {props.children}
     </div>
-  </div>
+  </Col>
 )
 
 const StaffDashboard = ({user}) => {
@@ -163,16 +163,16 @@ const StaffDashboard = ({user}) => {
 
   return (
     <Container>
-      <div className="row">
-        <div className="col-12 mt-4">
+      <Row>
+        <Col className="mt-4">
           <h1 className="mb-2">StART Staff Dashboard</h1>
-        </div>
-      </div>
+        </Col>
+      </Row>
 
-      <div className="row">
+      <Row>
         <Container>
-          <div className="row">
-            <div className="col">
+          <Row>
+            <Col>
               <Container>
                 <Row>
                   {panels.map((panel, index) =>
@@ -192,7 +192,7 @@ const StaffDashboard = ({user}) => {
                   )}
                 </Row>
               </Container>
-            </div>
+            </Col>
             <Sidebar>
               <PanelControlBlock
                 panels={panels}
@@ -201,9 +201,9 @@ const StaffDashboard = ({user}) => {
                 toggleVisibility={toggleVisibility}
               />
             </Sidebar>
-          </div>
+          </Row>
         </Container>
-      </div>
+      </Row>
     </Container>
   )
 };
