@@ -7,6 +7,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
+import usePanelState from './usePanelState'
 
 const IconButton = props => {
   const { onClick, disabled, children } = props
@@ -206,30 +207,5 @@ const StaffDashboard = ({user}) => {
     </Container>
   )
 };
-
-const usePanelState = defaultPanels => {
-  const [panels, setPanels] = useState(defaultPanels)
-
-  return {
-    panels,
-    toggleVisibility: (index) => {
-      const newPanels = [...panels]
-      newPanels[index].isVisible = !panels[index].isVisible
-      setPanels(newPanels)
-    },
-    moveUp: (index) => {
-      const newPanels = [...panels]
-      newPanels[index] = panels[index-1]
-      newPanels[index-1] = panels[index]
-      setPanels(newPanels)
-    },
-    moveDown: (index) => {
-      const newPanels = [...panels]
-      newPanels[index] = panels[index+1]
-      newPanels[index+1] = panels[index]
-      setPanels(newPanels)
-    },
-  }
-}
 
 export default StaffDashboard;
