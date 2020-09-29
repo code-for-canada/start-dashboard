@@ -54,9 +54,9 @@ jobs:
     - name: Rename files
       working-directory: build/static/js/
       run: |
-        mv 2.*.chunk.js 2.chunk.js
-        mv main.*.chunk.js main.chunk.js
-        mv runtime-main.*.js runtime-main.js
+        mv 2.*.chunk.js 2.xxxxxxxx.chunk.js
+        mv main.*.chunk.js main.xxxxxxxx.chunk.js
+        mv runtime-main.*.js runtime-main.xxxxxxxx.js
 
     - name: Run Bundlewatch
       env:
