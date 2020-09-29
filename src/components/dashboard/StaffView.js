@@ -8,19 +8,26 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
-const IconButton = props => (
-  <button
-    {...props}
-    className="btn btn-secondary btn-sm"
-    type="button"
-  />
-)
-
-const ShowHideButton = props => {
-  const [ isVisible, setVisible ] = useState(props.isVisible)
+const IconButton = props => {
+  const { onClick, disabled, children } = props
 
   return(
-    <IconButton onClick={() => setVisible(!isVisible)}>
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className="btn btn-secondary btn-sm"
+      type="button"
+    >
+      {children}
+    </button>
+  )
+}
+
+const ShowHideButton = props => {
+  const { isVisible } = props
+
+  return(
+    <IconButton {...props}>
       {isVisible
         ? <VisibilityIcon />
         : <VisibilityOffIcon />
@@ -41,48 +48,48 @@ const MoveDownButton = props => (
   </IconButton>
 )
 
-const ViewControlBlockItem = props => {
-  const { title, isVisible, firstItem, lastItem } = props
-
-  const moveDown = () => {
-    console.log('moving down!')
-  }
-
-  const moveUp = () => {
-    console.log('moving up!')
-  }
+const PanelControlBlockItem = props => {
+  const {
+    title,
+    index,
+    isVisible,
+    isFirstItem,
+    isLastItem,
+    toggleVisibility,
+    moveUp,
+    moveDown,
+  } = props
 
   return(
     <tr>
       <td className="align-middle"><nobr>{title}</nobr></td>
       <td>
         <div className="btn-group" role="group" aria-label={`Actions on view: ${title}`}>
-            <ShowHideButton isVisible={isVisible} />
-            <MoveUpButton disabled={firstItem} onClick={moveUp} />
-            <MoveDownButton disabled={lastItem} onClick={moveDown} />
+            <ShowHideButton isVisible={isVisible} onClick={() => toggleVisibility(index)} />
+            <MoveUpButton disabled={isFirstItem} onClick={() => moveUp(index)} />
+            <MoveDownButton disabled={isLastItem} onClick={() => moveDown(index)} />
         </div>
       </td>
     </tr>
   )
 }
 
-const ViewControlBlock = props => {
-  const { data } = props
-  const sortByOrder = (a, b) => {
-    return a.order - b.order
-  }
+const PanelControlBlock = props => {
+  const { panels } = props
 
   return(
     <>
       <h4 className="my-3">All views</h4>
       <table className="table table-sm">
         <tbody>
-          {data.sort(sortByOrder).map((view, index) =>
-            <ViewControlBlockItem
-              {...view}
-              key={view.title}
-              firstItem={index === 0}
-              lastItem={index === data.length - 1}
+          {panels.map((panel, index) =>
+            <PanelControlBlockItem
+              {...props}
+              {...panel}
+              index={index}
+              key={panel.title}
+              isFirstItem={index === 0}
+              isLastItem={index === panels.length - 1}
             />
           )}
         </tbody>
@@ -100,12 +107,11 @@ const Sidebar = props => (
 )
 
 const StaffDashboard = ({user}) => {
-  const panelsData = [
+  const defaultPanels = [
     {
       title: 'Project Updates',
       isVisible: true,
       isSmall: true,
-      order: 0,
       editLink: 'https://airtable.com/tblhqR67jrTJ169Cf/viwvQN6OyFyxsPYtq?blocks=hide',
       editText: 'Edit in Airtable',
       frameSrc: 'https://airtable.com/embed/shrxrrqGr1tu5UKt9?backgroundColor=red&viewControls=on',
@@ -114,7 +120,6 @@ const StaffDashboard = ({user}) => {
       title: 'Submit Update',
       isVisible: true,
       isSmall: true,
-      order: 1,
       editLink: 'https://airtable.com/tblhqR67jrTJ169Cf/viwV5AQuGxE4OfNX0?blocks=hide',
       editText: 'Edit in Airtable',
       frameSrc: 'https://airtable.com/embed/shr087J79r2jG6rE2?backgroundColor=red',
@@ -123,7 +128,6 @@ const StaffDashboard = ({user}) => {
       title: 'Artwork Status Board',
       isVisible: false,
       isSmall: false,
-      order: 2,
       editLink: 'https://airtable.com/tbl5ApSEOzPpe4fwp/viwiX18oxXONzk8th?blocks=hide',
       editText: 'Edit in Airtable',
       frameSrc: 'https://airtable.com/embed/shrTlL5928ssPbMeP?backgroundColor=red&viewControls=on',
@@ -132,7 +136,6 @@ const StaffDashboard = ({user}) => {
       title: 'Submissions',
       isVisible: true,
       isSmall: false,
-      order: 3,
       editLink: 'https://streetartto.submittable.com/submissions',
       editText: 'Edit in Submittable',
       frameSrc: 'https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on',
@@ -141,7 +144,6 @@ const StaffDashboard = ({user}) => {
       title: 'Artworks',
       isVisible: true,
       isSmall: false,
-      order: 4,
       editLink: 'https://airtable.com/tbl5ApSEOzPpe4fwp/viwfmyIqZl3bsj2eo?blocks=hide',
       editText: 'Edit in Airtable',
       frameSrc: 'https://airtable.com/embed/shrdDGqIxvtiIjFzZ?backgroundColor=red&viewControls=on',
@@ -150,12 +152,13 @@ const StaffDashboard = ({user}) => {
       title: 'Artists',
       isVisible: false,
       isSmall: false,
-      order: 5,
       editLink: 'https://www.cognitoforms.com/forms/artistprofile/entries',
       editText: 'Edit in CognitoForms',
       frameSrc: 'https://airtable.com/embed/shrJegAZi7w7Kj5ue?backgroundColor=red&viewControls=on',
     },
   ]
+
+  const {panels, toggleVisibility, moveUp, moveDown} = usePanelState(defaultPanels)
 
   return (
     <Container>
@@ -171,12 +174,14 @@ const StaffDashboard = ({user}) => {
             <div className="col">
               <Container>
                 <Row>
-                  {panelsData.map((panel) =>
+                  {panels.map((panel, index) =>
                     <Panel
                       {...panel}
                       key={panel.title}
-                      defaultOpen={panel.isVisible}
+                      index={index}
+                      isVisible={panel.isVisible}
                       defaultSmall={panel.isSmall}
+                      toggleVisibility={toggleVisibility}
                     >
                       <EmbeddedIframe
                         title={panel.title}
@@ -188,7 +193,12 @@ const StaffDashboard = ({user}) => {
               </Container>
             </div>
             <Sidebar>
-              <ViewControlBlock data={panelsData} />
+              <PanelControlBlock
+                panels={panels}
+                moveUp={moveUp}
+                moveDown={moveDown}
+                toggleVisibility={toggleVisibility}
+              />
             </Sidebar>
           </div>
         </Container>
@@ -196,5 +206,30 @@ const StaffDashboard = ({user}) => {
     </Container>
   )
 };
+
+const usePanelState = defaultPanels => {
+  const [panels, setPanels] = useState(defaultPanels)
+
+  return {
+    panels,
+    toggleVisibility: (index) => {
+      const newPanels = [...panels]
+      newPanels[index].isVisible = !panels[index].isVisible
+      setPanels(newPanels)
+    },
+    moveUp: (index) => {
+      const newPanels = [...panels]
+      newPanels[index] = panels[index-1]
+      newPanels[index-1] = panels[index]
+      setPanels(newPanels)
+    },
+    moveDown: (index) => {
+      const newPanels = [...panels]
+      newPanels[index] = panels[index+1]
+      newPanels[index+1] = panels[index]
+      setPanels(newPanels)
+    },
+  }
+}
 
 export default StaffDashboard;
