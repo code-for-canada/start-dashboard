@@ -11,6 +11,10 @@ module.exports = {
   "files": [
     {
       "path": "build/static/js/*.js",
+      "maxSize": "10 kB",
+    },
+    {
+      "path": "build/static/js/2.*chunk.js",
       "maxSize": "250 kB",
     },
   ]
