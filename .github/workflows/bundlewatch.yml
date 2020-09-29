@@ -4,7 +4,6 @@ on:
   push:
     # Required so that baseline for comparison is pushed to bundlewatch service.
     branches: ["master"]
-    # Note: Only configured for client-admin right now.
     paths:
       - .github/workflows/bundlewatch.yml
       - src/**
@@ -46,7 +45,7 @@ jobs:
     - name: Install Bundlewatch
       run: npm install -g bundlewatch@0.2.6
 
-    - name: "Install & Build: client-admin"
+    - name: "Install & Build"
       run: |
         npm install
         npm run build
