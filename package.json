@@ -34,6 +34,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "nodemon server.js",
+    "heroku-prebuild": "cp heroku.env .env",
     "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm start\""
   },
   "eslintConfig": {
