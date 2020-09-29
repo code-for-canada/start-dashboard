@@ -50,6 +50,14 @@ jobs:
         npm install
         npm run build
 
+    # This improves bundlewatch's ability to show changes.
+    - name: Rename files
+      working-directory: build/static/js/
+      run: |
+        mv 2.*.chunk.js 2.chunk.js
+        mv main.*.chunk.js main.chunk.js
+        mv runtime-main.*.js runtime-main.js
+
     - name: Run Bundlewatch
       env:
         CI_BRANCH_DEFAULT: ${{ github.event.repository.default_branch }}
