@@ -41,7 +41,7 @@ const MainNav = () => (
 
 const AuthNav = ({ isAuthenticated }) => {
   return (
-    <Nav className="justify-content-end ml-4">
+    <Nav className="justify-content-end ml-md-4">
       {isAuthenticated ? <LogoutButton /> : <LoginButton />}
     </Nav>
   );
