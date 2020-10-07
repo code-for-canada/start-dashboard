@@ -53,7 +53,7 @@ const NavBar = () => {
 
   return (
     <Navbar bg="white" expand="md" collapseOnSelect className="px-4 shadow-depth">
-      <Container>
+      <Container fluid>
         <Nav.Link
           as={RouterNavLink}
           to="/"

@@ -98,7 +98,7 @@ const PanelControlBlock = props => {
   const { panels } = props
 
   return(
-    <div id="panel-control-block">
+    <div id="panel-control-block" className="pt-2">
       <h4 className="my-3">All views</h4>
       <table className="table table-sm small">
         <tbody>
@@ -130,7 +130,7 @@ const StaffDashboard = ({user}) => {
   const { panels, toggleVisibility, toggleSize, moveUp, moveDown } = usePanelState(PANELS_DATA)
 
   return (
-    <Container>
+    <Container fluid>
       <Row>
         <Col className="mt-4">
           <h1 className="mb-2">StART Staff Dashboard</h1>
@@ -138,10 +138,10 @@ const StaffDashboard = ({user}) => {
       </Row>
 
       <Row>
-        <Container>
+        <Container fluid>
           <Row>
             <Col>
-              <Container>
+              <Container fluid className="px-0">
                 <Row>
                   {panels.map((panel, index) =>
                     <Panel
