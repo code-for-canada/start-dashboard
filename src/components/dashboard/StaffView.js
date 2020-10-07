@@ -13,14 +13,23 @@ const IconButton = props => {
   const { onClick, disabled, children } = props
 
   return(
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      className="btn btn-secondary btn-sm"
-      type="button"
-    >
-      {children}
-    </button>
+    <>
+      <style type="text/css">
+        {`
+        #panel-control-block svg {
+          width: 0.8em;
+        }
+        `}
+      </style>
+      <button
+        onClick={onClick}
+        disabled={disabled}
+        className="btn btn-secondary btn-light"
+        type="button"
+      >
+        {children}
+      </button>
+    </>
   )
 }
 
@@ -62,16 +71,25 @@ const PanelControlBlockItem = props => {
   } = props
 
   return(
-    <tr>
-      <td className="align-middle"><nobr>{title}</nobr></td>
-      <td>
-        <div className="btn-group" role="group" aria-label={`Actions on view: ${title}`}>
-            <ShowHideButton isVisible={isVisible} onClick={() => toggleVisibility(index)} />
-            <MoveUpButton disabled={isFirstItem} onClick={() => moveUp(index)} />
-            <MoveDownButton disabled={isLastItem} onClick={() => moveDown(index)} />
-        </div>
-      </td>
-    </tr>
+    <>
+      <style type="text/css">
+        {`
+        .btn-group-micro > .btn {
+          padding: 0.1rem 0.25rem;
+        }
+        `}
+      </style>
+      <tr>
+        <td className="align-middle"><nobr>{title}</nobr></td>
+        <td>
+          <div className="btn-group btn-group-micro" role="group" aria-label={`Actions on view: ${title}`}>
+              <ShowHideButton isVisible={isVisible} onClick={() => toggleVisibility(index)} />
+              <MoveUpButton disabled={isFirstItem} onClick={() => moveUp(index)} />
+              <MoveDownButton disabled={isLastItem} onClick={() => moveDown(index)} />
+          </div>
+        </td>
+      </tr>
+    </>
   )
 }
 
@@ -79,9 +97,9 @@ const PanelControlBlock = props => {
   const { panels } = props
 
   return(
-    <>
+    <div id="panel-control-block">
       <h4 className="my-3">All views</h4>
-      <table className="table table-sm">
+      <table className="table table-sm small">
         <tbody>
           {panels.map((panel, index) =>
             <PanelControlBlockItem
@@ -95,12 +113,12 @@ const PanelControlBlock = props => {
           )}
         </tbody>
       </table>
-    </>
+    </div>
   )
 }
 
 const Sidebar = props => (
-  <Col xs={2} className="order-2" id="sticky-sidebar">
+  <Col xs={3} className="order-2" id="sticky-sidebar">
     <div className="sticky-top">
       {props.children}
     </div>
