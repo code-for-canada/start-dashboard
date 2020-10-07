@@ -127,7 +127,7 @@ const Sidebar = props => (
 )
 
 const StaffDashboard = ({user}) => {
-  const { panels, toggleVisibility, moveUp, moveDown } = usePanelState(PANELS_DATA)
+  const { panels, toggleVisibility, toggleSize, moveUp, moveDown } = usePanelState(PANELS_DATA)
 
   return (
     <Container>
@@ -148,9 +148,8 @@ const StaffDashboard = ({user}) => {
                       {...panel}
                       key={panel.id}
                       index={index}
-                      isVisible={panel.isVisible}
-                      defaultSmall={panel.isSmall}
                       toggleVisibility={toggleVisibility}
+                      toggleSize={toggleSize}
                     >
                       <EmbeddedIframe
                         title={panel.id}

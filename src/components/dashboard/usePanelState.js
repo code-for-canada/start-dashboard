@@ -10,6 +10,11 @@ export default defaultPanels => {
       newPanels[index].isVisible = !panels[index].isVisible
       setPanels(newPanels)
     },
+    toggleSize: (index) => {
+      const newPanels = [...panels]
+      newPanels[index].isSmall = !panels[index].isSmall
+      setPanels(newPanels)
+    },
     moveUp: (index) => {
       const newPanels = [...panels]
       newPanels[index] = panels[index-1]
