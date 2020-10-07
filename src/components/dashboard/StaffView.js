@@ -8,6 +8,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 import usePanelState from './usePanelState'
+import { PANELS_DATA } from '../../utils/constants'
 
 const IconButton = props => {
   const { onClick, disabled, children } = props
@@ -106,7 +107,7 @@ const PanelControlBlock = props => {
               {...props}
               {...panel}
               index={index}
-              key={panel.title}
+              key={panel.id}
               isFirstItem={index === 0}
               isLastItem={index === panels.length - 1}
             />
@@ -126,58 +127,7 @@ const Sidebar = props => (
 )
 
 const StaffDashboard = ({user}) => {
-  const defaultPanels = [
-    {
-      title: 'Project Updates',
-      isVisible: true,
-      isSmall: true,
-      editLink: 'https://airtable.com/tblhqR67jrTJ169Cf/viwvQN6OyFyxsPYtq?blocks=hide',
-      editText: 'Edit in Airtable',
-      frameSrc: 'https://airtable.com/embed/shrxrrqGr1tu5UKt9?backgroundColor=red&viewControls=on',
-    },
-    {
-      title: 'Submit Update',
-      isVisible: true,
-      isSmall: true,
-      editLink: 'https://airtable.com/tblhqR67jrTJ169Cf/viwV5AQuGxE4OfNX0?blocks=hide',
-      editText: 'Edit in Airtable',
-      frameSrc: 'https://airtable.com/embed/shr087J79r2jG6rE2?backgroundColor=red',
-    },
-    {
-      title: 'Artwork Status Board',
-      isVisible: false,
-      isSmall: false,
-      editLink: 'https://airtable.com/tbl5ApSEOzPpe4fwp/viwiX18oxXONzk8th?blocks=hide',
-      editText: 'Edit in Airtable',
-      frameSrc: 'https://airtable.com/embed/shrTlL5928ssPbMeP?backgroundColor=red&viewControls=on',
-    },
-    {
-      title: 'Submissions',
-      isVisible: true,
-      isSmall: false,
-      editLink: 'https://streetartto.submittable.com/submissions',
-      editText: 'Edit in Submittable',
-      frameSrc: 'https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on',
-    },
-    {
-      title: 'Artworks',
-      isVisible: true,
-      isSmall: false,
-      editLink: 'https://airtable.com/tbl5ApSEOzPpe4fwp/viwfmyIqZl3bsj2eo?blocks=hide',
-      editText: 'Edit in Airtable',
-      frameSrc: 'https://airtable.com/embed/shrdDGqIxvtiIjFzZ?backgroundColor=red&viewControls=on',
-    },
-    {
-      title: 'Artists',
-      isVisible: false,
-      isSmall: false,
-      editLink: 'https://www.cognitoforms.com/forms/artistprofile/entries',
-      editText: 'Edit in CognitoForms',
-      frameSrc: 'https://airtable.com/embed/shrJegAZi7w7Kj5ue?backgroundColor=red&viewControls=on',
-    },
-  ]
-
-  const {panels, toggleVisibility, moveUp, moveDown} = usePanelState(defaultPanels)
+  const { panels, toggleVisibility, moveUp, moveDown } = usePanelState(PANELS_DATA)
 
   return (
     <Container>
@@ -196,14 +146,14 @@ const StaffDashboard = ({user}) => {
                   {panels.map((panel, index) =>
                     <Panel
                       {...panel}
-                      key={panel.title}
+                      key={panel.id}
                       index={index}
                       isVisible={panel.isVisible}
                       defaultSmall={panel.isSmall}
                       toggleVisibility={toggleVisibility}
                     >
                       <EmbeddedIframe
-                        title={panel.title}
+                        title={panel.id}
                         src={panel.frameSrc}
                       />
                     </Panel>
