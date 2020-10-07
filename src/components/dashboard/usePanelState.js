@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import useStickyState from './useStickyState'
 
 export default defaultPanels => {
-  const [panels, setPanels] = useState(defaultPanels)
+  const [panels, setPanels] = useStickyState(defaultPanels, 'panels-config')
 
   return {
     panels,
