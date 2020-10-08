@@ -1,12 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 
 import EmbeddedIframe from './EmbeddedIframe'
 import Panel from './Panel'
+import Drawer from '@material-ui/core/Drawer'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
+import CloseIcon from '@material-ui/icons/Close';
+import SettingsIcon from '@material-ui/icons/Settings';
 import usePanelState from './usePanelState'
 import { PANELS_DATA } from '../../utils/constants'
 
@@ -98,7 +101,7 @@ const PanelControlBlock = props => {
   const { panels } = props
 
   return(
-    <div id="panel-control-block" className="pt-2">
+    <div id="panel-control-block">
       <h4 className="my-3">All views</h4>
       <table className="table table-sm small">
         <tbody>
@@ -118,7 +121,7 @@ const PanelControlBlock = props => {
   )
 }
 
-const Sidebar = props => (
+const StickySidebar = props => (
   <Col xs={3} className="order-2" id="sticky-sidebar">
     <div className="sticky-top">
       {props.children}
@@ -126,14 +129,48 @@ const Sidebar = props => (
   </Col>
 )
 
+const ConfigDrawer = props => {
+  const [open, setOpen] = useState(false)
+
+  const toggleDrawer = open => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return
+    }
+
+    setOpen(open)
+  }
+
+  return(
+    <>
+      <button className="btn btn-light btn-block" onClick={toggleDrawer(true)}><SettingsIcon /></button>
+      <Drawer anchor="right" open={open}>
+        <div className="ml-3 pt-2">
+          <button className="btn btn-primary" type="button" onClick={toggleDrawer(false)}><CloseIcon /></button>
+          { props.children }
+        </div>
+      </Drawer>
+    </>
+  )
+}
+
 const StaffDashboard = ({user}) => {
   const { panels, toggleVisibility, toggleSize, moveUp, moveDown } = usePanelState(PANELS_DATA)
 
   return (
     <Container fluid>
-      <Row>
-        <Col className="mt-4">
+      <Row className="mt-4">
+        <Col>
           <h1 className="mb-2">StART Staff Dashboard</h1>
+        </Col>
+        <Col xs={1}>
+          <ConfigDrawer>
+            <PanelControlBlock
+              panels={panels}
+              moveUp={moveUp}
+              moveDown={moveDown}
+              toggleVisibility={toggleVisibility}
+            />
+          </ConfigDrawer>
         </Col>
       </Row>
 
@@ -160,14 +197,6 @@ const StaffDashboard = ({user}) => {
                 </Row>
               </Container>
             </Col>
-            <Sidebar>
-              <PanelControlBlock
-                panels={panels}
-                moveUp={moveUp}
-                moveDown={moveDown}
-                toggleVisibility={toggleVisibility}
-              />
-            </Sidebar>
           </Row>
         </Container>
       </Row>
