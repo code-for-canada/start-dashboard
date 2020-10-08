@@ -13,7 +13,7 @@ const Panel = ({ title, editLink, editText, isVisible, isSmall, index, children,
         </div>
         <div className="d-flex">
           <a className="d-block d-md-none btn" href={editLink} target="_blank" rel="noopener noreferrer"><Edit /></a>
-          <button className="d-none d-md-block btn" onClick={() => toggleSize(index)}>
+          <button className="d-none d-lg-block btn" onClick={() => toggleSize(index)}>
             { isSmall
               ? <UnfoldMore style={{ transform: 'rotate(90deg)'}} />
               : <UnfoldLess style={{ transform: 'rotate(90deg)'}} />
