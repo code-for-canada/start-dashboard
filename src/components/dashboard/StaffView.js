@@ -145,7 +145,7 @@ const ConfigDrawer = props => {
       <button className="btn btn-light btn-block" onClick={toggleDrawer(true)}><SettingsIcon /></button>
       <Drawer anchor="right" open={open}>
         <div className="mx-3 pt-2">
-          <button className="btn btn-primary" type="button" onClick={toggleDrawer(false)}><CloseIcon /></button>
+          <button className="btn btn-light" type="button" onClick={toggleDrawer(false)}><CloseIcon /></button>
           { props.children }
         </div>
       </Drawer>
