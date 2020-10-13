@@ -41,7 +41,7 @@ const MainNav = () => (
 
 const AuthNav = ({ isAuthenticated }) => {
   return (
-    <Nav className="justify-content-end ml-4">
+    <Nav className="justify-content-end ml-md-4">
       {isAuthenticated ? <LogoutButton /> : <LoginButton />}
     </Nav>
   );
@@ -53,7 +53,7 @@ const NavBar = () => {
 
   return (
     <Navbar bg="white" expand="md" collapseOnSelect className="px-4 shadow-depth">
-      <Container>
+      <Container fluid>
         <Nav.Link
           as={RouterNavLink}
           to="/"

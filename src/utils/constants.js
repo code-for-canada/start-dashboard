@@ -193,3 +193,60 @@ export const MAP_STYLE_BASE = [
         ]
     }
 ]
+
+export const PANELS_DATA = [
+  {
+    id: 'project-updates',
+    title: 'Project Updates',
+    isVisible: true,
+    isSmall: true,
+    editLink: 'https://airtable.com/tblhqR67jrTJ169Cf/viwvQN6OyFyxsPYtq?blocks=hide',
+    editText: 'Edit in Airtable',
+    frameSrc: 'https://airtable.com/embed/shrxrrqGr1tu5UKt9?backgroundColor=red&viewControls=on',
+  },
+  {
+    id: 'submit-updates',
+    title: 'Submit Update',
+    isVisible: true,
+    isSmall: true,
+    editLink: 'https://airtable.com/tblhqR67jrTJ169Cf/viwV5AQuGxE4OfNX0?blocks=hide',
+    editText: 'Edit in Airtable',
+    frameSrc: 'https://airtable.com/embed/shr087J79r2jG6rE2?backgroundColor=red',
+  },
+  {
+    id: 'artwork-status-board',
+    title: 'Artwork Status Board',
+    isVisible: false,
+    isSmall: false,
+    editLink: 'https://airtable.com/tbl5ApSEOzPpe4fwp/viwiX18oxXONzk8th?blocks=hide',
+    editText: 'Edit in Airtable',
+    frameSrc: 'https://airtable.com/embed/shrTlL5928ssPbMeP?backgroundColor=red&viewControls=on',
+  },
+  {
+    id: 'submissions',
+    title: 'Submissions',
+    isVisible: true,
+    isSmall: false,
+    editLink: 'https://streetartto.submittable.com/submissions',
+    editText: 'Edit in Submittable',
+    frameSrc: 'https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on',
+  },
+  {
+    id: 'artworks',
+    title: 'Artworks',
+    isVisible: true,
+    isSmall: false,
+    editLink: 'https://airtable.com/tbl5ApSEOzPpe4fwp/viwfmyIqZl3bsj2eo?blocks=hide',
+    editText: 'Edit in Airtable',
+    frameSrc: 'https://airtable.com/embed/shrdDGqIxvtiIjFzZ?backgroundColor=red&viewControls=on',
+  },
+  {
+    id: 'artists',
+    title: 'Artists',
+    isVisible: false,
+    isSmall: false,
+    editLink: 'https://www.cognitoforms.com/forms/artistprofile/entries',
+    editText: 'Edit in CognitoForms',
+    frameSrc: 'https://airtable.com/embed/shrJegAZi7w7Kj5ue?backgroundColor=red&viewControls=on',
+  },
+]
