@@ -1,0 +1,21 @@
+module.exports = {
+  "ci": {
+    "trackBranches": [
+      process.env.CI_BRANCH_DEFAULT,
+    ],
+    // Allows bundlewatch GitHub Actions workflow to work on: pull_request, or push
+    "commitSha": process.env.PR_COMMIT_SHA || process.env.PUSH_COMMIT_SHA,
+    "repoBranchBase": process.env.PR_BRANCH_BASE || process.env.PUSH_BRANCH_BASE,
+    "repoCurrentBranch": process.env.PR_BRANCH || process.env.PUSH_BRANCH,
+  },
+  "files": [
+    {
+      "path": "build/static/js/*.js",
+      "maxSize": "10 kB",
+    },
+    {
+      "path": "build/static/js/2.*.chunk.js",
+      "maxSize": "250 kB",
+    },
+  ]
+};
