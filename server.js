@@ -2,33 +2,15 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const path = require('path');
 const app = express();
-var Airtable = require('airtable')
 require('dotenv').config()
-
-const base = new Airtable({ apiKey: process.env.START_AIRTABLE_TOKEN }).base(process.env.START_AIRTABLE_BASE)
+const handleLocations = require('./api/location')
 
 app.use(express.static(path.join(__dirname, 'build')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 
-app.post('/api/location', function(req, res) {
-  console.log("req.body", req.body)
-  const location = req.body
-  base('locations').create([
-    location
-  ], function(err, records) {
-    if (err) {
-      console.error(err);
-      return res.status(500).send({ error: err })
-      return;
-    }
-    records.forEach(function (record) {
-      console.log(record.getId());
-      return res.status(201).send({ recordId: record.getId() })
-    });
-  });
-})
+app.all('/api/location', handleLocations)
 
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
