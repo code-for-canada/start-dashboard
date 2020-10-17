@@ -36,6 +36,9 @@ module.exports = (req, res) => {
     case 'POST':
       createLocation(req, res)
       break
+    case 'GET':
+      res.send('hello')
+      break
     default:
       methodNotImplemented(req, res)
   }
