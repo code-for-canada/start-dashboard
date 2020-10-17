@@ -38,7 +38,7 @@
     "lint": "eslint src/",
     "start:ui": "npm run start",
     "start:server": "nodemon server",
-    "start:dev": "concurrently --kill-others-on-fail 'npm start' 'npm run start:server'",
+    "start:dev": "concurrently --kill-others-on-fail 'npm start' 'PORT=8080 npm run start:server'",
     "start:prod": "npm run build && NODE_ENV=production npm run start:server",
     "heroku-prebuild": "cp heroku.env .env"
   },
