@@ -5,9 +5,7 @@ export default (defaultValue, key) => {
   const [value, setValue] = useState(() => {
     const stickyValue = window.localStorage.getItem(key)
 
-    return stickyValue !== null
-      ? JSON.parse(stickyValue)
-      : defaultValue
+    return stickyValue !== null ? JSON.parse(stickyValue) : defaultValue
   })
 
   useEffect(() => {

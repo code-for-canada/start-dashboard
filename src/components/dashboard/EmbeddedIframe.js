@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
 const EmbeddedIframe = ({ title, src, width, height, style, className }) => {
   const [scrollEnabled, setScrollEnabled] = useState(false)
-  const enableScroll = () => { setScrollEnabled(true) }
-  const disableScroll = () => { setScrollEnabled(false) }
+  const enableScroll = () => {
+    setScrollEnabled(true)
+  }
+  const disableScroll = () => {
+    setScrollEnabled(false)
+  }
 
   const iframeStyle = {
     pointerEvents: scrollEnabled ? 'auto' : 'none'
@@ -13,8 +17,7 @@ const EmbeddedIframe = ({ title, src, width, height, style, className }) => {
     <div
       onClick={enableScroll}
       onMouseLeave={disableScroll}
-      className={`iframe-container`}
-    >
+      className={`iframe-container`}>
       <iframe
         title={title}
         className={`${className} airtable-embed`}
@@ -22,17 +25,17 @@ const EmbeddedIframe = ({ title, src, width, height, style, className }) => {
         frameBorder="0"
         width={width}
         height={height}
-        style={{...iframeStyle, ...style}}
+        style={{ ...iframeStyle, ...style }}
       />
     </div>
   )
-};
+}
 
 EmbeddedIframe.defaultProps = {
-  width: "100%",
-  height: "533",
+  width: '100%',
+  height: '533',
   style: { background: 'transparent', border: '1px solid #ccc' },
   className: ''
 }
 
-export default EmbeddedIframe;
+export default EmbeddedIframe

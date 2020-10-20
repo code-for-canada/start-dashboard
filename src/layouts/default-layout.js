@@ -1,17 +1,14 @@
-import React from "react";
-import { NavBar, Footer} from "../components";
+import React from 'react'
+import { NavBar, Footer } from '../components'
 
 const DefaultLayout = ({ children }) => {
-
   return (
     <div id="app" className="d-flex flex-column h-100">
       <NavBar />
-      <main>
-        {children}
-      </main>
+      <main>{children}</main>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default DefaultLayout;
+export default DefaultLayout

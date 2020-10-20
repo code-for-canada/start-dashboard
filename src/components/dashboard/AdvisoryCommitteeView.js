@@ -1,8 +1,8 @@
-import React from "react";
-import { Container } from "react-bootstrap";
+import React from 'react'
+import { Container } from 'react-bootstrap'
 import EmbeddedIframe from './EmbeddedIframe'
 
-const AdvisoryCommitteeDashboard = (user) => {
+const AdvisoryCommitteeDashboard = user => {
   return (
     <Container>
       <div className="row">
@@ -13,19 +13,25 @@ const AdvisoryCommitteeDashboard = (user) => {
         <div className="col-12">
           <div className="mb-4">
             <h2 className="mb-3">Submission Status Board</h2>
-            <EmbeddedIframe title="Submission Status Board" src="https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on" />
+            <EmbeddedIframe
+              title="Submission Status Board"
+              src="https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on"
+            />
           </div>
         </div>
 
         <div className="col-12">
           <div className="mb-4">
             <h2 className="mb-3">New Submissions</h2>
-            <EmbeddedIframe title="New Submissions" src="https://airtable.com/embed/shrbgSefEwH2I8pgM?backgroundColor=red&viewControls=on" />
+            <EmbeddedIframe
+              title="New Submissions"
+              src="https://airtable.com/embed/shrbgSefEwH2I8pgM?backgroundColor=red&viewControls=on"
+            />
           </div>
         </div>
       </div>
     </Container>
   )
-};
+}
 
-export default AdvisoryCommitteeDashboard;
+export default AdvisoryCommitteeDashboard
