@@ -15,3 +15,9 @@ Run the project:
 ```bash
 yarn start
 ```
+
+To run linting style checks:
+
+```bash
+npm run lint
+```
