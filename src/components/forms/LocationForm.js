@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import {
   withGoogleMap,
   GoogleMap,
@@ -32,6 +33,12 @@ const SuccessAlert = ({ show, recordId, address, onClose }) => {
     </Alert>
   )
 }
+SuccessAlert.propTypes = {
+  show: PropTypes.bool,
+  recordId: PropTypes.string,
+  address: PropTypes.string,
+  onClose: PropTypes.func
+}
 
 const ErrorAlert = ({ show, error, onClose }) => {
   return (
@@ -40,6 +47,11 @@ const ErrorAlert = ({ show, error, onClose }) => {
       {error && <code>{JSON.stringify(error)}</code>}
     </Alert>
   )
+}
+ErrorAlert.propTypes = {
+  show: PropTypes.bool,
+  error: PropTypes.object,
+  onClose: PropTypes.func
 }
 
 class LocationForm extends Component {
@@ -474,4 +486,14 @@ class LocationForm extends Component {
     )
   }
 }
+LocationForm.propTypes = {
+  center: PropTypes.shape({
+    lat: PropTypes.number,
+    lng: PropTypes.number
+  }),
+  google: PropTypes.string,
+  zoom: PropTypes.number,
+  height: PropTypes.string
+}
+
 export default LocationForm

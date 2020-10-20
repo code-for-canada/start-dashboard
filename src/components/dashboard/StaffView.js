@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { Col, Container, Row } from 'react-bootstrap'
 
 import EmbeddedIframe from './EmbeddedIframe'
@@ -35,6 +36,11 @@ const IconButton = props => {
     </>
   )
 }
+IconButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  children: PropTypes.node.isRequired
+}
 
 const ShowHideButton = props => {
   const { isVisible } = props
@@ -44,6 +50,9 @@ const ShowHideButton = props => {
       {isVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
     </IconButton>
   )
+}
+ShowHideButton.propTypes = {
+  isVisible: PropTypes.bool.isRequired
 }
 
 const MoveUpButton = props => (
@@ -57,7 +66,6 @@ const MoveDownButton = props => (
     <KeyboardArrowDownIcon />
   </IconButton>
 )
-
 const PanelControlBlockItem = props => {
   const {
     title,
@@ -106,6 +114,16 @@ const PanelControlBlockItem = props => {
     </>
   )
 }
+PanelControlBlockItem.propTypes = {
+  title: PropTypes.string,
+  index: PropTypes.number,
+  isVisible: PropTypes.bool,
+  isFirstItem: PropTypes.bool,
+  isLastItem: PropTypes.bool,
+  toggleVisibility: PropTypes.func,
+  moveUp: PropTypes.func,
+  moveDown: PropTypes.func
+}
 
 const PanelControlBlock = props => {
   const { panels } = props
@@ -130,9 +148,13 @@ const PanelControlBlock = props => {
     </div>
   )
 }
+PanelControlBlock.propTypes = {
+  panels: PropTypes.arrayOf([PropTypes.object])
+}
 
 const ConfigDrawer = props => {
   const [open, setOpen] = useState(false)
+  const { children } = props
 
   const toggleDrawer = open => event => {
     if (
@@ -158,14 +180,17 @@ const ConfigDrawer = props => {
             onClick={toggleDrawer(false)}>
             <CloseIcon />
           </button>
-          {props.children}
+          {children}
         </div>
       </Drawer>
     </>
   )
 }
+ConfigDrawer.propTypes = {
+  children: PropTypes.node
+}
 
-const StaffDashboard = ({ user }) => {
+const StaffDashboard = () => {
   const {
     panels,
     toggleVisibility,

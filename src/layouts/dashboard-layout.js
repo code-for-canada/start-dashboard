@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { useAuth0 } from '@auth0/auth0-react'
 import { NavBar, Footer } from '../components'
 import { Alert, Container } from 'react-bootstrap'
@@ -15,6 +16,9 @@ const EmailVerificationAlert = ({ open }) => {
     </Container>
   )
 }
+EmailVerificationAlert.propTypes = {
+  open: PropTypes.bool
+}
 
 const DashboardLayout = ({ children }) => {
   const { user } = useAuth0()
@@ -28,6 +32,9 @@ const DashboardLayout = ({ children }) => {
       <Footer />
     </div>
   )
+}
+DashboardLayout.propTypes = {
+  children: PropTypes.node
 }
 
 export default DashboardLayout

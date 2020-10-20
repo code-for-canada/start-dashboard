@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import { withAuthenticationRequired } from '@auth0/auth0-react'
 import { Loading } from './index'
@@ -14,4 +15,8 @@ const PrivateRoute = ({ component, ...args }) => (
     {...args}
   />
 )
+PrivateRoute.propTypes = {
+  component: PropTypes.func.isRequired,
+  args: PropTypes.array
+}
 export default PrivateRoute

@@ -10,6 +10,7 @@ extends:
   - eslint:recommended
   - plugin:react/recommended
   - prettier/react
+rules: {}
 parser: babel-eslint
 parserOptions:
   ecmaFeatures:

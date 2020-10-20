@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { NavBar, Footer } from '../components'
 
 const DefaultLayout = ({ children }) => {
@@ -9,6 +10,9 @@ const DefaultLayout = ({ children }) => {
       <Footer />
     </div>
   )
+}
+DefaultLayout.propTypes = {
+  children: PropTypes.node
 }
 
 export default DefaultLayout

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import UnfoldLess from '@material-ui/icons/UnfoldLess'
 import UnfoldMore from '@material-ui/icons/UnfoldMore'
 import Edit from '@material-ui/icons/Edit'
@@ -55,6 +56,18 @@ const Panel = ({
       <div className="body">{children}</div>
     </div>
   )
+}
+
+Panel.propTypes = {
+  title: PropTypes.string,
+  editLink: PropTypes.string,
+  editText: PropTypes.string,
+  isVisible: PropTypes.bool,
+  isSmall: PropTypes.bool,
+  index: PropTypes.number,
+  children: PropTypes.node,
+  toggleVisibility: PropTypes.func,
+  toggleSize: PropTypes.func
 }
 
 Panel.defaultProps = {

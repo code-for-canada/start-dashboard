@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { NavLink as RouterNavLink } from 'react-router-dom'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 
@@ -35,12 +36,17 @@ const MainNav = () => (
   </Nav>
 )
 
-const AuthNav = ({ isAuthenticated }) => {
+const AuthNav = props => {
+  const { isAuthenticated = true } = props
+
   return (
     <Nav className="justify-content-end ml-md-4">
       {isAuthenticated ? <LogoutButton /> : <LoginButton />}
     </Nav>
   )
+}
+AuthNav.propTypes = {
+  isAuthenticated: PropTypes.bool
 }
 
 const NavBar = () => {
