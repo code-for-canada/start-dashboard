@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Col, Container, Row } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 
 import EmbeddedIframe from './EmbeddedIframe'
 import Panel from './Panel'
@@ -130,12 +130,6 @@ const PanelControlBlock = props => {
     </div>
   )
 }
-
-const StickySidebar = props => (
-  <Col xs={3} className="order-2" id="sticky-sidebar">
-    <div className="sticky-top">{props.children}</div>
-  </Col>
-)
 
 const ConfigDrawer = props => {
   const [open, setOpen] = useState(false)
