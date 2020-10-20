@@ -24,7 +24,7 @@ const Auth0ProviderWithHistory = ({ children }) => {
   )
 }
 Auth0ProviderWithHistory.propTypes = {
-  children: PropTypes.element
+  children: PropTypes.node
 }
 
 export default Auth0ProviderWithHistory
