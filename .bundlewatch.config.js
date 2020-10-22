@@ -15,7 +15,7 @@ module.exports = {
     },
     {
       "path": "build/static/js/2.*.chunk.js",
-      "maxSize": "250 kB",
+      "maxSize": "275 kB",
     },
   ]
 };

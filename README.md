@@ -30,3 +30,9 @@ Run the project:
 ```bash
 npm run dev
 ```
+
+To run linting style checks:
+
+```bash
+npm run lint
+```

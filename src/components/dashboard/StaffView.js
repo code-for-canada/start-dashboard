@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Button, Col, Container, Row } from 'react-bootstrap'
+import PropTypes from 'prop-types'
+import { Col, Container, Row } from 'react-bootstrap'
 
 import EmbeddedIframe from './EmbeddedIframe'
 import Panel from './Panel'
@@ -8,15 +9,15 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
-import CloseIcon from '@material-ui/icons/Close';
-import SettingsIcon from '@material-ui/icons/Settings';
+import CloseIcon from '@material-ui/icons/Close'
+import SettingsIcon from '@material-ui/icons/Settings'
 import usePanelState from './usePanelState'
 import { PANELS_DATA } from '../../utils/constants'
 
 const IconButton = props => {
   const { onClick, disabled, children } = props
 
-  return(
+  return (
     <>
       <style type="text/css">
         {`
@@ -29,25 +30,29 @@ const IconButton = props => {
         onClick={onClick}
         disabled={disabled}
         className="btn btn-secondary btn-light"
-        type="button"
-      >
+        type="button">
         {children}
       </button>
     </>
   )
 }
+IconButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  children: PropTypes.node.isRequired
+}
 
 const ShowHideButton = props => {
   const { isVisible } = props
 
-  return(
+  return (
     <IconButton {...props}>
-      {isVisible
-        ? <VisibilityIcon />
-        : <VisibilityOffIcon />
-      }
+      {isVisible ? <VisibilityIcon /> : <VisibilityOffIcon />}
     </IconButton>
   )
+}
+ShowHideButton.propTypes = {
+  isVisible: PropTypes.bool.isRequired
 }
 
 const MoveUpButton = props => (
@@ -61,7 +66,6 @@ const MoveDownButton = props => (
     <KeyboardArrowDownIcon />
   </IconButton>
 )
-
 const PanelControlBlockItem = props => {
   const {
     title,
@@ -71,10 +75,10 @@ const PanelControlBlockItem = props => {
     isLastItem,
     toggleVisibility,
     moveUp,
-    moveDown,
+    moveDown
   } = props
 
-  return(
+  return (
     <>
       <style type="text/css">
         {`
@@ -84,28 +88,52 @@ const PanelControlBlockItem = props => {
         `}
       </style>
       <tr>
-        <td className="align-middle"><nobr>{title}</nobr></td>
+        <td className="align-middle">
+          <nobr>{title}</nobr>
+        </td>
         <td>
-          <div className="btn-group btn-group-micro" role="group" aria-label={`Actions on view: ${title}`}>
-              <ShowHideButton isVisible={isVisible} onClick={() => toggleVisibility(index)} />
-              <MoveUpButton disabled={isFirstItem} onClick={() => moveUp(index)} />
-              <MoveDownButton disabled={isLastItem} onClick={() => moveDown(index)} />
+          <div
+            className="btn-group btn-group-micro"
+            role="group"
+            aria-label={`Actions on view: ${title}`}>
+            <ShowHideButton
+              isVisible={isVisible}
+              onClick={() => toggleVisibility(index)}
+            />
+            <MoveUpButton
+              disabled={isFirstItem}
+              onClick={() => moveUp(index)}
+            />
+            <MoveDownButton
+              disabled={isLastItem}
+              onClick={() => moveDown(index)}
+            />
           </div>
         </td>
       </tr>
     </>
   )
 }
+PanelControlBlockItem.propTypes = {
+  title: PropTypes.string,
+  index: PropTypes.number,
+  isVisible: PropTypes.bool,
+  isFirstItem: PropTypes.bool,
+  isLastItem: PropTypes.bool,
+  toggleVisibility: PropTypes.func,
+  moveUp: PropTypes.func,
+  moveDown: PropTypes.func
+}
 
 const PanelControlBlock = props => {
   const { panels } = props
 
-  return(
+  return (
     <div id="panel-control-block">
       <h4 className="my-3">All views</h4>
       <table className="table table-sm small">
         <tbody>
-          {panels.map((panel, index) =>
+          {panels.map((panel, index) => (
             <PanelControlBlockItem
               {...props}
               {...panel}
@@ -114,47 +142,62 @@ const PanelControlBlock = props => {
               isFirstItem={index === 0}
               isLastItem={index === panels.length - 1}
             />
-          )}
+          ))}
         </tbody>
       </table>
     </div>
   )
 }
-
-const StickySidebar = props => (
-  <Col xs={3} className="order-2" id="sticky-sidebar">
-    <div className="sticky-top">
-      {props.children}
-    </div>
-  </Col>
-)
+PanelControlBlock.propTypes = {
+  panels: PropTypes.arrayOf([PropTypes.object])
+}
 
 const ConfigDrawer = props => {
   const [open, setOpen] = useState(false)
+  const { children } = props
 
-  const toggleDrawer = open => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+  const toggleDrawer = open => event => {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
       return
     }
 
     setOpen(open)
   }
 
-  return(
+  return (
     <>
-      <button className="btn btn-light btn-block" onClick={toggleDrawer(true)}><SettingsIcon /></button>
+      <button className="btn btn-light btn-block" onClick={toggleDrawer(true)}>
+        <SettingsIcon />
+      </button>
       <Drawer anchor="right" open={open}>
         <div className="mx-3 pt-2">
-          <button className="btn btn-light" type="button" onClick={toggleDrawer(false)}><CloseIcon /></button>
-          { props.children }
+          <button
+            className="btn btn-light"
+            type="button"
+            onClick={toggleDrawer(false)}>
+            <CloseIcon />
+          </button>
+          {children}
         </div>
       </Drawer>
     </>
   )
 }
+ConfigDrawer.propTypes = {
+  children: PropTypes.node
+}
 
-const StaffDashboard = ({user}) => {
-  const { panels, toggleVisibility, toggleSize, moveUp, moveDown } = usePanelState(PANELS_DATA)
+const StaffDashboard = () => {
+  const {
+    panels,
+    toggleVisibility,
+    toggleSize,
+    moveUp,
+    moveDown
+  } = usePanelState(PANELS_DATA)
 
   return (
     <Container fluid>
@@ -180,20 +223,16 @@ const StaffDashboard = ({user}) => {
             <Col>
               <Container fluid className="px-0">
                 <Row>
-                  {panels.map((panel, index) =>
+                  {panels.map((panel, index) => (
                     <Panel
                       {...panel}
                       key={panel.id}
                       index={index}
                       toggleVisibility={toggleVisibility}
-                      toggleSize={toggleSize}
-                    >
-                      <EmbeddedIframe
-                        title={panel.id}
-                        src={panel.frameSrc}
-                      />
+                      toggleSize={toggleSize}>
+                      <EmbeddedIframe title={panel.id} src={panel.frameSrc} />
                     </Panel>
-                  )}
+                  ))}
                 </Row>
               </Container>
             </Col>
@@ -202,6 +241,6 @@ const StaffDashboard = ({user}) => {
       </Row>
     </Container>
   )
-};
+}
 
-export default StaffDashboard;
+export default StaffDashboard

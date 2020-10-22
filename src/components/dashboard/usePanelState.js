@@ -5,27 +5,27 @@ export default defaultPanels => {
 
   return {
     panels,
-    toggleVisibility: (index) => {
+    toggleVisibility: index => {
       const newPanels = [...panels]
       newPanels[index].isVisible = !panels[index].isVisible
       setPanels(newPanels)
     },
-    toggleSize: (index) => {
+    toggleSize: index => {
       const newPanels = [...panels]
       newPanels[index].isSmall = !panels[index].isSmall
       setPanels(newPanels)
     },
-    moveUp: (index) => {
+    moveUp: index => {
       const newPanels = [...panels]
-      newPanels[index] = panels[index-1]
-      newPanels[index-1] = panels[index]
+      newPanels[index] = panels[index - 1]
+      newPanels[index - 1] = panels[index]
       setPanels(newPanels)
     },
-    moveDown: (index) => {
+    moveDown: index => {
       const newPanels = [...panels]
-      newPanels[index] = panels[index+1]
-      newPanels[index+1] = panels[index]
+      newPanels[index] = panels[index + 1]
+      newPanels[index + 1] = panels[index]
       setPanels(newPanels)
-    },
+    }
   }
 }
