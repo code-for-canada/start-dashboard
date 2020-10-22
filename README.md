@@ -2,6 +2,12 @@
 
 Internal dashboard for Street Art Toronto
 
+## Tech Stack
+- Using React and create-react-app framework
+- Auth0 for authentication
+- Material UI design framework
+- Deployed on Heroku
+
 ## Get Started
 
 Install dependencies:
