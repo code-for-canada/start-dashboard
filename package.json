@@ -72,13 +72,7 @@
     "eslint-plugin-react": "^7.21.4",
     "eslint-plugin-standard": "^4.0.1",
     "nodemon": "^2.0.4",
-<<<<<<< HEAD
     "prettier": "^2.1.2",
     "prettier-config-standard": "^1.0.1"
-  },
-  "proxy": "http://localhost:8080"
-=======
-    "prettier": "^2.0.5"
   }
->>>>>>> Use advanced CRA proxying. Clarifying what's happening in API server. Clear up naming of run-scripts.
 }
