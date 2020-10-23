@@ -22,7 +22,7 @@ const Dashboard = () => {
 
   return (
     <DashboardLayout>
-      <DashboardView />
+      <DashboardView user={user} />
     </DashboardLayout>
   )
 }

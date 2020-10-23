@@ -16,6 +16,7 @@ const EmailVerificationAlert = ({ open }) => {
     </Container>
   )
 }
+
 EmailVerificationAlert.propTypes = {
   open: PropTypes.bool
 }
