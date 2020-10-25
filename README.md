@@ -2,6 +2,10 @@
 
 Internal dashboard for Street Art Toronto
 
+This repo contains both:
+1. a front-end React UI in `src/`, and
+2. a backend API server in `server/`
+
 ## Tech Stack
 - Using React and create-react-app framework
 - Auth0 for authentication
@@ -25,11 +29,21 @@ open .env
 
 See `docs/development.md` for instructions on creating credentials.
 
-Run the project:
+Run the project for local development (with hot reloading):
 
 ```bash
-npm run dev
+npm run start:dev
 ```
+
+Visit at http://localhost:3000
+
+Run the project for production-like build:
+
+```bash
+npm run start:prod
+```
+
+Visit at http://localhost:3000
 
 To run linting style checks:
 
