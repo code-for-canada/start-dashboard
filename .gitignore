@@ -698,8 +698,7 @@ MigrationBackup/
 
 # End of https://www.gitignore.io/api/node,linux,macos,windows,intellij,webstorm,jetbrains,visualstudio,visualstudiocode
 
-.idea/
-
 # Project-specific files
 .env
 /build
+.idea/
