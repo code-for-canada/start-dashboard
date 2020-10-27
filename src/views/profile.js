@@ -6,25 +6,27 @@ import { Container } from '@material-ui/core'
 
 const Profile = () => {
   const { user } = useAuth0()
-  const [ cognitoLoaded, setCognitoLoaded ] = useState(false)
-  const [ artist, setArtist ] = useState(null)
-  const [ showProfile, setShowProfile ] = useState(false)
+  const [cognitoLoaded, setCognitoLoaded] = useState(false)
+  const [artist, setArtist] = useState(null)
+  const [showProfile, setShowProfile] = useState(false)
   const hash = useLocation().hash
 
   const loadCognito = () => {
     if (window.Cognito) {
-      window.Cognito.load("forms", { id: "11" })
+      window.Cognito.load('forms', { id: '11' })
       setCognitoLoaded(true)
     }
   }
 
   // fetch the artist profile for the authed user
   useEffect(() => {
-    const getArtist = async() => {
-      const res = await fetch(`/api/artist?email=${encodeURIComponent(user.email)}`)
+    const getArtist = async () => {
+      const res = await fetch(
+        `/api/artist?email=${encodeURIComponent(user.email)}`
+      )
       const data = await res.json()
       if (data.records.length > 0) {
-        const artistRecord = data.records[0];
+        const artistRecord = data.records[0]
         setArtist({ ...artistRecord.fields, id: artistRecord.id })
       }
     }
@@ -38,12 +40,10 @@ const Profile = () => {
     }
   }, [showProfile, cognitoLoaded])
 
-
-
   // if this is a new profile, prefill the email from authed user
   useEffect(() => {
     const prefillEmail = () => {
-      const emailField = document.querySelector(".c-editor-email input") //yikes
+      const emailField = document.querySelector('.c-editor-email input') // yikes
       if (emailField) {
         emailField.value = user.email
       }
@@ -53,42 +53,42 @@ const Profile = () => {
       // wait for form to finish loading
       window.setTimeout(prefillEmail, 2000) // ugh
     }
-    /* eslint-disable react-hooks/exhaustive-deps */
   }, [cognitoLoaded, user, artist])
 
   // checks on whether to show profile or not
   useEffect(() => {
     // authed user with no profile can see empty form
-    if (!Boolean(hash) && user) {
+    if (!hash && user) {
       setShowProfile(true)
     }
 
     // StART Staff can see all profiles
-    if (Boolean(hash) && (user["https://streetartoronto.ca/role"] === "StART Staff")) {
+    if (
+      Boolean(hash) &&
+      user['https://streetartoronto.ca/role'] === 'StART Staff'
+    ) {
       setShowProfile(true)
     }
 
     // artist can only see their own profile
     if (Boolean(hash) && artist) {
-      const showProfile = artist.edit_url.includes(hash) || artist.view_url.includes(hash)
+      const showProfile =
+        artist.edit_url.includes(hash) || artist.view_url.includes(hash)
       setShowProfile(showProfile)
     }
-    /* eslint-disable react-hooks/exhaustive-deps */
   }, [artist, user])
 
   if (showProfile) {
-    return(
+    return (
       <DefaultLayout>
-        <div className="cognito mt-4 mb-1">
-        </div>
+        <div className="cognito mt-4 mb-1"></div>
       </DefaultLayout>
     )
   }
 
-
   // not their profile
   if (!showProfile) {
-    return(
+    return (
       <DefaultLayout>
         <Container>
           <p className="mt-4 mb-1">You must be logged in to see this page.</p>
@@ -96,7 +96,6 @@ const Profile = () => {
       </DefaultLayout>
     )
   }
-
 }
 
 export default Profile

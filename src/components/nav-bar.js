@@ -39,10 +39,7 @@ const StaffNav = () => (
 
 const ArtistNav = () => (
   <Nav className="ml-auto">
-    <Nav.Link
-      href="https://streetartoronto.ca/"
-      className="text-dark"
-    >
+    <Nav.Link href="https://streetartoronto.ca/" className="text-dark">
       StART Map
     </Nav.Link>
   </Nav>
@@ -98,7 +95,7 @@ const NavBar = () => {
           <Grid item>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
-              { renderNavLinks(role) }
+              {renderNavLinks(role)}
               <AuthNav isAuthenticated={isAuthenticated} />
             </Navbar.Collapse>
           </Grid>

@@ -3,7 +3,14 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
 import { Loading, PrivateRoute } from './components'
-import { Home, Update, Dashboard, InternalMap, LocationForm, Profile } from './views'
+import {
+  Home,
+  Update,
+  Dashboard,
+  InternalMap,
+  LocationForm,
+  Profile
+} from './views'
 
 import './assets/scss/main.scss'
 
