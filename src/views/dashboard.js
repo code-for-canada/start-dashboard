@@ -18,7 +18,7 @@ const dashboardViews = {
 const Dashboard = () => {
   const { user } = useAuth0()
   const DashboardView =
-    dashboardViews[user['https://streetartoronto.ca/role']] || GuestView
+    dashboardViews[user['https://streetartoronto.ca/role']] || ArtistView
 
   return (
     <DashboardLayout>
