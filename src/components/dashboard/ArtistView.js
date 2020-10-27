@@ -32,7 +32,7 @@ ProfileURL.propTypes = {
 
 const Profile = () => {
   const { user } = useAuth0()
-  const hash = useLocation().hash
+  const location = useLocation()
   const history = useHistory()
   const [cognitoLoaded, setCognitoLoaded] = useState(false)
   const [forms, setForms] = useState([])
@@ -44,10 +44,11 @@ const Profile = () => {
   }
 
   useEffect(() => {
+    const hash = location.hash
     if (!cognitoLoaded && hash) {
       loadCognito()
     }
-  }, [cognitoLoaded])
+  }, [cognitoLoaded, location])
 
   useEffect(() => {
     const getArtist = async () => {
@@ -65,11 +66,12 @@ const Profile = () => {
   }, [user])
 
   useEffect(() => {
-    if (!hash && artist.view_url) {
+    const hash = location.hash
+    if (!hash && artist?.view_url) {
       const urlHash = artist.view_url.split('#')[1]
       history.push(`/dashboard/#${urlHash}`)
     }
-  }, [artist])
+  }, [artist, location, history])
 
   useEffect(() => {
     const getSubmittableForms = async () => {

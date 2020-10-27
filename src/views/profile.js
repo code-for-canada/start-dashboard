@@ -9,7 +9,7 @@ const Profile = () => {
   const [cognitoLoaded, setCognitoLoaded] = useState(false)
   const [artist, setArtist] = useState(null)
   const [showProfile, setShowProfile] = useState(false)
-  const hash = useLocation().hash
+  const location = useLocation()
 
   const loadCognito = () => {
     if (window.Cognito) {
@@ -49,14 +49,17 @@ const Profile = () => {
       }
     }
 
+    const hash = location.hash
+
     if (cognitoLoaded && user && !artist && !hash) {
       // wait for form to finish loading
       window.setTimeout(prefillEmail, 2000) // ugh
     }
-  }, [cognitoLoaded, user, artist])
+  }, [cognitoLoaded, user, artist, location])
 
   // checks on whether to show profile or not
   useEffect(() => {
+    const hash = location.hash
     // authed user with no profile can see empty form
     if (!hash && user) {
       setShowProfile(true)
@@ -76,7 +79,7 @@ const Profile = () => {
         artist.edit_url.includes(hash) || artist.view_url.includes(hash)
       setShowProfile(showProfile)
     }
-  }, [artist, user])
+  }, [artist, user, location])
 
   if (showProfile) {
     return (
