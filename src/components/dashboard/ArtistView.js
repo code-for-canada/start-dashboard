@@ -30,7 +30,7 @@ ProfileURL.propTypes = {
   url: PropTypes.string
 }
 
-const Profile = () => {
+const ArtistView = () => {
   const { user } = useAuth0()
   const location = useLocation()
   const history = useHistory()
@@ -197,4 +197,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default ArtistView

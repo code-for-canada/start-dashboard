@@ -49,7 +49,7 @@ const AuthNav = props => {
   const { isAuthenticated = true } = props
 
   return (
-    <Nav className="justify-content-end ml-md-4 ml-auto">
+    <Nav className="justify-content-end ml-md-4">
       {isAuthenticated ? <LogoutButton /> : <LoginButton />}
     </Nav>
   )
@@ -72,7 +72,7 @@ const renderNavLinks = role => {
 const NavBar = () => {
   const { isAuthenticated, user } = useAuth0()
   const userName = user['https://streetartoronto.ca/name'] || user.nickname
-  const role = user['https://streetartoronto.ca/role'] || 'Artist' // TODO: this should be an environment variable or at least a constant
+  const role = user['https://streetartoronto.ca/role'] || 'Artist' // TODO: this should probably be set as a constant
 
   return (
     <Navbar
