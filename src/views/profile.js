@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import DefaultLayout from '../layouts/default-layout'
 import { useAuth0 } from '@auth0/auth0-react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 import { Container } from '@material-ui/core'
 import { COGNITO_FORMS_IDS } from '../utils/constants'
 import EmbeddedCognitoForm from '../components/forms/EmbeddedCognitoForm'
@@ -11,20 +11,36 @@ const Profile = () => {
   const [artist, setArtist] = useState(null)
   const [showProfile, setShowProfile] = useState(false)
   const location = useLocation()
+  const history = useHistory()
 
   // fetch the artist profile for the authed user
   useEffect(() => {
+    const abortController = new AbortController()
     const getArtist = async () => {
-      const res = await fetch(
-        `/api/artist?email=${encodeURIComponent(user.email)}`
-      )
-      const data = await res.json()
-      if (data.records.length > 0) {
-        const artistRecord = data.records[0]
-        setArtist({ ...artistRecord.fields, id: artistRecord.id })
+      try {
+        const res = await fetch(
+          `/api/artist?email=${encodeURIComponent(user.email)}`,
+          { signal: abortController.signal }
+        )
+        const data = await res.json()
+        if (data.records.length > 0) {
+          const artistRecord = data.records[0]
+          setArtist({ ...artistRecord.fields, id: artistRecord.id })
+        }
+      } catch (err) {
+        if (abortController.signal.aborted) {
+          console.log('Request to fetch Submittable forms was aborted')
+        } else {
+          console.log('Error fetching Submittable forms', err)
+        }
       }
     }
+
     getArtist()
+
+    return () => {
+      abortController.abort()
+    }
   }, [user])
 
   // checks on whether to show profile or not
@@ -64,6 +80,11 @@ const Profile = () => {
                 EmailAddress: user.email
               }
             }
+          }}
+          afterSubmit={(event, entry) => {
+            event.preventDefault()
+            console.log(entry)
+            history.push('/dashboard')
           }}
         />
       </DefaultLayout>

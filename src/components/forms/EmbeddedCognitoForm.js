@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useLocation } from 'react-router-dom'
 
-const EmbeddedCognitoForm = ({ formId, showForm, opts }) => {
+const EmbeddedCognitoForm = ({ formId, showForm, opts, afterSubmit }) => {
   const [cognitoLoaded, setCognitoLoaded] = useState(false)
   const [error, setError] = useState(null)
   const location = useLocation()
@@ -11,17 +11,29 @@ const EmbeddedCognitoForm = ({ formId, showForm, opts }) => {
   useEffect(() => {
     if (!cognitoLoaded && showForm) {
       try {
-        window.Cognito.load('forms', {
-          id: formId,
-          ...opts
-        })
+        window.Cognito.load(
+          'forms',
+          {
+            id: formId,
+            ...opts
+          },
+          {
+            success: () => {
+              window.ExoJQuery(() => {
+                window
+                  .ExoJQuery(document)
+                  .on('afterSubmit.cognito', afterSubmit)
+              })
+            }
+          }
+        )
         setCognitoLoaded(true)
       } catch (err) {
         console.log(err)
         setError('This form is not available.')
       }
     }
-  }, [showForm, cognitoLoaded, location, formId, opts])
+  }, [showForm, cognitoLoaded, location, formId, opts, afterSubmit])
 
   if (error || !showForm) {
     const errorMessage = error || 'This form is not available'
@@ -34,7 +46,8 @@ const EmbeddedCognitoForm = ({ formId, showForm, opts }) => {
 EmbeddedCognitoForm.propTypes = {
   formId: PropTypes.string.isRequired,
   showForm: PropTypes.bool,
-  opts: PropTypes.object
+  opts: PropTypes.object,
+  afterSubmit: PropTypes.func
 }
 
 EmbeddedCognitoForm.defaultProps = {

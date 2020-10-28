@@ -125,30 +125,48 @@ ArtistProfile.propTypes = {
 const FormsList = () => {
   const [forms, setForms] = useState([])
   useEffect(() => {
+    const abortController = new AbortController()
+
     const getSubmittableForms = async () => {
-      const res = await fetch(`/api/forms`)
-      const data = await res.json()
+      try {
+        const res = await fetch(`/api/forms`, {
+          signal: abortController.signal
+        })
+        const data = await res.json()
 
-      if (data.error) {
-        return console.log(data.error)
-      }
+        if (data.error) {
+          return console.log(data.error)
+        }
 
-      const activeForms = data?.items?.filter(i => {
-        const today = new Date()
-        const isStarted = i.start_date ? new Date(i.start_date) <= today : true
-        const isExpired = i.expire_date
-          ? new Date(i.expire_date) < today
-          : false
+        const activeForms = data?.items?.filter(i => {
+          const today = new Date()
+          const isStarted = i.start_date
+            ? new Date(i.start_date) <= today
+            : true
+          const isExpired = i.expire_date
+            ? new Date(i.expire_date) < today
+            : false
 
-        return i.active && isStarted && !isExpired
-      })
+          return i.active && isStarted && !isExpired
+        })
 
-      if (activeForms?.length > 0) {
-        setForms(activeForms)
+        if (activeForms?.length > 0) {
+          setForms(activeForms)
+        }
+      } catch (err) {
+        if (abortController.signal.aborted) {
+          console.log('Request to fetch Submittable forms was aborted')
+        } else {
+          console.log('Error fetching Submittable forms', err)
+        }
       }
     }
 
     getSubmittableForms()
+
+    return () => {
+      abortController.abort()
+    }
   }, [])
 
   if (forms.length > 0) {
@@ -175,18 +193,32 @@ const ArtistView = () => {
   const [artist, setArtist] = useState(null)
 
   useEffect(() => {
+    const abortController = new AbortController()
     const getArtist = async () => {
-      const res = await fetch(
-        `/api/artist?email=${encodeURIComponent(user.email)}`
-      )
-      const data = await res.json()
-      if (data.records.length > 0) {
-        const artistRecord = data.records[0]
-        setArtist({ ...artistRecord.fields, id: artistRecord.id })
+      try {
+        const res = await fetch(
+          `/api/artist?email=${encodeURIComponent(user.email)}`,
+          { signal: abortController.signal }
+        )
+        const data = await res.json()
+        if (data.records.length > 0) {
+          const artistRecord = data.records[0]
+          setArtist({ ...artistRecord.fields, id: artistRecord.id })
+        }
+      } catch (err) {
+        if (abortController.signal.aborted) {
+          console.log('Request to fetch Submittable forms was aborted')
+        } else {
+          console.log('Error fetching Submittable forms', err)
+        }
       }
     }
 
     getArtist()
+
+    return () => {
+      abortController.abort()
+    }
   }, [user])
 
   // add profile hash if artist has profile
