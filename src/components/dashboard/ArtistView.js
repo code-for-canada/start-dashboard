@@ -4,6 +4,8 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { Grid } from '@material-ui/core'
 import { Link, useLocation, useHistory } from 'react-router-dom'
 import { COGNITO_FORMS_IDS } from '../../utils/constants'
+import { Block, BlockTitle } from './Block'
+import EmbeddedCognitoForm from '../forms/EmbeddedCognitoForm'
 
 const ProfileURL = ({ url }) => {
   const [copied, setCopied] = useState(false)
@@ -31,49 +33,97 @@ ProfileURL.propTypes = {
   url: PropTypes.string
 }
 
-const ArtistView = () => {
-  const { user } = useAuth0()
-  const location = useLocation()
-  const history = useHistory()
-  const [cognitoLoaded, setCognitoLoaded] = useState(false)
-  const [forms, setForms] = useState([])
-  const [artist, setArtist] = useState(null)
-
-  const loadCognito = () => {
-    window.Cognito.load('forms', { id: COGNITO_FORMS_IDS.artistProfile })
-    setCognitoLoaded(true)
+const WelcomeMessage = ({ artist, hasProfile }) => {
+  if (artist && hasProfile) {
+    return (
+      <React.Fragment>
+        <p>Welcome to StART Digital!</p>
+        <p>
+          Please make sure to keep your profile up to date. This is how we
+          contact you about your current projects, ongoing applications or
+          future opportunities we think you would be interested in.
+        </p>
+        <p>
+          If you&apos;re applying for one of our programs, we may ask you for
+          the link to your Artist Profile. You can copy it here.
+        </p>
+        <ProfileURL url={artist.view_url} />
+      </React.Fragment>
+    )
   }
 
-  useEffect(() => {
-    const hash = location.hash
-    if (!cognitoLoaded && hash) {
-      loadCognito()
-    }
-  }, [cognitoLoaded, location])
+  return (
+    <React.Fragment>
+      <p>Welcome to StART Digital!</p>
+      <p>This is the online home of Street Art Toronto.</p>
+      <p>
+        Now that you&apos;ve registered, you have access to the Artist
+        Dashboard. You can create your Artist Profile and apply to current
+        opportunities. If you are joining in a different capacity, you will need
+        someone from the StART team to give you the appropriate permissions on
+        this platform.
+      </p>
+    </React.Fragment>
+  )
+}
 
-  useEffect(() => {
-    const getArtist = async () => {
-      const res = await fetch(
-        `/api/artist?email=${encodeURIComponent(user.email)}`
-      )
-      const data = await res.json()
-      if (data.records.length > 0) {
-        const artistRecord = data.records[0]
-        setArtist({ ...artistRecord.fields, id: artistRecord.id })
-      }
-    }
+WelcomeMessage.propTypes = {
+  artist: PropTypes.object,
+  hasProfile: PropTypes.bool
+}
 
-    getArtist()
-  }, [user])
+const ArtistProfile = ({ artist, profileHash }) => {
+  const editUrlFragment = artist?.edit_url.split('/profile')[1]
+  const editUrl = `/profile${editUrlFragment}`
+  const hasProfile = !!profileHash
+  const showForm = profileHash && artist?.view_url.includes(profileHash)
 
-  useEffect(() => {
-    const hash = location.hash
-    if (!hash && artist?.view_url) {
-      const urlHash = artist.view_url.split('#')[1]
-      history.push(`/dashboard/#${urlHash}`)
-    }
-  }, [artist, location, history])
+  if (hasProfile) {
+    return (
+      <React.Fragment>
+        <EmbeddedCognitoForm
+          formId={COGNITO_FORMS_IDS.artistProfile}
+          showForm={showForm}
+        />
+        <Link className="btn btn-primary mt-2" to={editUrl}>
+          Edit your profile
+        </Link>
+      </React.Fragment>
+    )
+  }
 
+  return (
+    <React.Fragment>
+      <BlockTitle title="StART Artist Profile" />
+      <p>Create an artist profile to join the StART artist community.</p>
+      <p>What is this profile for?</p>
+      <ul className="ml-4">
+        <li>
+          We review your artist profile when you apply to participate in our
+          programs
+        </li>
+        <li>
+          For artworks you produce with StART, your profile lets you control the
+          information that shows up on our public map
+        </li>
+        <li>
+          We may contact you about upcoming opportunities that fit your profile.
+        </li>
+      </ul>
+      <Link to={`/profile`} className="btn btn-primary">
+        Create your profile
+      </Link>
+    </React.Fragment>
+  )
+}
+
+ArtistProfile.propTypes = {
+  artist: PropTypes.object,
+  profileHash: PropTypes.string
+}
+
+const FormsList = () => {
+  const [forms, setForms] = useState([])
   useEffect(() => {
     const getSubmittableForms = async () => {
       const res = await fetch(`/api/forms`)
@@ -101,107 +151,79 @@ const ArtistView = () => {
     getSubmittableForms()
   }, [])
 
-  const hasProfile = window.location.href.split('#')[1]
-  const editUrlFragment = artist?.edit_url.split('/profile')[1]
-  const editUrl = `/profile${editUrlFragment}`
+  if (forms.length > 0) {
+    return (
+      <ul className="list-unstyled">
+        {forms.map(form => (
+          <li key={form.category_id} className="mb-2">
+            <a href={form.form_url} target="_blank" rel="noopener noreferrer">
+              {form.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  return <p>No current opportunities.</p>
+}
+
+const ArtistView = () => {
+  const { user } = useAuth0()
+  const location = useLocation()
+  const history = useHistory()
+  const [artist, setArtist] = useState(null)
+
+  useEffect(() => {
+    const getArtist = async () => {
+      const res = await fetch(
+        `/api/artist?email=${encodeURIComponent(user.email)}`
+      )
+      const data = await res.json()
+      if (data.records.length > 0) {
+        const artistRecord = data.records[0]
+        setArtist({ ...artistRecord.fields, id: artistRecord.id })
+      }
+    }
+
+    getArtist()
+  }, [user])
+
+  // add profile hash if artist has profile
+  useEffect(() => {
+    const isShowingProfile = !!location.hash
+    if (!isShowingProfile && artist?.view_url) {
+      const urlHash = artist.view_url.split('#')[1]
+      history.push(`/dashboard/#${urlHash}`)
+    }
+  }, [artist, location, history])
+
+  const profileHash = location.hash
+  const hasProfile = !!profileHash
 
   return (
-    <>
+    <div className="artist-view">
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <div className="panel outlined bg-white p-4">
-            <p>Welcome to StART Digital!</p>
-            {!hasProfile && (
-              <React.Fragment>
-                <p>This is the online home of Street Art Toronto.</p>
-                <p>
-                  Now that you&apos;ve registered, you have access to the Artist
-                  Dashboard. You can create your Artist Profile and apply to
-                  current opportunities. If you are joining in a different
-                  capacity, you will need someone from the StART team to give
-                  you the appropriate permissions on this platform.
-                </p>
-              </React.Fragment>
-            )}
-            {artist && hasProfile && (
-              <React.Fragment>
-                <p>
-                  Please make sure to keep your profile up to date. This is how
-                  we contact you about your current projects, ongoing
-                  applications or future opportunities we think you would be
-                  interested in.
-                </p>
-                <p>
-                  If you&apos;re applying for one of our programs, we may ask
-                  you for the link to your Artist Profile. You can copy it here.
-                </p>
-                <ProfileURL url={artist.view_url} />
-              </React.Fragment>
-            )}
-          </div>
+          <Block>
+            <WelcomeMessage artist={artist} hasProfile={hasProfile} />
+          </Block>
         </Grid>
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
-          <div className="panel outlined bg-white p-4">
-            {hasProfile ? (
-              <React.Fragment>
-                <div className="cognito"></div>
-                <Link className="btn btn-primary mt-2" to={editUrl}>
-                  Edit your profile
-                </Link>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                <h2 className="mb-4">StART Artist Profile</h2>
-                <p>
-                  Create an artist profile to join the StART artist community.
-                </p>
-                <p>What is this profile for?</p>
-                <ul className="ml-4">
-                  <li>
-                    We review your artist profile when you apply to participate
-                    in our programs
-                  </li>
-                  <li>
-                    For artworks you produce with StART, your profile lets you
-                    control the information that shows up on our public map
-                  </li>
-                  <li>
-                    We may contact you about upcoming opportunities that fit
-                    your profile.
-                  </li>
-                </ul>
-                <a href={`/profile`} className="btn btn-primary">
-                  Create your profile
-                </a>
-              </React.Fragment>
-            )}
-          </div>
+          <Block>
+            <ArtistProfile artist={artist} profileHash={profileHash} />
+          </Block>
         </Grid>
         <Grid item xs={12} md={6}>
-          <div className="panel outlined bg-white p-4">
-            <h2 className="mb-4">Current opportunities</h2>
-            {forms.length > 0 ? (
-              <ul className="list-unstyled">
-                {forms.map(form => (
-                  <li key={form.category_id} className="mb-2">
-                    <a
-                      href={form.form_url}
-                      target="_blank"
-                      rel="noopener noreferrer">
-                      {form.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No current opportunities.</p>
-            )}
-          </div>
+          <Block>
+            <BlockTitle title="Current opportunities" />
+            <FormsList />
+          </Block>
         </Grid>
       </Grid>
-    </>
+    </div>
   )
 }
 

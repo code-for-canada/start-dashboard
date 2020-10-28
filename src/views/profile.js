@@ -4,10 +4,10 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { useLocation } from 'react-router-dom'
 import { Container } from '@material-ui/core'
 import { COGNITO_FORMS_IDS } from '../utils/constants'
+import EmbeddedCognitoForm from '../components/forms/EmbeddedCognitoForm'
 
 const Profile = () => {
   const { user } = useAuth0()
-  const [cognitoLoaded, setCognitoLoaded] = useState(false)
   const [artist, setArtist] = useState(null)
   const [showProfile, setShowProfile] = useState(false)
   const location = useLocation()
@@ -27,53 +27,45 @@ const Profile = () => {
     getArtist()
   }, [user])
 
-  // load the embedded CognitoForm
-  useEffect(() => {
-    if (!cognitoLoaded && showProfile && user) {
-      try {
-        window.Cognito.load('forms', {
-          id: COGNITO_FORMS_IDS.artistProfile,
-          entry: {
-            PersonalInformation: {
-              EmailAddress: user.email
-            }
-          }
-        })
-        setCognitoLoaded(true)
-      } catch (err) {
-        console.log(err)
-      }
-    }
-  }, [showProfile, cognitoLoaded, user])
-
   // checks on whether to show profile or not
   useEffect(() => {
     const hash = location.hash
+    const hasProfile = !!hash
+
     // authed user with no profile can see empty form
-    if (!hash && user) {
+    if (!hasProfile && user) {
       setShowProfile(true)
     }
 
     // StART Staff can see all profiles
     if (
-      Boolean(hash) &&
+      hasProfile &&
       user['https://streetartoronto.ca/role'] === 'StART Staff'
     ) {
       setShowProfile(true)
     }
 
     // artist can only see their own profile
-    if (Boolean(hash) && artist) {
-      const showProfile =
+    if (hasProfile && artist) {
+      const isOwnProfile =
         artist.edit_url.includes(hash) || artist.view_url.includes(hash)
-      setShowProfile(showProfile)
+      setShowProfile(isOwnProfile)
     }
   }, [artist, user, location])
 
   if (showProfile) {
     return (
       <DefaultLayout>
-        <div className="cognito mt-4 mb-1"></div>
+        <EmbeddedCognitoForm
+          formId={COGNITO_FORMS_IDS.artistProfile}
+          opts={{
+            entry: {
+              PersonalInformation: {
+                EmailAddress: user.email
+              }
+            }
+          }}
+        />
       </DefaultLayout>
     )
   }
