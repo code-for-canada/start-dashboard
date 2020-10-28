@@ -5,11 +5,13 @@ import { useLocation, useHistory } from 'react-router-dom'
 import { Container } from '@material-ui/core'
 import { COGNITO_FORMS_IDS } from '../utils/constants'
 import EmbeddedCognitoForm from '../components/forms/EmbeddedCognitoForm'
+import { Loading } from '../components'
 
 const Profile = () => {
   const { user } = useAuth0()
   const [artist, setArtist] = useState(null)
   const [showProfile, setShowProfile] = useState(false)
+  const [isLoading, setLoading] = useState(true)
   const location = useLocation()
   const history = useHistory()
 
@@ -27,11 +29,13 @@ const Profile = () => {
           const artistRecord = data.records[0]
           setArtist({ ...artistRecord.fields, id: artistRecord.id })
         }
+        setLoading(false)
       } catch (err) {
         if (abortController.signal.aborted) {
           console.log('Request to fetch Submittable forms was aborted')
         } else {
           console.log('Error fetching Submittable forms', err)
+          setLoading(false)
         }
       }
     }
@@ -69,6 +73,10 @@ const Profile = () => {
     }
   }, [artist, user, location])
 
+  if (isLoading) {
+    return <Loading />
+  }
+
   if (showProfile) {
     return (
       <DefaultLayout>
@@ -83,7 +91,6 @@ const Profile = () => {
           }}
           afterSubmit={(event, entry) => {
             event.preventDefault()
-            console.log(entry)
             history.push('/dashboard')
           }}
         />

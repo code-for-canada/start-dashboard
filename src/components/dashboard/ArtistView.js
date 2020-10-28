@@ -6,6 +6,7 @@ import { Link, useLocation, useHistory } from 'react-router-dom'
 import { COGNITO_FORMS_IDS } from '../../utils/constants'
 import { Block, BlockTitle } from './Block'
 import EmbeddedCognitoForm from '../forms/EmbeddedCognitoForm'
+import Loading from '../loading'
 
 const ProfileURL = ({ url }) => {
   const [copied, setCopied] = useState(false)
@@ -191,6 +192,7 @@ const ArtistView = () => {
   const location = useLocation()
   const history = useHistory()
   const [artist, setArtist] = useState(null)
+  const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -205,11 +207,13 @@ const ArtistView = () => {
           const artistRecord = data.records[0]
           setArtist({ ...artistRecord.fields, id: artistRecord.id })
         }
+        setLoading(false)
       } catch (err) {
         if (abortController.signal.aborted) {
           console.log('Request to fetch Submittable forms was aborted')
         } else {
           console.log('Error fetching Submittable forms', err)
+          setLoading(false)
         }
       }
     }
@@ -232,6 +236,10 @@ const ArtistView = () => {
 
   const profileHash = location.hash
   const hasProfile = !!profileHash
+
+  if (isLoading) {
+    return <Loading />
+  }
 
   return (
     <div className="artist-view">

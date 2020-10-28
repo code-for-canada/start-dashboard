@@ -80,7 +80,7 @@ const NavBar = () => {
       expand="md"
       collapseOnSelect
       className="px-4 shadow-depth">
-      <Container>
+      <Container maxWidth="xl">
         <Grid container justify="space-between">
           <Grid item>
             <Nav.Link
