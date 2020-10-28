@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Grid } from '@material-ui/core'
 import { Link, useLocation, useHistory } from 'react-router-dom'
+import { COGNITO_FORMS_IDS } from '../../utils/constants'
 
 const ProfileURL = ({ url }) => {
   const [copied, setCopied] = useState(false)
@@ -39,7 +40,7 @@ const ArtistView = () => {
   const [artist, setArtist] = useState(null)
 
   const loadCognito = () => {
-    window.Cognito.load('forms', { id: '11' })
+    window.Cognito.load('forms', { id: COGNITO_FORMS_IDS.artistProfile })
     setCognitoLoaded(true)
   }
 
@@ -91,7 +92,10 @@ const ArtistView = () => {
 
         return i.active && isStarted && !isExpired
       })
-      setForms(activeForms)
+
+      if (activeForms?.length > 0) {
+        setForms(activeForms)
+      }
     }
 
     getSubmittableForms()
@@ -178,18 +182,21 @@ const ArtistView = () => {
         <Grid item xs={12} md={6}>
           <div className="panel outlined bg-white p-4">
             <h2 className="mb-4">Current opportunities</h2>
-            <ul className="list-unstyled">
-              {forms.map(form => (
-                <li key={form.category_id} className="mb-2">
-                  <a
-                    href={form.form_url}
-                    target="_blank"
-                    rel="noopener noreferrer">
-                    {form.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            {Boolean(forms.length) ?
+              <ul className="list-unstyled">
+                {forms.map(form => (
+                  <li key={form.category_id} className="mb-2">
+                    <a
+                      href={form.form_url}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      {form.name}
+                    </a>
+                  </li>
+                ))}
+              </ul> :
+              <p>No current opportunities.</p>
+            }
           </div>
         </Grid>
       </Grid>

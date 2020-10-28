@@ -259,3 +259,7 @@ export const PANELS_DATA = [
       'https://airtable.com/embed/shrJegAZi7w7Kj5ue?backgroundColor=red&viewControls=on'
   }
 ]
+
+export const COGNITO_FORMS_IDS = {
+  artistProfile: '11'
+}

@@ -1,4 +1,5 @@
 const { artistsTable } = require('./utils/Airtable')
+const { methodNotImplemented } = require('./common')
 
 const getArtist = (req, res) => {
   const userEmail = req.query.email;
@@ -11,14 +12,6 @@ const getArtist = (req, res) => {
       }
       return res.status(200).send({ records: records })
     });
-}
-
-const methodNotImplemented = (req, res) => {
-  return res
-    .status(501)
-    .send({
-        message: `Unsupported method: ${req.method}`
-    })
 }
 
 module.exports = (req, res) => {

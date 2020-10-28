@@ -1,7 +1,6 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
 import EmbeddedIframe from './EmbeddedIframe'
-import { useAuth0 } from '@auth0/auth0-react'
 
 const GuestView = () => {
   return (
