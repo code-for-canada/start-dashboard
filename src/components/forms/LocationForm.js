@@ -277,7 +277,7 @@ class LocationForm extends Component {
     })
   }
 
-  createLocation = async (e) => {
+  createLocation = async e => {
     e.preventDefault()
 
     const locationData = {
@@ -295,19 +295,28 @@ class LocationForm extends Component {
       const res = await fetch('/api/location', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(locationData)
       })
       const data = await res.json()
 
       if (res.status !== 201) {
-        return this.setState({ showErrorAlert: true, error: data.error.message })
+        return this.setState({
+          showErrorAlert: true,
+          error: data.error.message
+        })
       }
 
-      this.setState({ showSuccessAlert: true, recordId: data.recordId })
-    } catch(err) {
-      this.setState({ showErrorAlert: true, error: err.message })
+      this.setState({
+        showSuccessAlert: true,
+        recordId: data.recordId
+      })
+    } catch (err) {
+      this.setState({
+        showErrorAlert: true,
+        error: err.message
+      })
     }
   }
 

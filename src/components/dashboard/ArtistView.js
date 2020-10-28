@@ -182,7 +182,7 @@ const ArtistView = () => {
         <Grid item xs={12} md={6}>
           <div className="panel outlined bg-white p-4">
             <h2 className="mb-4">Current opportunities</h2>
-            {Boolean(forms.length) ?
+            {forms.length > 0 ? (
               <ul className="list-unstyled">
                 {forms.map(form => (
                   <li key={form.category_id} className="mb-2">
@@ -194,9 +194,10 @@ const ArtistView = () => {
                     </a>
                   </li>
                 ))}
-              </ul> :
+              </ul>
+            ) : (
               <p>No current opportunities.</p>
-            }
+            )}
           </div>
         </Grid>
       </Grid>

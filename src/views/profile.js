@@ -3,6 +3,7 @@ import DefaultLayout from '../layouts/default-layout'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useLocation } from 'react-router-dom'
 import { Container } from '@material-ui/core'
+import { COGNITO_FORMS_IDS } from '../utils/constants'
 
 const Profile = () => {
   const { user } = useAuth0()
@@ -10,13 +11,6 @@ const Profile = () => {
   const [artist, setArtist] = useState(null)
   const [showProfile, setShowProfile] = useState(false)
   const location = useLocation()
-
-  const loadCognito = () => {
-    if (window.Cognito) {
-      window.Cognito.load('forms', { id: '11' })
-      setCognitoLoaded(true)
-    }
-  }
 
   // fetch the artist profile for the authed user
   useEffect(() => {
@@ -35,27 +29,22 @@ const Profile = () => {
 
   // load the embedded CognitoForm
   useEffect(() => {
-    if (!cognitoLoaded && showProfile) {
-      loadCognito()
-    }
-  }, [showProfile, cognitoLoaded])
-
-  // if this is a new profile, prefill the email from authed user
-  useEffect(() => {
-    const prefillEmail = () => {
-      const emailField = document.querySelector('.c-editor-email input') // yikes
-      if (emailField) {
-        emailField.value = user.email
+    if (!cognitoLoaded && showProfile && user) {
+      try {
+        window.Cognito.load('forms', {
+          id: COGNITO_FORMS_IDS.artistProfile,
+          entry: {
+            PersonalInformation: {
+              EmailAddress: user.email
+            }
+          }
+        })
+        setCognitoLoaded(true)
+      } catch (err) {
+        console.log(err)
       }
     }
-
-    const hash = location.hash
-
-    if (cognitoLoaded && user && !artist && !hash) {
-      // wait for form to finish loading
-      window.setTimeout(prefillEmail, 2000) // ugh
-    }
-  }, [cognitoLoaded, user, artist, location])
+  }, [showProfile, cognitoLoaded, user])
 
   // checks on whether to show profile or not
   useEffect(() => {
