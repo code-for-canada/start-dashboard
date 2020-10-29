@@ -120,7 +120,7 @@ const Profile = () => {
           opts={opts}
           afterSubmit={(event, entry) => {
             event.preventDefault()
-            history.push('/profile/done')
+            history.push('/profile/success')
           }}
         />
       </DefaultLayout>
