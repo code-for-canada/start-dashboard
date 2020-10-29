@@ -30,7 +30,7 @@ const App = () => {
       <PrivateRoute path="/update" component={Update} />
       <PrivateRoute path="/map" component={InternalMap} />
       <PrivateRoute path="/location" component={LocationForm} />
-      <PrivateRoute path="/profile" component={Profile} />
+      <Route path="/profile" component={Profile} />
     </Switch>
   )
 }
