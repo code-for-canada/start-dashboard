@@ -257,7 +257,7 @@ export const PANELS_DATA = [
     editText: 'Edit in CognitoForms',
     frameSrc:
       'https://airtable.com/embed/shra4E5FrOJS6fzWO?backgroundColor=red&viewControls=on'
-  },
+  }
 ]
 
 export const COGNITO_FORMS_IDS = {
