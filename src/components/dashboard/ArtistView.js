@@ -34,8 +34,8 @@ ProfileURL.propTypes = {
   url: PropTypes.string
 }
 
-const WelcomeMessage = ({ artist, hasProfile }) => {
-  if (artist && hasProfile) {
+const WelcomeMessage = ({ artist }) => {
+  if (artist && artist.view_url) {
     return (
       <React.Fragment>
         <p>Welcome to StART Digital!</p>
@@ -69,22 +69,21 @@ const WelcomeMessage = ({ artist, hasProfile }) => {
 }
 
 WelcomeMessage.propTypes = {
-  artist: PropTypes.object,
-  hasProfile: PropTypes.bool
+  artist: PropTypes.object
 }
 
 const ArtistProfile = ({ artist, profileHash }) => {
   const editUrlFragment = artist?.edit_url.split('/profile')[1]
   const editUrl = `/profile${editUrlFragment}`
-  const hasProfile = !!profileHash
-  const showForm = profileHash && artist?.view_url.includes(profileHash)
+  const hasProfile = artist?.view_url
+  const isOwnProfile = artist?.view_url.includes(profileHash)
 
   if (hasProfile) {
     return (
       <React.Fragment>
         <EmbeddedCognitoForm
           formId={COGNITO_FORMS_IDS.artistProfile}
-          showForm={showForm}
+          showForm={isOwnProfile}
         />
         <Link className="btn btn-primary mt-2" to={editUrl}>
           Edit your profile
@@ -230,7 +229,7 @@ const ArtistView = () => {
     const isShowingProfile = !!location.hash
     if (!isShowingProfile && artist?.view_url) {
       const urlHash = artist.view_url.split('#')[1]
-      history.push(`/dashboard/#${urlHash}`)
+      history.replace(`/dashboard/#${urlHash}`)
     }
   }, [artist, location, history])
 
