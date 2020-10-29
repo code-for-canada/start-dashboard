@@ -29,7 +29,7 @@ const DashboardLayout = ({ children }) => {
   return (
     <div id="app" className="d-flex flex-column h-100">
       <NavBar />
-      <main className="p-4 bg-light">
+      <main className="py-4 bg-light">
         <Container maxWidth="xl">
           <EmailVerificationAlert show={user && !user.email_verified} />
           {children}

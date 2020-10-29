@@ -4,5 +4,14 @@ import Dashboard from './dashboard'
 import InternalMap from './map'
 import LocationForm from './location'
 import Profile from './profile'
+import ProfileCreated from './profile-created'
 
-export { Home, Update, Dashboard, LocationForm, InternalMap, Profile }
+export {
+  Home,
+  Update,
+  Dashboard,
+  LocationForm,
+  InternalMap,
+  Profile,
+  ProfileCreated
+}

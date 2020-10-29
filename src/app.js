@@ -9,7 +9,8 @@ import {
   Dashboard,
   InternalMap,
   LocationForm,
-  Profile
+  Profile,
+  ProfileCreated
 } from './views'
 
 import './assets/scss/main.scss'
@@ -30,7 +31,9 @@ const App = () => {
       <PrivateRoute path="/update" component={Update} />
       <PrivateRoute path="/map" component={InternalMap} />
       <PrivateRoute path="/location" component={LocationForm} />
-      <PrivateRoute path="/profile" component={Profile} />
+      <PrivateRoute path="/profile" exact component={Profile} />
+      <PrivateRoute path="/profile/success" exact component={ProfileCreated} />
+      <PrivateRoute path="/profile/:action" component={Profile} />
     </Switch>
   )
 }

@@ -79,7 +79,7 @@ const NavBar = () => {
       bg="white"
       expand="md"
       collapseOnSelect
-      className="px-4 shadow-depth">
+      className="shadow-depth px-0">
       <Container maxWidth="xl">
         <Grid container justify="space-between">
           <Grid item>
@@ -87,7 +87,7 @@ const NavBar = () => {
               as={RouterNavLink}
               to="/"
               exact
-              className="text-dark text-bold"
+              className="text-dark text-bold pl-0"
               activeClassName="router-link-exact-active">
               {userName ? `Hi, ${userName}! 👋` : 'StART Guest'}
             </Nav.Link>

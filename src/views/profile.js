@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import DefaultLayout from '../layouts/default-layout'
 import { useAuth0 } from '@auth0/auth0-react'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useLocation, useHistory, useParams } from 'react-router-dom'
 import { Container } from '@material-ui/core'
 import { COGNITO_FORMS_IDS } from '../utils/constants'
 import EmbeddedCognitoForm from '../components/forms/EmbeddedCognitoForm'
@@ -14,6 +14,7 @@ const Profile = () => {
   const [isLoading, setLoading] = useState(true)
   const location = useLocation()
   const history = useHistory()
+  const { action = 'view' } = useParams()
 
   // fetch the artist profile for the authed user
   useEffect(() => {
@@ -47,61 +48,79 @@ const Profile = () => {
     }
   }, [user])
 
-  // if the user has a profile, make sure we show it
+  // if the user has a profile, use their profile
   useEffect(() => {
-    const isShowingProfile = location.hash
-    if (artist?.view_url && !isShowingProfile) {
-      const profileHash = artist.view_url.split('#')[1]
-      history.replace(`/profile#${profileHash}`)
+    if (isLoading) return
+
+    const currentProfileHash = location.hash
+
+    if (artist && action === 'edit') {
+      const editProfileHash = artist.edit_url.split('#')[1]
+      if (!currentProfileHash.includes(editProfileHash)) {
+        return history.replace(`${location.pathname}#${editProfileHash}`)
+      }
     }
-  }, [artist, location, history])
+
+    if (artist && action === 'view') {
+      const viewProfileHash = artist.view_url.split('#')[1]
+      if (!currentProfileHash.includes(viewProfileHash)) {
+        return history.replace(`${location.pathname}#${viewProfileHash}`)
+      }
+    }
+
+    if (!artist && action === 'view') {
+      return history.replace(`/profile/edit`)
+    }
+  }, [artist, location, history, action, isLoading])
 
   // checks on whether to show profile or not
   useEffect(() => {
-    const profileHash = location.hash
-    const hasProfile = !!artist?.view_url
+    if (isLoading) return
+
+    const currentProfileHash = location.hash
 
     // authed user with no profile can see empty form
-    if (!hasProfile && !profileHash && user) {
+    if (user && !artist && !currentProfileHash) {
       setShowProfile(true)
     }
 
-    // StART Staff can see all profiles
-    if (
-      profileHash &&
-      user['https://streetartoronto.ca/role'] === 'StART Staff'
-    ) {
+    // StART Staff can view and edit all profiles
+    if (user['https://streetartoronto.ca/role'] === 'StART Staff') {
       setShowProfile(true)
     }
 
-    // artist can only see their own profile
-    if (profileHash && hasProfile && artist) {
+    // artist can view and edit their own profile
+    if (artist && currentProfileHash) {
       const isOwnProfile =
-        artist.edit_url.includes(profileHash) ||
-        artist.view_url.includes(profileHash)
+        artist.edit_url.includes(currentProfileHash) ||
+        artist.view_url.includes(currentProfileHash)
       setShowProfile(isOwnProfile)
     }
-  }, [artist, user, location])
+  }, [artist, user, location, isLoading])
 
   if (isLoading) {
     return <Loading />
   }
 
   if (showProfile) {
+    let opts = {}
+    if (action === 'edit' && user) {
+      opts = {
+        entry: {
+          PersonalInformation: {
+            EmailAddress: user.email
+          }
+        }
+      }
+    }
     return (
       <DefaultLayout>
         <EmbeddedCognitoForm
           formId={COGNITO_FORMS_IDS.artistProfile}
-          opts={{
-            entry: {
-              PersonalInformation: {
-                EmailAddress: user.email
-              }
-            }
-          }}
+          opts={opts}
           afterSubmit={(event, entry) => {
             event.preventDefault()
-            history.push('/dashboard')
+            history.push('/profile/done')
           }}
         />
       </DefaultLayout>
@@ -112,7 +131,7 @@ const Profile = () => {
   if (!showProfile) {
     return (
       <DefaultLayout>
-        <Container>
+        <Container maxWidth="xl">
           <p className="mt-4 mb-1">You must be logged in to see this page.</p>
         </Container>
       </DefaultLayout>

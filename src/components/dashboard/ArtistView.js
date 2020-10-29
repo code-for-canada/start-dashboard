@@ -35,13 +35,13 @@ ProfileURL.propTypes = {
 }
 
 const WelcomeMessage = ({ artist }) => {
-  if (artist && artist.view_url) {
+  if (artist) {
     return (
       <React.Fragment>
         <p>Welcome to StART Digital!</p>
         <p>
           Please make sure to keep your profile up to date. This is how we
-          contact you about your current projects, ongoing applications or
+          contact you about your current projects, ongoing applications, or
           future opportunities we think you would be interested in.
         </p>
         <p>
@@ -72,10 +72,9 @@ WelcomeMessage.propTypes = {
   artist: PropTypes.object
 }
 
-const ArtistProfile = ({ artist, profileHash }) => {
-  const editUrlFragment = artist?.edit_url.split('/profile')[1]
-  const editUrl = `/profile${editUrlFragment}`
-  const hasProfile = artist?.view_url
+const ArtistProfile = ({ artist }) => {
+  const profileHash = useLocation().hash
+  const hasProfile = artist
   const isOwnProfile = artist?.view_url.includes(profileHash)
 
   if (hasProfile) {
@@ -85,7 +84,7 @@ const ArtistProfile = ({ artist, profileHash }) => {
           formId={COGNITO_FORMS_IDS.artistProfile}
           showForm={isOwnProfile}
         />
-        <Link className="btn btn-primary mt-2" to={editUrl}>
+        <Link className="btn btn-primary mt-2" to={'/profile/edit'}>
           Edit your profile
         </Link>
       </React.Fragment>
@@ -227,14 +226,11 @@ const ArtistView = () => {
   // add profile hash if artist has profile
   useEffect(() => {
     const isShowingProfile = !!location.hash
-    if (!isShowingProfile && artist?.view_url) {
-      const urlHash = artist.view_url.split('#')[1]
-      history.replace(`/dashboard/#${urlHash}`)
+    if (!isShowingProfile && artist) {
+      const profileHash = artist.view_url.split('#')[1]
+      history.replace(`/dashboard/#${profileHash}`)
     }
   }, [artist, location, history])
-
-  const profileHash = location.hash
-  const hasProfile = !!profileHash
 
   if (isLoading) {
     return <Loading />
@@ -245,14 +241,14 @@ const ArtistView = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Block>
-            <WelcomeMessage artist={artist} hasProfile={hasProfile} />
+            <WelcomeMessage artist={artist} />
           </Block>
         </Grid>
       </Grid>
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <Block>
-            <ArtistProfile artist={artist} profileHash={profileHash} />
+            <ArtistProfile artist={artist} />
           </Block>
         </Grid>
         <Grid item xs={12} md={6}>
