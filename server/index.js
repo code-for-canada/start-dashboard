@@ -3,13 +3,18 @@ const bodyParser = require('body-parser')
 const path = require('path');
 
 require('dotenv').config()
+
 const handleLocations = require('./api/location')
+const handleArtist = require('./api/artist')
+const handleForms = require('./api/forms')
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.all('/api/location', handleLocations)
+app.all('/api/artist', handleArtist)
+app.all('/api/forms', handleForms)
 
 // Only in production is the server the main entry point,
 // so only then serve built static files from filesystem.

@@ -1,7 +1,7 @@
 const { locationsTable } = require('./utils/Airtable')
+const { methodNotImplemented } = require('./common')
 
 const createLocation = (req, res) => {
-  console.log("req.body", req.body)
   const location = req.body
 
   locationsTable.create(
@@ -21,14 +21,6 @@ const createLocation = (req, res) => {
       });
     }
   );
-}
-
-const methodNotImplemented = (req, res) => {
-  return res
-    .status(501)
-    .send({
-        message: `Unsupported method: ${req.method}`
-    })
 }
 
 module.exports = (req, res) => {

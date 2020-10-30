@@ -8,7 +8,6 @@ import {
 } from 'react-google-maps'
 import Geocode from 'react-geocode'
 import Autocomplete from 'react-google-autocomplete'
-import axios from 'axios'
 import { Alert } from 'react-bootstrap'
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
@@ -278,7 +277,7 @@ class LocationForm extends Component {
     })
   }
 
-  createLocation = e => {
+  createLocation = async e => {
     e.preventDefault()
 
     const locationData = {
@@ -292,23 +291,33 @@ class LocationForm extends Component {
       }
     }
 
-    axios({
-      url: '/api/location',
-      method: 'POST',
-      data: locationData
-    })
-      .then(res => {
-        console.log('res', res)
-        if (res.status === 201) {
-          this.setState({ showSuccessAlert: true, recordId: res.data.recordId })
-        } else {
-          this.setState({ showErrorAlert: true, error: res.data.error })
-        }
+    try {
+      const res = await fetch('/api/location', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(locationData)
       })
-      .catch(err => {
-        console.log(err)
-        this.setState({ showErrorAlert: true, error: err.message })
+      const data = await res.json()
+
+      if (res.status !== 201) {
+        return this.setState({
+          showErrorAlert: true,
+          error: data.error.message
+        })
+      }
+
+      this.setState({
+        showSuccessAlert: true,
+        recordId: data.recordId
       })
+    } catch (err) {
+      this.setState({
+        showErrorAlert: true,
+        error: err.message
+      })
+    }
   }
 
   render() {
