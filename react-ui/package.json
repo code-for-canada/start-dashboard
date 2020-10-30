@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.5.2",
     "dotenv": "^8.2.0",
+    "http-proxy-middleware": "^1.0.6",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
@@ -62,6 +63,5 @@
       "last 1 safari version",
       "ie 11"
     ]
-  },
-  "proxy": "http://localhost:8080"
+  }
 }
