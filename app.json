@@ -1,7 +1,27 @@
 {
+  "name": "start-dashboard",
+  "description": "web app made of create-react-app UI + Node API",
+  "scripts": {
+  },
+  "env": {
+    "JS_RUNTIME_TARGET_BUNDLE": {
+      "value": "/app/react-ui/build/static/js/*.js"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+
+  ],
   "buildpacks": [
     {
-      "url": "mars/create-react-app"
+      "url": "https://github.com/mars/create-react-app-inner-buildpack"
+    },
+    {
+      "url": "heroku/nodejs"
     }
   ]
 }
