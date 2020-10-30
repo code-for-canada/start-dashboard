@@ -43,16 +43,17 @@ jobs:
           ${{ runner.os }}-node-
 
     - name: Install Bundlewatch
-      run: npm install -g bundlewatch@0.2.6
+      run: cd react-ui && npm install -g bundlewatch@0.2.6
 
     - name: "Install & Build"
       run: |
+        cd react-ui
         npm install
         npm run build
 
     # This improves bundlewatch's ability to show changes.
     - name: Rename files
-      working-directory: build/static/js/
+      working-directory: react-ui/build/static/js/
       run: |
         mv 2.*.chunk.js 2.xxxxxxxx.chunk.js
         mv main.*.chunk.js main.xxxxxxxx.chunk.js
