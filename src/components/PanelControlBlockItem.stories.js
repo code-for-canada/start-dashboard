@@ -11,7 +11,7 @@ const Template = args => <PanelControlBlockItem {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  title: 'Foo',
+  title: 'Some panel',
   isVisible: false,
   toggleVisibility: action('toggleVisibility'),
   moveUp: action('moveUp'),

@@ -13,8 +13,8 @@ const Template = args => <PanelControlBlock {...args} />
 export const Default = Template.bind({})
 Default.args = {
   panels: [
-    { ...PanelControlBlockItemStories.Default.args, title: 'Foo' },
-    { ...PanelControlBlockItemStories.Default.args, title: 'Bar' },
-    { ...PanelControlBlockItemStories.Default.args, title: 'Baz' },
+    { ...PanelControlBlockItemStories.Default.args, title: 'Panel 1' },
+    { ...PanelControlBlockItemStories.Default.args, title: 'Panel 2' },
+    { ...PanelControlBlockItemStories.Default.args, title: 'Panel 3' },
   ]
 }
