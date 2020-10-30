@@ -9,8 +9,6 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
-import CloseIcon from '@material-ui/icons/Close'
-import SettingsIcon from '@material-ui/icons/Settings'
 import usePanelState from './usePanelState'
 import { PANELS_DATA } from '../../utils/constants'
 

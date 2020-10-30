@@ -1,3 +1,9 @@
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import Drawer from '@material-ui/core/Drawer'
+import SettingsIcon from '@material-ui/icons/Settings'
+import CloseIcon from '@material-ui/icons/Close'
+
 const ConfigDrawer = props => {
   const [open, setOpen] = useState(false)
   const { children } = props
@@ -35,3 +41,5 @@ const ConfigDrawer = props => {
 ConfigDrawer.propTypes = {
   children: PropTypes.node
 }
+
+export default ConfigDrawer
