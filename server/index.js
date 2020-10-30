@@ -51,7 +51,7 @@ if (!isDev && cluster.isMaster) {
 
     // Handle React routing, return all other requests to React app
     app.get('*', function(req, res) {
-      response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
+      res.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
     });
   }
 
