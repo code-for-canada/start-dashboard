@@ -40,7 +40,9 @@
     "start:server": "nodemon server",
     "start:dev": "concurrently --kill-others-on-fail 'npm start' 'PORT=8080 npm run start:server'",
     "start:prod": "npm run build && NODE_ENV=production npm run start:server",
-    "heroku-prebuild": "cp heroku.env .env"
+    "heroku-prebuild": "cp heroku.env .env",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -60,6 +62,14 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@storybook/addon-actions": "^6.0.27",
+    "@storybook/addon-essentials": "^6.0.27",
+    "@storybook/addon-links": "^6.0.27",
+    "@storybook/node-logger": "^6.0.27",
+    "@storybook/preset-create-react-app": "^3.1.4",
+    "@storybook/react": "^6.0.27",
+    "babel-loader": "^8.1.0",
     "concurrently": "^5.3.0",
     "eslint-config-prettier": "^6.13.0",
     "eslint-config-prettier-standard": "^3.0.1",
@@ -73,6 +83,7 @@
     "eslint-plugin-standard": "^4.0.1",
     "nodemon": "^2.0.4",
     "prettier": "^2.1.2",
-    "prettier-config-standard": "^1.0.1"
+    "prettier-config-standard": "^1.0.1",
+    "react-is": "^17.0.1"
   }
 }
