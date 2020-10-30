@@ -37,21 +37,30 @@ const MainNav = () => (
 )
 
 const AuthNav = props => {
-  const { isAuthenticated = true } = props
+  const {
+    isAuthenticated = true,
+    handleLogin = () => {},
+    handleLogout = () => {}
+  } = props
 
   return (
     <Nav className="justify-content-end ml-md-4">
-      {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+      {isAuthenticated
+        ? <LogoutButton handleLogout={handleLogout} />
+        : <LoginButton handleLogin={handleLogin} />
+      }
     </Nav>
   )
 }
 AuthNav.propTypes = {
+  handleLogin: PropTypes.func,
+  handleLogout: PropTypes.func,
   isAuthenticated: PropTypes.bool
 }
 
-const NavBar = () => {
-  const { isAuthenticated, user } = useAuth0()
-  const userName = user['https://streetartoronto.ca/name'] || user.nickname
+const NavBar = ({ useAuthHook = useAuth0 }) => {
+  const { isAuthenticated, user, logout, loginWithRedirect } = useAuthHook()
+  const userName = user && (user['https://streetartoronto.ca/name'] || user.nickname)
 
   return (
     <Navbar
@@ -71,7 +80,13 @@ const NavBar = () => {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <MainNav userName={userName} />
-          <AuthNav isAuthenticated={isAuthenticated} />
+          <AuthNav
+            isAuthenticated={isAuthenticated}
+            handleLogin={() => loginWithRedirect()}
+            handleLogout={() => logout({
+              returnTo: window.location.origin
+            })}
+          />
         </Navbar.Collapse>
       </Container>
     </Navbar>
