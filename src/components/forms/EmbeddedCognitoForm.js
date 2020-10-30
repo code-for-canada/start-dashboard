@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router-dom'
 
 const EmbeddedCognitoForm = ({ formId, showForm, opts, afterSubmit }) => {
   const [cognitoLoaded, setCognitoLoaded] = useState(false)
   const [error, setError] = useState(null)
-  const location = useLocation()
 
   // load the embedded CognitoForm
   useEffect(() => {
@@ -33,7 +31,7 @@ const EmbeddedCognitoForm = ({ formId, showForm, opts, afterSubmit }) => {
         setError('This form is not available.')
       }
     }
-  }, [showForm, cognitoLoaded, location, formId, opts, afterSubmit])
+  }, [showForm, cognitoLoaded, formId, opts, afterSubmit])
 
   if (error || !showForm) {
     const errorMessage = error || 'This form is not available'
