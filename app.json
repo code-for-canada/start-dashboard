@@ -4,6 +4,9 @@
   "scripts": {
   },
   "env": {
+    "JS_RUNTIME_TARGET_BUNDLE": {
+      "value": "/app/react-ui/build/static/js/*.js"
+    }
   },
   "formation": {
     "web": {
