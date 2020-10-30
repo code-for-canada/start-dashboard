@@ -50,3 +50,19 @@ To run linting style checks:
 ```bash
 npm run lint
 ```
+
+## Component Library
+
+We keep a hosted component library here: https://add-storybook--5f9b7272e5c4a70022388106.chromatic.com
+
+Run it locally with:
+
+```bash
+npm run storybook
+```
+
+To push a new release to our hosted library, run:
+
+```bash
+npm run chromatic
+```
