@@ -80,6 +80,7 @@ const ArtistProfile = ({ artist }) => {
   if (hasProfile) {
     return (
       <React.Fragment>
+        <BlockTitle title="Your StART Artist Profile" />
         <EmbeddedCognitoForm
           formId={COGNITO_FORMS_IDS.artistProfile}
           showForm={isOwnProfile}
