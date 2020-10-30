@@ -196,8 +196,8 @@ export const MAP_STYLE_BASE = [
 
 export const PANELS_DATA = [
   {
-    id: 'project-updates',
-    title: 'Project Updates',
+    id: 'project-status',
+    title: 'Project Status',
     isVisible: true,
     isSmall: true,
     editLink:
