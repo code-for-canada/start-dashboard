@@ -263,3 +263,7 @@ export const PANELS_DATA = [
 export const COGNITO_FORMS_IDS = {
   artistProfile: '11'
 }
+
+export const AIRTABLE_LINKS = {
+  locationsTable: 'https://airtable.com/tbleiRmVudM7u9BDE/viwEgRCnV41UaOmIk/'
+}
