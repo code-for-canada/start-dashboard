@@ -109,7 +109,7 @@ const ArtistProfile = ({ artist }) => {
           We may contact you about upcoming opportunities that fit your profile.
         </li>
       </ul>
-      <Link to={`/profile`} className="btn btn-primary">
+      <Link to={`/profile/edit`} className="btn btn-primary">
         Create your profile
       </Link>
     </React.Fragment>

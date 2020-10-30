@@ -5,6 +5,9 @@ import InternalMap from './map'
 import LocationForm from './location'
 import Profile from './profile'
 import ProfileCreated from './profile-created'
+import ProfileView from './profile-view'
+import ProfileEdit from './profile-edit'
+import Unauthorized from './unauthorized'
 
 export {
   Home,
@@ -13,5 +16,8 @@ export {
   LocationForm,
   InternalMap,
   Profile,
-  ProfileCreated
+  ProfileCreated,
+  ProfileView,
+  ProfileEdit,
+  Unauthorized
 }
