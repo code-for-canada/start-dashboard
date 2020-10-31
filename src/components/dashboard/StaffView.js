@@ -1,14 +1,8 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 
 import EmbeddedIframe from './EmbeddedIframe'
 import Panel from './Panel'
-import Drawer from '@material-ui/core/Drawer'
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
-import VisibilityIcon from '@material-ui/icons/Visibility'
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 import usePanelState from './usePanelState'
 import { PANELS_DATA } from '../../utils/constants'
 
