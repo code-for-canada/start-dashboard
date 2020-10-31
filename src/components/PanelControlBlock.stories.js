@@ -1,7 +1,6 @@
 import React from 'react'
 import PanelControlBlock from './PanelControlBlock'
 import * as PanelControlBlockItemStories from './PanelControlBlockItem.stories'
-//import { action } from '@storybook/addon-actions'
 
 export default {
     component: PanelControlBlock,
