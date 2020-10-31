@@ -26,9 +26,7 @@ const PanelControlBlock = props => {
   )
 }
 PanelControlBlock.propTypes = {
-  panels: PropTypes.arrayOf([
-    PropTypes.object
-  ])
+  panels: PropTypes.arrayOf(PropTypes.object)
 }
 
 export default PanelControlBlock

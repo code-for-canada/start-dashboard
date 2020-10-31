@@ -3,6 +3,8 @@ import { Col, Container, Row } from 'react-bootstrap'
 
 import EmbeddedIframe from './EmbeddedIframe'
 import Panel from './Panel'
+import ConfigDrawer from 'components/ConfigDrawer'
+import PanelControlBlock from 'components/PanelControlBlock'
 import usePanelState from './usePanelState'
 import { PANELS_DATA } from '../../utils/constants'
 
