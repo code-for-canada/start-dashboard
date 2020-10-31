@@ -3,13 +3,13 @@ import DefaultLayout from '../layouts/default-layout'
 import { Link } from 'react-router-dom'
 import { Container, Grid } from '@material-ui/core'
 
-const ProfileCreated = () => (
+const ProfileSaved = () => (
   <DefaultLayout>
     <Container maxWidth="xl">
       <Grid container justify="center">
         <Grid item md={6}>
           <div className="mt-10">
-            <h2 className="mb-4">Your profile has been created!</h2>
+            <h2 className="mb-4">Your profile has been saved!</h2>
             <p className="mb-4">
               Please make sure to keep your profile up to date. This is how we
               contact you about your current projects, ongoing applications, or
@@ -25,4 +25,4 @@ const ProfileCreated = () => (
   </DefaultLayout>
 )
 
-export default ProfileCreated
+export default ProfileSaved
