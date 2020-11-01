@@ -5,10 +5,15 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
-
+const cors = require('cors')
 
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 3000;
+
+const emailCors = {
+  origin: '*',
+  optionsSuccessStatus: 200
+}
 
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
@@ -29,6 +34,7 @@ if (!isDev && cluster.isMaster) {
   const handleLocations = require('./api/location')
   const handleArtist = require('./api/artist')
   const handleForms = require('./api/forms')
+  const handleEmailTemplates = require('./api/emails')
 
   // Priority serve any static files.
   app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
@@ -36,9 +42,11 @@ if (!isDev && cluster.isMaster) {
   // Answer API requests.
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
+
   app.all('/api/location', handleLocations)
   app.all('/api/artist', handleArtist)
   app.all('/api/forms', handleForms)
+  app.all('/api/email-templates', cors(emailCors), handleEmailTemplates)
 
   // Only in production is the server the main entry point,
   // so only then serve built static files from filesystem.
