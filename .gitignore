@@ -702,5 +702,5 @@ MigrationBackup/
 
 # Project-specific files
 .env
-/build
+react-ui/build
 .idea/
