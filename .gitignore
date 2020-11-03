@@ -704,3 +704,5 @@ MigrationBackup/
 .env
 react-ui/build
 .idea/
+*.cert
+*.key
