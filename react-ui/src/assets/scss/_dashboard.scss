@@ -1,3 +1,7 @@
+html, body {
+  font-family: $primary-font;
+}
+
 main {
   flex: 1 1 auto;
 }
@@ -5,6 +9,10 @@ main {
 
 .panel {
   transition: all 0.3s ease;
+
+  &.outlined {
+    border: 1px solid #cccccc;
+  }
 
   .header {
     background-color: $white;
@@ -59,3 +67,29 @@ main {
     }
   }
 }
+
+.cognito {
+  .c-forms-heading {
+    .c-forms-form-title {
+      padding-top: 0 !important;
+    }
+  }
+}
+
+.profile-url {
+  .url {
+    display: flex;
+    align-items: flex-start;
+
+    code {
+      flex: 1 1 auto;
+      align-self: center;
+      word-break: break-word;
+    }
+
+    button {
+
+    }
+  }
+}
+

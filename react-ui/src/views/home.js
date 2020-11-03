@@ -80,7 +80,7 @@ const Home = () => {
             />
           </div>
           <div className="content p-5" style={styles.content}>
-            <h1 className="mb-5">StART Dashboard</h1>
+            <h1 className="mb-5">StART Digital</h1>
             <LoginButton />
           </div>
         </div>

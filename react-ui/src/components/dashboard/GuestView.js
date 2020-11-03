@@ -2,7 +2,7 @@ import React from 'react'
 import { Container } from 'react-bootstrap'
 import EmbeddedIframe from './EmbeddedIframe'
 
-const GuestView = user => {
+const GuestView = () => {
   return (
     <Container>
       <div className="row">

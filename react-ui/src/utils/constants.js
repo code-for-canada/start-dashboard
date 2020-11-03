@@ -253,9 +253,17 @@ export const PANELS_DATA = [
     title: 'Artists',
     isVisible: false,
     isSmall: false,
-    editLink: 'https://www.cognitoforms.com/forms/artistprofile/entries',
+    editLink: 'https://www.cognitoforms.com/forms/startartistprofile/entries',
     editText: 'Edit in CognitoForms',
     frameSrc:
-      'https://airtable.com/embed/shrJegAZi7w7Kj5ue?backgroundColor=red&viewControls=on'
+      'https://airtable.com/embed/shra4E5FrOJS6fzWO?backgroundColor=red&viewControls=on'
   }
 ]
+
+export const COGNITO_FORMS_IDS = {
+  artistProfile: '11'
+}
+
+export const AIRTABLE_LINKS = {
+  locationsTable: 'https://airtable.com/tbleiRmVudM7u9BDE/viwEgRCnV41UaOmIk/'
+}

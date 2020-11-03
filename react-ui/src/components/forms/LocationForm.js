@@ -8,25 +8,21 @@ import {
 } from 'react-google-maps'
 import Geocode from 'react-geocode'
 import Autocomplete from 'react-google-autocomplete'
-import axios from 'axios'
 import { Alert } from 'react-bootstrap'
+import { DEFAULT_MAP_CENTER, AIRTABLE_LINKS } from '../../utils/constants'
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
 Geocode.enableDebug()
 
-const AIRTABLE_LOCATIONS_VIEW =
-  'https://airtable.com/tbleiRmVudM7u9BDE/viwEgRCnV41UaOmIk/'
-
 const SuccessAlert = ({ show, recordId, address, onClose }) => {
-  console.log('show', show)
   return (
     <Alert show={show} variant="success" dismissible onClose={onClose}>
-      <p>{`This location (${address}) has been added to the database. Do you want to assign this location to an artwork?`}</p>
+      <p>{`This location (${address}) has been added to the database.`}</p>
       <p>
         <a
           target="_blank"
           rel="noreferrer noopener"
-          href={`${AIRTABLE_LOCATIONS_VIEW}${recordId}`}>
+          href={`${AIRTABLE_LINKS.locationsTable}${recordId}`}>
           Edit on Airtable
         </a>
       </p>
@@ -48,11 +44,51 @@ const ErrorAlert = ({ show, error, onClose }) => {
     </Alert>
   )
 }
+
 ErrorAlert.propTypes = {
   show: PropTypes.bool,
   error: PropTypes.object,
   onClose: PropTypes.func
 }
+
+const AsyncMap = withScriptjs(
+  withGoogleMap(props => {
+    return (
+      <GoogleMap
+        google={props.google}
+        defaultZoom={props.zoom}
+        center={{
+          lat: props.mapPosition.lat,
+          lng: props.mapPosition.lng
+        }}>
+        <Autocomplete
+          style={{
+            width: '100%',
+            height: '40px',
+            paddingLeft: '16px',
+            marginTop: '2px'
+          }}
+          onPlaceSelected={props.onPlaceSelected}
+          types={['address']}
+          componentRestrictions={{ country: 'ca' }}
+        />
+        {/* Marker */}
+        <Marker
+          google={props.google}
+          name={'Selected location'}
+          draggable={true}
+          onDragEnd={props.onMarkerDragEnd}
+          position={{
+            lat: props.markerPosition.lat,
+            lng: props.markerPosition.lng
+          }}
+        />
+        <Marker />
+        {/* For Auto complete Search Box */}
+      </GoogleMap>
+    )
+  })
+)
 
 class LocationForm extends Component {
   constructor(props) {
@@ -109,26 +145,6 @@ class LocationForm extends Component {
     )
   }
 
-  /**
-   * Component should only update ( meaning re-render ), when the user selects the address, or drags the pin
-   *
-   * @param nextProps
-   * @param nextState
-   * @return {boolean}
-   */
-  // shouldComponentUpdate( nextProps, nextState ){
-  //   if (
-  //     this.state.markerPosition.lat !== this.props.center.lat ||
-  //     this.state.address !== nextState.address ||
-  //     this.state.city !== nextState.city ||
-  //     this.state.area !== nextState.area ||
-  //     this.state.state !== nextState.state
-  //   ) {
-  //     return true
-  //   } else if ( this.props.center.lat === nextProps.center.lat ){
-  //     return false
-  //   }
-  // }
   /**
    * Get the city and set the city input value to the one selected
    *
@@ -278,7 +294,7 @@ class LocationForm extends Component {
     })
   }
 
-  createLocation = e => {
+  createLocation = async e => {
     e.preventDefault()
 
     const locationData = {
@@ -292,185 +308,153 @@ class LocationForm extends Component {
       }
     }
 
-    axios({
-      url: '/api/location',
-      method: 'POST',
-      data: locationData
-    })
-      .then(res => {
-        console.log('res', res)
-        if (res.status === 201) {
-          this.setState({ showSuccessAlert: true, recordId: res.data.recordId })
-        } else {
-          this.setState({ showErrorAlert: true, error: res.data.error })
-        }
+    try {
+      const res = await fetch('/api/location', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(locationData)
       })
-      .catch(err => {
-        console.log(err)
-        this.setState({ showErrorAlert: true, error: err.message })
+      const data = await res.json()
+
+      if (res.status !== 201) {
+        return this.setState({
+          showErrorAlert: true,
+          error: data.error.message
+        })
+      }
+
+      this.setState({
+        showSuccessAlert: true,
+        recordId: data.recordId
       })
+    } catch (err) {
+      this.setState({
+        showErrorAlert: true,
+        error: err.message
+      })
+    }
   }
 
   render() {
-    console.log('this.state.showSuccessAlert', this.state.showSuccessAlert)
-    const AsyncMap = withScriptjs(
-      withGoogleMap(props => (
-        <GoogleMap
-          google={this.props.google}
-          defaultZoom={this.props.zoom}
-          defaultCenter={{
-            lat: this.state.mapPosition.lat,
-            lng: this.state.mapPosition.lng
-          }}>
-          <Autocomplete
-            style={{
-              width: '100%',
-              height: '40px',
-              paddingLeft: '16px',
-              marginTop: '2px'
-            }}
-            onPlaceSelected={this.onPlaceSelected}
-            types={['address']}
-            componentRestrictions={{ country: 'ca' }}
-          />
-          {/* Marker */}
-          <Marker
-            google={this.props.google}
-            name={'Selected location'}
-            draggable={true}
-            onDragEnd={this.onMarkerDragEnd}
-            position={{
-              lat: this.state.markerPosition.lat,
-              lng: this.state.markerPosition.lng
-            }}
-          />
-          <Marker />
-          {/* For Auto complete Search Box */}
-        </GoogleMap>
-      ))
-    )
-    let map
-    if (this.props.center.lat !== undefined) {
-      map = (
-        <div className="mb-3">
-          <AsyncMap
-            googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places`}
-            loadingElement={<div style={{ height: `100%` }} />}
-            containerElement={<div style={{ height: this.props.height }} />}
-            mapElement={<div style={{ height: `100%` }} />}
-          />
-          <form className="mt-5" onSubmit={this.createLocation}>
-            <div className="form-group pt-3">
-              <label htmlFor="">Latitude</label>
-              <input
-                required={true}
-                type="text"
-                name="lat"
-                className="form-control"
-                onChange={this.onChange}
-                readOnly="readOnly"
-                value={this.state.markerPosition.lat}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="">Longitude</label>
-              <input
-                required={true}
-                type="text"
-                name="lng"
-                className="form-control"
-                onChange={this.onChange}
-                readOnly="readOnly"
-                value={this.state.markerPosition.lng}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="">Address</label>
-              <input
-                required={true}
-                type="text"
-                name="address"
-                className="form-control"
-                onChange={this.onChange}
-                readOnly="readOnly"
-                value={this.state.address}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="">Area</label>
-              <input
-                type="text"
-                name="area"
-                className="form-control"
-                onChange={this.onChange}
-                readOnly="readOnly"
-                value={this.state.area}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="">Ward</label>
-              <input
-                type="text"
-                name="ward"
-                className="form-control"
-                onChange={this.onChange}
-                value={this.state.ward}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="">Intersection</label>
-              <input
-                type="text"
-                name="intersection"
-                className="form-control"
-                onChange={this.onChange}
-                value={this.state.intersection}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="">Property description</label>
-              <input
-                type="text"
-                name="propertyDescription"
-                className="form-control"
-                onChange={this.onChange}
-                value={this.state.propertyDescription}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="">Comments</label>
-              <input
-                type="text"
-                name="comments"
-                className="form-control"
-                onChange={this.onChange}
-                value={this.state.comments}
-              />
-            </div>
-
-            <div className="mt-5">
-              <input
-                type="submit"
-                className="btn btn-primary"
-                value="Create location"
-              />
-            </div>
-          </form>
-        </div>
-      )
-    } else {
-      map = <div style={{ height: this.props.height }} />
-    }
     return (
-      <div>
-        {map}
+      <div className="">
+        <AsyncMap
+          googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places`}
+          loadingElement={<div style={{ height: `100%` }} />}
+          containerElement={<div style={{ height: this.props.height }} />}
+          mapElement={<div style={{ height: `100%` }} />}
+          zoom={this.props.zoom}
+          mapPosition={this.state.mapPosition}
+          markerPosition={this.state.markerPosition}
+          onPlaceSelected={this.onPlaceSelected}
+          onMarkerDragEnd={this.onMarkerDragEnd}
+        />
+        <form className="mt-5 mb-3" onSubmit={this.createLocation}>
+          <div className="form-group pt-3">
+            <label htmlFor="">Latitude</label>
+            <input
+              required={true}
+              type="text"
+              name="lat"
+              className="form-control"
+              onChange={this.onChange}
+              readOnly="readOnly"
+              value={this.state.markerPosition.lat}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="">Longitude</label>
+            <input
+              required={true}
+              type="text"
+              name="lng"
+              className="form-control"
+              onChange={this.onChange}
+              readOnly="readOnly"
+              value={this.state.markerPosition.lng}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="">Address</label>
+            <input
+              required={true}
+              type="text"
+              name="address"
+              className="form-control"
+              onChange={this.onChange}
+              readOnly="readOnly"
+              value={this.state.address}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="">Area</label>
+            <input
+              type="text"
+              name="area"
+              className="form-control"
+              onChange={this.onChange}
+              readOnly="readOnly"
+              value={this.state.area}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="">Ward</label>
+            <input
+              type="text"
+              name="ward"
+              className="form-control"
+              onChange={this.onChange}
+              value={this.state.ward}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="">Intersection</label>
+            <input
+              type="text"
+              name="intersection"
+              className="form-control"
+              onChange={this.onChange}
+              value={this.state.intersection}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="">Property description</label>
+            <input
+              type="text"
+              name="propertyDescription"
+              className="form-control"
+              onChange={this.onChange}
+              value={this.state.propertyDescription}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="">Comments</label>
+            <input
+              type="text"
+              name="comments"
+              className="form-control"
+              onChange={this.onChange}
+              value={this.state.comments}
+            />
+          </div>
+
+          <div className="mt-4">
+            <input
+              type="submit"
+              className="btn btn-primary"
+              value="Create location"
+            />
+          </div>
+        </form>
         <SuccessAlert
           show={this.state.showSuccessAlert}
           address={this.state.address}
@@ -494,6 +478,10 @@ LocationForm.propTypes = {
   google: PropTypes.string,
   zoom: PropTypes.number,
   height: PropTypes.string
+}
+
+LocationForm.defaultProps = {
+  center: DEFAULT_MAP_CENTER
 }
 
 export default LocationForm
