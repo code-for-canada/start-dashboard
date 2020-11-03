@@ -10,10 +10,12 @@ const numCPUs = require('os').cpus().length;
 const jwt = require('express-jwt');
 const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require('jwks-rsa');
-
+const auth0 = require('auth0');
 
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 3000;
+
+var AuthenticationClient = require('auth0').AuthenticationClient;
 
 const checkJwt = jwt({
   // Dynamically provide a signing key
@@ -61,7 +63,7 @@ if (!isDev && cluster.isMaster) {
   // Answer API requests.
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
-  app.all('/api/location', handleLocations)
+  app.all('/api/location', checkJwt, handleLocations)
   app.all('/api/artist', checkJwt, handleArtist)
   app.all('/api/forms', handleForms)
 

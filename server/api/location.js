@@ -1,5 +1,5 @@
 const { locationsTable } = require('./utils/Airtable')
-const { methodNotImplemented } = require('./common')
+const { methodNotImplemented, checkScopes } = require('./common')
 
 const createLocation = (req, res) => {
   const location = req.body
@@ -26,7 +26,8 @@ const createLocation = (req, res) => {
 module.exports = (req, res) => {
   switch (req.method) {
     case 'POST':
-      createLocation(req, res)
+      const scopes = [ 'is:staff' ]
+      checkScopes(req, res, createLocation, scopes)
       break
     case 'GET':
       res.send('hello')

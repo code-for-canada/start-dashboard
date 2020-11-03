@@ -19,8 +19,7 @@ const Profile = () => {
     const getArtist = async () => {
       try {
         const token = await getAccessTokenSilently({
-          audience: 'https://dashboard.streetartoronto.ca/',
-          scope: 'read:artist',
+          audience: 'https://dashboard.streetartoronto.ca/'
         });
 
         const res = await fetch(
