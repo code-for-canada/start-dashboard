@@ -72,10 +72,11 @@ WelcomeMessage.propTypes = {
   artist: PropTypes.object
 }
 
-const ArtistProfile = ({ artist }) => {
+const ArtistProfile = ({ artist, user }) => {
   const profileHash = useLocation().hash
   const hasProfile = artist
   const isOwnProfile = artist?.view_url.includes(profileHash)
+  const isEmailVerified = user && user.email_verified
 
   if (hasProfile) {
     return (
@@ -110,16 +111,23 @@ const ArtistProfile = ({ artist }) => {
           We may contact you about upcoming opportunities that fit your profile.
         </li>
       </ul>
-      <Link to={`/profile/edit`} className="btn btn-primary">
-        Create your profile
-      </Link>
+      {
+        isEmailVerified ? (
+          <Link to={`/profile/edit`} className="btn btn-primary">
+            Create your profile
+          </Link>
+        ) : (
+          <p>You must verify your email before you can create a profile.</p>
+        )
+      }
     </React.Fragment>
   )
 }
 
 ArtistProfile.propTypes = {
   artist: PropTypes.object,
-  profileHash: PropTypes.string
+  profileHash: PropTypes.string,
+  user: PropTypes.object
 }
 
 const FormsList = () => {
@@ -187,21 +195,38 @@ const FormsList = () => {
 }
 
 const ArtistView = () => {
-  const { user } = useAuth0()
+  const { user, getAccessTokenSilently } = useAuth0()
   const location = useLocation()
   const history = useHistory()
   const [artist, setArtist] = useState(null)
   const [isLoading, setLoading] = useState(true)
 
+  // fetch the artist profile for the authed user
   useEffect(() => {
     const abortController = new AbortController()
     const getArtist = async () => {
       try {
+        const token = await getAccessTokenSilently({
+          audience: 'https://dashboard.streetartoronto.ca/',
+        });
+
         const res = await fetch(
           `/api/artist?email=${encodeURIComponent(user.email)}`,
-          { signal: abortController.signal }
+          {
+            signal: abortController.signal,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+          }
         )
+
         const data = await res.json()
+
+        if (data.error) {
+          console.log(data.error)
+          return setLoading(false)
+        }
+
         if (data.records.length > 0) {
           const artistRecord = data.records[0]
           setArtist({ ...artistRecord.fields, id: artistRecord.id })
@@ -209,9 +234,9 @@ const ArtistView = () => {
         setLoading(false)
       } catch (err) {
         if (abortController.signal.aborted) {
-          console.log('Request to fetch Submittable forms was aborted')
+          console.log('Request to fetch artist was aborted')
         } else {
-          console.log('Error fetching Submittable forms', err)
+          console.log('Error fetching artist', err)
           setLoading(false)
         }
       }
@@ -222,7 +247,7 @@ const ArtistView = () => {
     return () => {
       abortController.abort()
     }
-  }, [user])
+  }, [user, getAccessTokenSilently])
 
   // add profile hash if artist has profile
   useEffect(() => {
@@ -249,7 +274,7 @@ const ArtistView = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <Block>
-            <ArtistProfile artist={artist} />
+            <ArtistProfile artist={artist} user={user} />
           </Block>
         </Grid>
         <Grid item xs={12} md={6}>

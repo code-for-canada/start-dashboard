@@ -7,7 +7,7 @@ import useRole from '../components/dashboard/useRole'
 import { ProfileView, ProfileEdit } from '.'
 
 const Profile = () => {
-  const { user } = useAuth0()
+  const { user, getAccessTokenSilently } = useAuth0()
   const [artist, setArtist] = useState(null)
   const [isLoading, setLoading] = useState(true)
   const { action = 'view' } = useParams()
@@ -18,10 +18,20 @@ const Profile = () => {
     const abortController = new AbortController()
     const getArtist = async () => {
       try {
+        const token = await getAccessTokenSilently({
+          audience: 'https://dashboard.streetartoronto.ca/'
+        });
+
         const res = await fetch(
           `/api/artist?email=${encodeURIComponent(user.email)}`,
-          { signal: abortController.signal }
+          {
+            signal: abortController.signal,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+          }
         )
+
         const data = await res.json()
         if (data.records.length > 0) {
           const artistRecord = data.records[0]
@@ -30,9 +40,9 @@ const Profile = () => {
         setLoading(false)
       } catch (err) {
         if (abortController.signal.aborted) {
-          console.log('Request to fetch Submittable forms was aborted')
+          console.log('Request to fetch artist was aborted')
         } else {
-          console.log('Error fetching Submittable forms', err)
+          console.log('Error fetching artist', err)
           setLoading(false)
         }
       }
@@ -43,7 +53,7 @@ const Profile = () => {
     return () => {
       abortController.abort()
     }
-  }, [user])
+  }, [user, getAccessTokenSilently])
 
   if (isLoading || isLoadingRole) {
     return <Loading />

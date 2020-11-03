@@ -1,8 +1,9 @@
 const { artistsTable } = require('./utils/Airtable')
-const { methodNotImplemented } = require('./common')
+const { methodNotImplemented, checkScopes } = require('./common')
 
 const getArtist = (req, res) => {
   const userEmail = req.query.email;
+
   artistsTable
     .select({ filterByFormula: `{email} = '${userEmail}'` })
     .firstPage((err, records) => {
@@ -17,7 +18,8 @@ const getArtist = (req, res) => {
 module.exports = (req, res) => {
   switch (req.method) {
     case 'GET':
-      getArtist(req, res)
+      const scopes = [ 'is:staff', 'is:artist' ]
+      checkScopes(req, res, getArtist, scopes)
       break
     default:
       methodNotImplemented(req, res)

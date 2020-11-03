@@ -6,6 +6,9 @@ const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 const cors = require('cors')
+const jwt = require('express-jwt');
+const jwtAuthz = require('express-jwt-authz');
+const jwksRsa = require('jwks-rsa');
 
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 3000;
@@ -14,6 +17,24 @@ const emailCors = {
   origin: '*',
   optionsSuccessStatus: 200
 }
+
+const checkJwt = jwt({
+  // Dynamically provide a signing key
+  // based on the kid in the header and
+  // the signing keys provided by the JWKS endpoint.
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: `https://start-dashboard.us.auth0.com/.well-known/jwks.json`
+  }),
+
+  // Validate the audience and the issuer.
+  audience: 'https://dashboard.streetartoronto.ca/',
+  issuer: `https://start-dashboard.us.auth0.com/`,
+  algorithms: ['RS256']
+});
+
 
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
@@ -43,8 +64,8 @@ if (!isDev && cluster.isMaster) {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
 
-  app.all('/api/location', handleLocations)
-  app.all('/api/artist', handleArtist)
+  app.all('/api/location', checkJwt, handleLocations)
+  app.all('/api/artist', checkJwt, handleArtist)
   app.all('/api/forms', handleForms)
   app.all('/api/email-templates', cors(emailCors), handleEmailTemplates)
 
