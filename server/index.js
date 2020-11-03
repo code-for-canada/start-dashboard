@@ -3,18 +3,14 @@ require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser')
 const path = require('path');
-const fs = require('fs');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 const jwt = require('express-jwt');
 const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require('jwks-rsa');
-const auth0 = require('auth0');
 
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 3000;
-
-var AuthenticationClient = require('auth0').AuthenticationClient;
 
 const checkJwt = jwt({
   // Dynamically provide a signing key
