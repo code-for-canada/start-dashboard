@@ -28,7 +28,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "react-syntax-highlighter": "^12.2.1",
-    "startto-map": "^0.1.7"
+    "startto-map": "code-for-canada/start-map#master"
   },
   "scripts": {
     "setup": "cp -n sample.env .env || echo .env file already exists. Skipping...",
