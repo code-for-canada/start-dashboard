@@ -1,8 +1,12 @@
 const { artistsTable } = require('./utils/Airtable')
 const { methodNotImplemented } = require('./common')
+const jwtAuthz = require('express-jwt-authz');
 
 const getArtist = (req, res) => {
   const userEmail = req.query.email;
+  const permissions = req.user.permissions
+  console.log("permissions", permissions)
+
   artistsTable
     .select({ filterByFormula: `{email} = '${userEmail}'` })
     .firstPage((err, records) => {
@@ -17,7 +21,8 @@ const getArtist = (req, res) => {
 module.exports = (req, res) => {
   switch (req.method) {
     case 'GET':
-      getArtist(req, res)
+      const checkScopes = jwtAuthz([ 'is:staff', 'is:artist' ], {customScopeKey: 'permissions'});
+      checkScopes(req, res, () => getArtist(req,res))
       break
     default:
       methodNotImplemented(req, res)
