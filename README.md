@@ -55,6 +55,8 @@ npm run lint
 
 We keep a hosted component library here: https://add-storybook--5f9b7272e5c4a70022388106.chromatic.com
 
+Run these commands from within `react-ui/`.
+
 Run it locally with:
 
 ```bash
