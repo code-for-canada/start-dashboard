@@ -220,6 +220,12 @@ const ArtistView = () => {
         )
 
         const data = await res.json()
+
+        if (data.error) {
+          console.log(data.error)
+          return setLoading(false)
+        }
+
         if (data.records.length > 0) {
           const artistRecord = data.records[0]
           setArtist({ ...artistRecord.fields, id: artistRecord.id })
