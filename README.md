@@ -27,7 +27,7 @@ npm run setup
 open .env
 ```
 
-See `docs/development.md` for instructions on creating credentials.
+See `docs/development.md` for instructions on creating credentials and setting up a secure local domain.
 
 Run the project for local development (with hot reloading):
 
@@ -35,7 +35,7 @@ Run the project for local development (with hot reloading):
 npm run start:dev
 ```
 
-Visit at http://localhost:3000
+Visit at https://start-dashboard:3000
 
 Run the project for production-like build:
 
@@ -43,7 +43,7 @@ Run the project for production-like build:
 npm run start:prod
 ```
 
-Visit at http://localhost:3000
+Visit at https://start-dashboard:3000
 
 To run linting style checks:
 
