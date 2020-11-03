@@ -17,7 +17,9 @@ jobs:
           shopt -s dotglob
           git mv react-ui/* ./ -fk
 
-      - run: npm install
+      - run: |
+          npm install
+          npm run prebuild
 
       - uses: chromaui/action@v1
         # options required to the GitHub chromatic action
