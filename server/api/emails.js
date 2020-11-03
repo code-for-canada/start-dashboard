@@ -1,5 +1,5 @@
 const mailjet = require('./utils/Mailjet')
-const { methodNotImplemented } = require('./common')
+const { methodNotImplemented, checkScopes } = require('./common')
 
 const getTemplates = (req, res) => {
   const request = mailjet
@@ -69,10 +69,10 @@ const sendTemplateEmail = (req, res) => {
 module.exports = (req, res) => {
   switch (req.method) {
     case 'GET':
-      getTemplates(req, res)
+      checkScopes(req, res, getTemplates, ['is:staff'])
       break
     case 'POST':
-      sendTemplateEmail(req, res)
+      checkScopes(req, res, sendTemplateEmail, ['is:staff'])
       break
     default:
       methodNotImplemented(req, res)

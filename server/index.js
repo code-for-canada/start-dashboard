@@ -66,8 +66,8 @@ if (!isDev && cluster.isMaster) {
 
   app.all('/api/location', checkJwt, handleLocations)
   app.all('/api/artist', checkJwt, handleArtist)
-  app.all('/api/forms', handleForms)
-  app.all('/api/email-templates', cors(emailCors), handleEmailTemplates)
+  app.all('/api/forms', checkJwt, handleForms)
+  app.all('/api/email-templates', cors(emailCors), checkJwt, handleEmailTemplates)
 
   // Only in production is the server the main entry point,
   // so only then serve built static files from filesystem.
