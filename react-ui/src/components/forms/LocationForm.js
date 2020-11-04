@@ -9,7 +9,9 @@ import {
 import Geocode from 'react-geocode'
 import Autocomplete from 'react-google-autocomplete'
 import { Alert } from 'react-bootstrap'
+import { withAuth0 } from '@auth0/auth0-react'
 import { DEFAULT_MAP_CENTER, AIRTABLE_LINKS } from '../../utils/constants'
+import { createResource } from '../../utils/ApiHelper'
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
 Geocode.enableDebug()
@@ -308,33 +310,31 @@ class LocationForm extends Component {
       }
     }
 
-    try {
-      const res = await fetch('/api/location', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(locationData)
-      })
-      const data = await res.json()
+    const { getAccessTokenSilently } = this.props.auth0
+    const token = await getAccessTokenSilently({
+      audience: 'https://dashboard.streetartoronto.ca/',
+    });
 
-      if (res.status !== 201) {
-        return this.setState({
-          showErrorAlert: true,
-          error: data.error.message
-        })
-      }
+    const opts = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(locationData)
+    }
+    const data = await createResource({ resource: 'location', opts })
 
-      this.setState({
-        showSuccessAlert: true,
-        recordId: data.recordId
-      })
-    } catch (err) {
-      this.setState({
+    if (data.error) {
+      return this.setState({
         showErrorAlert: true,
-        error: err.message
+        error: data.error
       })
     }
+
+    this.setState({
+      showSuccessAlert: true,
+      recordId: data.recordId
+    })
   }
 
   render() {
@@ -484,4 +484,4 @@ LocationForm.defaultProps = {
   center: DEFAULT_MAP_CENTER
 }
 
-export default LocationForm
+export default withAuth0(LocationForm)

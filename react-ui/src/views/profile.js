@@ -5,6 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { Loading } from '../components'
 import useRole from '../components/dashboard/useRole'
 import { ProfileView, ProfileEdit } from '.'
+import { getArtistByEmail } from '../utils/ApiHelper'
 
 const Profile = () => {
   const { user, getAccessTokenSilently } = useAuth0()
@@ -19,20 +20,21 @@ const Profile = () => {
     const getArtist = async () => {
       try {
         const token = await getAccessTokenSilently({
-          audience: 'https://dashboard.streetartoronto.ca/'
+          audience: 'https://dashboard.streetartoronto.ca/',
         });
-
-        const res = await fetch(
-          `/api/artist?email=${encodeURIComponent(user.email)}`,
-          {
-            signal: abortController.signal,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            }
+        const opts = {
+          signal: abortController.signal,
+          headers: {
+            Authorization: `Bearer ${token}`,
           }
-        )
+        }
+        const data = await getArtistByEmail({ email: user.email, opts })
 
-        const data = await res.json()
+        if (data.error) {
+          console.log(data.error)
+          return setLoading(false)
+        }
+
         if (data.records.length > 0) {
           const artistRecord = data.records[0]
           setArtist({ ...artistRecord.fields, id: artistRecord.id })

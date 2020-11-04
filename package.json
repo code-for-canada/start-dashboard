@@ -6,9 +6,13 @@
     "node": "14.x"
   },
   "scripts": {
-    "setup": "cp -n sample.env .env || echo .env file already exists. Skipping...",
+    "setup:hosts": "sudo -- sh -c \"echo '127.0.0.1 start-dashboard' >> /etc/hosts\"",
+    "setup:cert": "mkdir dev && openssl req -nodes -new -x509 -keyout dev/server.key -out dev/server.cert -subj '/CN=start-dashboard'",
+    "setup:env": "cp -n sample.env .env || echo .env file already exists. Skipping...",
+    "setup": "npm run setup:env && npm run setup:cert && npm run setup:hosts",
     "start": "node server",
     "build": "cd react-ui/ && npm install && npm run build",
+    "lint": "cd react-ui/ && npm run lint",
     "start:ui": "cd react-ui && npm run start",
     "start:server": "nodemon server",
     "start:dev": "concurrently --kill-others-on-fail 'npm run start:ui' 'PORT=8080 npm run start:server'",
