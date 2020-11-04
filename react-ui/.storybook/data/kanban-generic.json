@@ -17,10 +17,7 @@
           "id": "Milk",
           "title": "Buy milk",
           "label": "15 mins",
-          "metadata": {
-            "foo": "bar"
-          },
-          "description": "This card has metadata!"
+          "description": "Pick it up at the store"
         },
         {
           "id": "Plan2",
