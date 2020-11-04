@@ -1,0 +1,28 @@
+# name of our action
+name: 'Push StorybookJS to Chromatic'
+# the event that will trigger the action
+on: push
+
+# what the action will do
+jobs:
+  build-push:
+    # the operating system it will run on
+    runs-on: ubuntu-latest
+    # the list of steps that the action will go through
+    steps:
+      - uses: actions/checkout@v2
+
+      # Move all react files to root (including hidden dotfiles)
+      - run: |
+          shopt -s dotglob
+          git mv react-ui/* ./ -fk
+
+      - run: |
+          npm install
+          npm run prebuild
+
+      - uses: chromaui/action@v1
+        # options required to the GitHub chromatic action
+        with:
+          projectToken: fe45j91f9zd
+          token: ${{ secrets.GITHUB_TOKEN }}
