@@ -24,6 +24,8 @@ const sendTemplateEmail = (req, res) => {
   const { records, template } = req.body
   const messages = records.map(record => {
     const email = record.email
+    if (!email) return
+
     const name = record.first_name
     const recordKeys = Object.keys(record)
     let variables = record
@@ -32,7 +34,6 @@ const sendTemplateEmail = (req, res) => {
         delete variables[key]
       }
     })
-    if (!email) return
 
     return {
       From: {

@@ -117,6 +117,8 @@ function SendTemplateEmail() {
     const queryResult = selectedView.selectRecords()
     await queryResult.loadDataAsync();
     const fields = selectedTable.fields
+    // include all the fields from the table so they can be sent
+    // to Mailjet as template variables
     const records = queryResult.records.map(r => {
       return fields.reduce((obj, field) => {
         obj[field.name] = r.getCellValue(field.name)
