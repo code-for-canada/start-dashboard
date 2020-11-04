@@ -76,8 +76,7 @@ Open `/etc/hosts` and add the line
 
 In the root directory, generate a self-signed certificate
 ```
-openssl req -nodes -new -x509 -keyout server.key -out server.cert
+openssl req -nodes -new -x509 -keyout server.key -out server.cert -subj '/CN=start-dashboard'
 ```
 
-When it asks for 'Common Name (e.g. server FQDN or YOUR name)' enter `start-dashboard`.
 

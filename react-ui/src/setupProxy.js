@@ -7,7 +7,7 @@ module.exports = function (app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'http://localhost:8080',
+      target: 'https://start-dashboard:8080',
       changeOrigin: true
     })
   )

@@ -11,7 +11,7 @@ const createLocation = (req, res) => {
         console.error(err);
         return res.
           status(500)
-          .send({ error: err })
+          .send({ error: err.message })
       }
       records.forEach(function (record) {
         console.log(record.getId());
