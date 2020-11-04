@@ -7,6 +7,7 @@ import { COGNITO_FORMS_IDS } from '../../utils/constants'
 import { Block, BlockTitle } from './Block'
 import EmbeddedCognitoForm from '../forms/EmbeddedCognitoForm'
 import Loading from '../loading'
+import { getArtistByEmail, getResource } from '../../utils/ApiHelper'
 
 const ProfileURL = ({ url }) => {
   const [copied, setCopied] = useState(false)
@@ -126,7 +127,6 @@ const ArtistProfile = ({ artist, user }) => {
 
 ArtistProfile.propTypes = {
   artist: PropTypes.object,
-  profileHash: PropTypes.string,
   user: PropTypes.object
 }
 
@@ -135,18 +135,16 @@ const FormsList = () => {
   useEffect(() => {
     const abortController = new AbortController()
 
-    const getSubmittableForms = async () => {
+    const getForms = async () => {
       try {
-        const res = await fetch(`/api/forms`, {
-          signal: abortController.signal
-        })
-        const data = await res.json()
+        const opts = { signal: abortController.signal }
+        const data = await getResource({ resource: 'forms', opts })
 
         if (data.error) {
           return console.log(data.error)
         }
 
-        const activeForms = data?.items?.filter(i => {
+        const activeForms = data.items?.filter(i => {
           const today = new Date()
           const isStarted = i.start_date
             ? new Date(i.start_date) <= today
@@ -170,7 +168,7 @@ const FormsList = () => {
       }
     }
 
-    getSubmittableForms()
+    getForms()
 
     return () => {
       abortController.abort()
@@ -209,18 +207,13 @@ const ArtistView = () => {
         const token = await getAccessTokenSilently({
           audience: 'https://dashboard.streetartoronto.ca/',
         });
-
-        const res = await fetch(
-          `/api/artist?email=${encodeURIComponent(user.email)}`,
-          {
-            signal: abortController.signal,
-            headers: {
-              Authorization: `Bearer ${token}`,
-            }
+        const opts = {
+          signal: abortController.signal,
+          headers: {
+            Authorization: `Bearer ${token}`,
           }
-        )
-
-        const data = await res.json()
+        }
+        const data = await getArtistByEmail({ email: user.email, opts })
 
         if (data.error) {
           console.log(data.error)

@@ -69,6 +69,8 @@ More info:
 - https://community.auth0.com/t/how-to-gettokensilently-without-consent-on-localhost/39183/2
 - https://auth0.com/docs/authorization/user-consent-and-third-party-applications?&_ga=2.103547520.1065555486.1604253085-942398156.1598382215#skip-consent-for-first-party-applications
 
+Run `npm run setup` to run a script that does this for you or follow these steps to do it manually:
+
 Open `/etc/hosts` and add the line
 ```
 127.0.0.1 start-dashboard
@@ -76,8 +78,6 @@ Open `/etc/hosts` and add the line
 
 In the root directory, generate a self-signed certificate
 ```
-openssl req -nodes -new -x509 -keyout server.key -out server.cert
+openssl req -nodes -new -x509 -keyout server.key -out server.cert -subj '/CN=start-dashboard'
 ```
-
-When it asks for 'Common Name (e.g. server FQDN or YOUR name)' enter `start-dashboard`.
 

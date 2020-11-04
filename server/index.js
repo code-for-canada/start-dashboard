@@ -5,7 +5,10 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
+<<<<<<< HEAD
 const cors = require('cors')
+=======
+>>>>>>> secure-api
 const jwt = require('express-jwt');
 const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require('jwks-rsa');
@@ -13,11 +16,14 @@ const jwksRsa = require('jwks-rsa');
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 3000;
 
+<<<<<<< HEAD
 const emailCors = {
   origin: '*',
   optionsSuccessStatus: 200
 }
 
+=======
+>>>>>>> secure-api
 const checkJwt = jwt({
   // Dynamically provide a signing key
   // based on the kid in the header and
@@ -35,7 +41,10 @@ const checkJwt = jwt({
   algorithms: ['RS256']
 });
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> secure-api
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
   console.error(`Node cluster master ${process.pid} is running`);
@@ -63,11 +72,17 @@ if (!isDev && cluster.isMaster) {
   // Answer API requests.
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
+<<<<<<< HEAD
 
   app.all('/api/location', checkJwt, handleLocations)
   app.all('/api/artist', checkJwt, handleArtist)
   app.all('/api/forms', checkJwt, handleForms)
   app.all('/api/email-templates', cors(emailCors), checkJwt, handleEmailTemplates)
+=======
+  app.all('/api/location', checkJwt, handleLocations)
+  app.all('/api/artist', checkJwt, handleArtist)
+  app.all('/api/forms', handleForms)
+>>>>>>> secure-api
 
   // Only in production is the server the main entry point,
   // so only then serve built static files from filesystem.

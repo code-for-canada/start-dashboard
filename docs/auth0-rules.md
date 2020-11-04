@@ -7,7 +7,26 @@ Documented here for transparency
 ```
 function addRoleFromAirtable(user, context, callback) {
   const Airtable = require('airtable@0.4.3');
+  const ManagementClient = require('auth0@2.17.0').ManagementClient;
+  const ManagementTokenProvider = require('auth0@2.17.0').ManagementTokenProvider;
 
+  const ROLE_IDS = {
+    'StART Staff': 'rol_h2aH436QWStWk7Oj',
+    'Advisory Committee': 'rol_auFaVd6qf3rkVake',
+    'Curator': 'rol_IrDonW0nV3VCYizi',
+    'Artist': 'rol_sjT5Nx0xNb3fRyvu'
+  };
+
+  const management = new ManagementClient({
+    domain: auth0.domain,
+    clientId: configuration.START_DASHBOARD_CLIENT_ID,
+    clientSecret: configuration.START_DASHBOARD_CLIENT_SECRET,
+    scope: "read:users update:users read:roles update:roles delete:roles",
+    tokenProvider: {
+     enableCache: true,
+     cacheTTLInSeconds: 10
+   }
+  });
   // Ensure user is verified
   if (!user.email || !user.email_verified) {
     return callback(null, user, context);
@@ -21,7 +40,65 @@ function addRoleFromAirtable(user, context, callback) {
     context.idToken['https://streetartoronto.ca/programs'] = record.programs;
     context.idToken['https://streetartoronto.ca/program_names'] = record.program_names;
 
-    callback(null, user, context);
+    const roleId = ROLE_IDS[record.role] || ROLE_IDS.Artist;
+    console.log("getting user roles");
+    management.getUserRoles(
+      { id: user.user_id },
+      (err, data) => {
+        if (err) {
+          console.log("Error getting user roles: " + err);
+          return callback(err);
+        }
+
+        const currentRoleId = data.length > 0 ? data[0].id : null;
+
+        // user has no Auth0 role, assign the Artist role from Airtable
+        if (!currentRoleId) {
+          return management.assignRolestoUser(
+            { id : user.user_id},
+            { "roles" : [roleId]},
+            (err) => {
+              if (err) {
+                console.log('Error assigning role: ' + err);
+                return callback(err);
+              }
+              return callback(null, user, context);
+            }
+          );
+        }
+
+        // user has an Auth0 role but the role on Airtable has changed
+        if (roleId !== currentRoleId) {
+          console.log("removing role from user");
+          management.removeRolesFromUser(
+            { id: user.user_id },
+            { roles: data.map(r => r.id) },
+            (err, data) => {
+              if (err) {
+                console.log("Error removing roles: " + err);
+                return callback(err);
+              }
+
+              console.log("Assigning new role to user: " + record.role);
+              management.assignRolestoUser(
+                { id : user.user_id},
+                { "roles" : [roleId]},
+                (err) => {
+                  if (err) {
+                    console.log('Error assigning role: ' + err);
+                    return callback(err);
+                  }
+                  callback(null, user, context);
+                }
+              );
+            }
+          );
+        } else {
+          // user already has the correct Auth0 role
+          console.log("user already has the correct role assigned");
+          callback(null, user, context);
+        }
+    });
   });
 
   // Select user by email and get roles and programs
@@ -56,6 +133,11 @@ function addRoleFromAirtable(user, context, callback) {
 ```
 function (user, context, callback) {
    if (user.email_verified) {
+     return callback(null, user, context);
+   }
+
+   const loginCount = context.stats && context.stats.loginsCount ? context.stats.loginsCount : 0;
+   if (loginCount <= 1) {
      return callback(null, user, context);
    }
 

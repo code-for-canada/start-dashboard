@@ -702,7 +702,7 @@ MigrationBackup/
 
 # Project-specific files
 .env
-/build
+react-ui/build
 .idea/
-*.cert
-*.key
+**/*.cert
+**/*.key
