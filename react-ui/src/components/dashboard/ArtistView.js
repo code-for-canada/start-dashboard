@@ -118,7 +118,7 @@ const ArtistProfile = ({ artist, user }) => {
             Create your profile
           </Link>
         ) : (
-          <p>You must verify your email before you can create a profile.</p>
+          <p>You must verify your email before you can access your artist profile.</p>
         )
       }
     </React.Fragment>
