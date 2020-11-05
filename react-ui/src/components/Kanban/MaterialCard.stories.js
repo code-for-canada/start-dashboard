@@ -26,3 +26,27 @@ export const Default = Template.bind({})
 Default.args = {
   ...artworkData
 }
+
+export const TitleOverflow = Template.bind({})
+TitleOverflow.args = {
+  ...Default.args,
+  title: 'Lorem Ipsum Delore blah blah'
+}
+
+export const MissingImage = Template.bind({})
+MissingImage.args = {
+  ...Default.args,
+  media: null
+}
+
+export const AlternativeProgram = Template.bind({})
+AlternativeProgram.args = {
+  ...Default.args,
+  program: "StART Support"
+}
+
+export const TypoedProgram = Template.bind({})
+TypoedProgram.args = {
+  ...Default.args,
+  program: "StART Supports"
+}

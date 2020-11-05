@@ -8,14 +8,16 @@ const COLOR_OTHER = '#cfb51c'
 
 const ProgramChip = props => {
   const labelColors = {
-    'Partnership Program': COLOR_PARTNERSHIP,
-    'Outside the Box': COLOR_OUTSIDE_BOX,
-    'StART Support': COLOR_START_SUPPORT,
-    'Other': COLOR_OTHER
+    'partnership program': COLOR_PARTNERSHIP,
+    'outside the box': COLOR_OUTSIDE_BOX,
+    'start support': COLOR_START_SUPPORT,
+    'other': COLOR_OTHER
   }
 
-  const style = {
-    backgroundColor: labelColors[props.label],
+  const lookupKey = props.label.toLowerCase()
+
+  const labelStyle = {
+    backgroundColor: labelColors[lookupKey],
     color: '#ffffff'
   }
 
@@ -23,7 +25,7 @@ const ProgramChip = props => {
     <Chip
       {...props}
       size="small"
-      style={labelColors[props.label] && style}
+      style={labelColors[lookupKey] && labelStyle}
     />
   )
 }
