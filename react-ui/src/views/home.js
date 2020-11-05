@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container } from 'react-bootstrap'
+import { useAuth0 } from '@auth0/auth0-react'
+
 import LoginButton from '../components/login-button'
 
 import blob1 from '../assets/images/blob1.svg'
@@ -10,6 +12,7 @@ const defaultImg =
 
 const Home = () => {
   const [image, setImage] = useState()
+  const { loginWithRedirect } = useAuth0()
   useEffect(() => {
     if (!image) {
       fetch(
@@ -81,7 +84,7 @@ const Home = () => {
           </div>
           <div className="content p-5" style={styles.content}>
             <h1 className="mb-5">StART Digital</h1>
-            <LoginButton />
+            <LoginButton handleLogin={loginWithRedirect} />
           </div>
         </div>
       </Container>
