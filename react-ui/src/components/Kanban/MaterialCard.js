@@ -10,6 +10,7 @@ import {
   Typography
 } from '@material-ui/core'
 import ProgramChip from './ProgramChip'
+import placeholder from 'assets/images/placeholder.png'
 
 // const BASE_ID = 'tbl5ApSEOzPpe4fwp'
 // const TABLE_ID = 'viw2swQLeJ9xwU82F'
@@ -29,10 +30,12 @@ const useStyles = makeStyles({
 const MaterialCard = props => {
   const classes = useStyles()
 
+  const image = props.media ? props.media : placeholder
+
   return (
     <Card className={classes.root}>
       <CardActionArea onClick={props.onClick}>
-        {props.media && <CardMedia className={classes.media} image={props.media} />}
+        <CardMedia className={classes.media} image={image} />
         <CardContent>
           <Typography gutterBottom variant="h6" component="h2">
             {props.title}
@@ -43,6 +46,9 @@ const MaterialCard = props => {
             color="textSecondary"
             component="p"
             style={{
+              // Allow multiline
+              whiteSpace: 'pre-wrap',
+              // Max 3 line before ellipses
               textOverflow: 'ellipsis',
               display: '-webkit-box',
               WebkitLineClamp: '3',

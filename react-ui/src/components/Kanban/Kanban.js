@@ -2,15 +2,15 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Board from 'react-trello'
 import MaterialCard from './MaterialCard'
-import { Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@material-ui/core'
+import { Button, Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@material-ui/core'
 import Slide from '@material-ui/core/Slide'
-import { Button } from 'react-bootstrap'
+import OpenInNewIcon from '@material-ui/icons/OpenInNew'
 
 const DialogTransition = React.forwardRef(function DialogTransition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />
 })
 
-const Kanban = ({ data = {}, onCardClick, onDataChange, onDragEnd }) => {
+const Kanban = ({ data = {}, onCardClick, onDataChange, onDragEnd, airtableViewUrl }) => {
   const [ showCard, setShowCard ] = useState(false)
   const [ activeCard, setActiveCard ] = useState({})
 
@@ -45,14 +45,23 @@ const Kanban = ({ data = {}, onCardClick, onDataChange, onDragEnd }) => {
       >
         <DialogTitle>{activeCard.title}</DialogTitle>
         <DialogContent dividers>
-          <DialogContentText>
-            <pre>
-              {JSON.stringify(activeCard, null, 2)}
-            </pre>
+          <DialogContentText component="pre">
+            {JSON.stringify(activeCard, null, 2)}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">Close</Button>
+          {
+            airtableViewUrl
+              ? <Button
+                  href={`${airtableViewUrl}/${activeCard.id}`}
+                  target="_blank"
+                  startIcon={<OpenInNewIcon />}
+                >
+                  Edit
+                </Button>
+              : null
+          }
+          <Button onClick={handleClose} color="primary" variant="contained">Close</Button>
         </DialogActions>
       </Dialog>
     </>

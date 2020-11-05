@@ -25,5 +25,6 @@ const Template = args => <Kanban {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
+  airtableViewUrl: 'https://airtable.com/tbl5ApSEOzPpe4fwp/viw2swQLeJ9xwU82F',
   data: populatedData
 }
