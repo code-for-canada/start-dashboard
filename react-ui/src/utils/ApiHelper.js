@@ -30,7 +30,7 @@ const createResource = async ({ resource, url, opts }) => {
 }
 
 const getArtistByEmail = async ({ email, opts }) => {
-  const url = `${ENDPOINTS.artist}?email=${email}`
+  const url = `${ENDPOINTS.artist}?email=${encodeURIComponent(email)}`
   const result = await getResource({ url, opts })
   return result
 }
