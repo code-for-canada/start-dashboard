@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Board from 'react-trello'
-import CustomCard from './CustomCard'
+import MaterialCard from './MaterialCard'
 import { Dialog, DialogTitle, DialogActions, DialogContent, DialogContentText } from '@material-ui/core'
 import Slide from '@material-ui/core/Slide'
 import { Button } from 'react-bootstrap'
@@ -35,7 +35,7 @@ const Kanban = ({ data = {}, onCardClick, onDataChange, onDragEnd }) => {
         laneDraggable={false}
         hideCardDeleteIcon
         components={{
-          Card: CustomCard
+          Card: MaterialCard
         }}
       />
       <Dialog

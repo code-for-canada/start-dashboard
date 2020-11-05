@@ -18,7 +18,7 @@ const populatedData = populateMetadata(data)
 
 export default {
   component: Kanban,
-  title: 'Kanban'
+  title: 'Kanban Board/Kanban'
 }
 
 const Template = args => <Kanban {...args} />
