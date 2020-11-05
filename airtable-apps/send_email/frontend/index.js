@@ -121,7 +121,7 @@ function SendTemplateEmail() {
     // to Mailjet as template variables
     const records = queryResult.records.map(r => {
       return fields.reduce((obj, field) => {
-        obj[field.name] = r.getCellValue(field.name)
+        obj[field.name] = r.getCellValueAsString(field.name)
         return obj
       }, {})
     })
