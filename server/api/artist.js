@@ -8,7 +8,7 @@ const getArtist = async (req, res) => {
   if (req.user.permissions.includes('is:artist')) {
     const userData = await getUserData(req)
 
-    if (userData.email !== userEmail) {
+    if (!(userData.email_verified && userData.email === userEmail)) {
       return res.status(403).send({ error: 'You are not authorized to see this profile.' })
     }
   }
