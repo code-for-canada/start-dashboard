@@ -37,7 +37,16 @@ const MaterialCard = props => {
       <CardActionArea onClick={props.onClick}>
         <CardMedia className={classes.media} image={image} />
         <CardContent>
-          <Typography gutterBottom variant="h6" component="h2">
+          <Typography
+            gutterBottom
+            variant="h6"
+            component="h2"
+            style={{
+              textOverflow: 'ellipsis',
+              overflow: 'auto',
+              whiteSpace: 'nowrap'
+            }}
+          >
             {props.title}
           </Typography>
           <Typography
