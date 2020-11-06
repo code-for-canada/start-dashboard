@@ -17,6 +17,15 @@ const StaffDashboard = () => {
     moveDown
   } = usePanelState(PANELS_DATA)
 
+  // Array 2 objects merged into array 1 objects based on provided key.
+  // Index order from array 1 is preserved.
+  const mergeBy = (key, arr1, arr2) => {
+    return arr1.map(item1 => ({
+      ...item1,
+      ...arr2.find(item2 => (item2[key] === item1[key]) && item2)
+    }))
+  }
+
   return (
     <Container fluid>
       <Row className="mt-4">
@@ -41,7 +50,7 @@ const StaffDashboard = () => {
             <Col>
               <Container fluid className="px-0">
                 <Row>
-                  {panels.map((panel, index) => (
+                  {mergeBy('id', panels, PANELS_DATA).map((panel, index) => (
                     <Panel
                       {...panel}
                       key={panel.id}
