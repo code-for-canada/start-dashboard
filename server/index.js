@@ -2,7 +2,7 @@ require('dotenv').config()
 
 const express = require('express');
 const bodyParser = require('body-parser')
-const morgan = require("morgan")
+const morgan = require('morgan')
 const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
@@ -63,4 +63,3 @@ if (!isDev && cluster.isMaster) {
     console.error(`Node ${isDev ? 'dev server' : 'cluster worker '+process.pid}: listening on port ${PORT}`);
   });
 }
-
