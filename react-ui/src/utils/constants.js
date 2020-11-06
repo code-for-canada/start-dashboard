@@ -198,8 +198,6 @@ export const PANELS_DATA = [
   {
     id: 'project-updates',
     title: 'Project Updates',
-    isVisible: true,
-    isSmall: true,
     editLink:
       'https://airtable.com/tblhqR67jrTJ169Cf/viwvQN6OyFyxsPYtq?blocks=hide',
     editText: 'Edit in Airtable',
@@ -209,8 +207,6 @@ export const PANELS_DATA = [
   {
     id: 'submit-updates',
     title: 'Submit Update',
-    isVisible: true,
-    isSmall: true,
     editLink:
       'https://airtable.com/tblhqR67jrTJ169Cf/viwV5AQuGxE4OfNX0?blocks=hide',
     editText: 'Edit in Airtable',
@@ -219,8 +215,6 @@ export const PANELS_DATA = [
   {
     id: 'artwork-status-board',
     title: 'Artwork Status Board',
-    isVisible: false,
-    isSmall: false,
     editLink:
       'https://airtable.com/tbl5ApSEOzPpe4fwp/viwiX18oxXONzk8th?blocks=hide',
     editText: 'Edit in Airtable',
@@ -230,8 +224,6 @@ export const PANELS_DATA = [
   {
     id: 'submissions',
     title: 'Submissions',
-    isVisible: true,
-    isSmall: false,
     editLink: 'https://streetartto.submittable.com/submissions',
     editText: 'Edit in Submittable',
     frameSrc:
@@ -240,8 +232,6 @@ export const PANELS_DATA = [
   {
     id: 'artworks',
     title: 'Artworks',
-    isVisible: true,
-    isSmall: false,
     editLink:
       'https://airtable.com/tbl5ApSEOzPpe4fwp/viwfmyIqZl3bsj2eo?blocks=hide',
     editText: 'Edit in Airtable',
@@ -251,8 +241,6 @@ export const PANELS_DATA = [
   {
     id: 'artists',
     title: 'Artists',
-    isVisible: false,
-    isSmall: false,
     editLink: 'https://www.cognitoforms.com/forms/startartistprofile/entries',
     editText: 'Edit in CognitoForms',
     frameSrc:
