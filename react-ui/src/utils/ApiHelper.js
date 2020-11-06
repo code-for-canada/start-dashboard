@@ -1,7 +1,8 @@
 const ENDPOINTS = {
   forms: '/api/forms',
   artist: '/api/artist',
-  location: '/api/location'
+  location: '/api/location',
+  account: '/api/account'
 }
 
 const getResource = async ({ resource, url, opts }) => {
@@ -35,10 +36,25 @@ const getArtistByEmail = async ({ email, opts }) => {
   return result
 }
 
+const updateResource = async ({ resource, url, data, opts }) => {
+  try {
+    const apiEndpoint = url || ENDPOINTS[resource];
+    const res = await fetch(apiEndpoint, {
+      method: 'PATCH',
+      ...opts
+    })
+    const data = res.json()
+    return data
+  } catch (err) {
+    return { error: err.message }
+  }
+}
+
 
 export {
   getResource,
   getArtistByEmail,
-  createResource
+  createResource,
+  updateResource,
 }
 

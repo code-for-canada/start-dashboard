@@ -5,9 +5,7 @@ const SignupButton = ({ handleLogin }) => {
   return (
     <Button
       onClick={() =>
-        handleLogin({
-          screen_hint: 'signup'
-        })
+        handleLogin({ screen_hint: 'signUp' })
       }
       variant="link"
       className="btn-margin mt-2">

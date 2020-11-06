@@ -10,7 +10,8 @@ import {
   InternalMap,
   LocationForm,
   Profile,
-  ProfileCreated
+  ProfileCreated,
+  Account
 } from './views'
 
 import './assets/scss/main.scss'
@@ -34,6 +35,7 @@ const App = () => {
       <PrivateRoute path="/profile" exact component={Profile} />
       <PrivateRoute path="/profile/success" exact component={ProfileCreated} />
       <PrivateRoute path="/profile/:action" component={Profile} />
+      <PrivateRoute path="/account" component={Account} />
     </Switch>
   )
 }

@@ -49,6 +49,7 @@ if (!isDev && cluster.isMaster) {
   const handleLocations = require('./api/location')
   const handleArtist = require('./api/artist')
   const handleForms = require('./api/forms')
+  const handleAccount = require('./api/account')
 
   // Log requests with dev template
   app.use(morgan('dev'))
@@ -62,6 +63,7 @@ if (!isDev && cluster.isMaster) {
   app.all('/api/location', checkJwt, handleLocations)
   app.all('/api/artist', checkJwt, handleArtist)
   app.all('/api/forms', handleForms)
+  app.all('/api/account', checkJwt, handleAccount)
 
   // Only in production is the server the main entry point,
   // so only then serve built static files from filesystem.
