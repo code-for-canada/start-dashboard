@@ -4,7 +4,7 @@ Documented here for transparency
 
 ## Add user role from Airtable
 
-```
+```js
 function addRoleFromAirtable(user, context, callback) {
   const Airtable = require('airtable@0.4.3');
   const ManagementClient = require('auth0@2.17.0').ManagementClient;
@@ -130,7 +130,7 @@ function addRoleFromAirtable(user, context, callback) {
 ```
 
 ## Resend verification email
-```
+```js
 function (user, context, callback) {
    if (user.email_verified) {
      return callback(null, user, context);

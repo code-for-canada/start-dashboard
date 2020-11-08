@@ -13,6 +13,7 @@ const Account = () => {
 
   useEffect(() => {
     if (user) {
+      console.log("user", user)
       setEmail(user.email)
       setFirstName(user.user_metadata?.first_name)
       setLastName(user.user_metadata?.last_name)
