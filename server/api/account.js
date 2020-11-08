@@ -11,14 +11,20 @@ const updateUser = async (req, res) => {
     }
   }
 
-  const auth0res = await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${req.user.sub}`, {
+  console.log("req", req)
+
+  const auth0Id = req.user.sub.split('auth0|')[1]
+
+
+
+  const auth0res = await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${auth0Id}`, {
     headers: { 'Authorization': req.headers.authorization }
   })
 
   console.log({ auth0res })
 
   accountsTable
-    .select({ filterByFormula: `{auth0_id} = '${req.user.sub}'` })
+    .select({ filterByFormula: `{auth0_id} = '${auth0Id}'` })
     .firstPage(async (err, records) => {
       if (err) {
         console.error(err);

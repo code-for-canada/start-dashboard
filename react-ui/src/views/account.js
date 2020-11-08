@@ -21,6 +21,7 @@ const Account = () => {
 
 
   const handleSubmit = async (e) => {
+    e.preventDefault()
     console.log({e})
 
     const accountData = {
@@ -28,6 +29,8 @@ const Account = () => {
       firstName: firstName,
       lastName: lastName,
     }
+
+    console.log({accountData})
 
     const token = await getAccessTokenSilently({
       audience: 'https://dashboard.streetartoronto.ca/',
@@ -46,9 +49,21 @@ const Account = () => {
   return (
     <DefaultLayout>
       <form onSubmit={handleSubmit}>
-        <TextField label="First name" value={firstName} />
-        <TextField label="Last name" value={lastName} />
-        <TextField label="Email address" value={email} />
+        <TextField
+          label="First name"
+          value={firstName || ''}
+          onChange={(e) => setFirstName(e.currentTarget.value)}
+        />
+        <TextField
+          label="Last name"
+          value={lastName || ''}
+          onChange={(e) => setLastName(e.currentTarget.value)}
+        />
+        <TextField
+          label="Email address"
+          value={email || ''}
+          onChange={(e) => setEmail(e.currentTarget.value)}
+        />
         <input type="submit" />
       </form>
     </DefaultLayout>
