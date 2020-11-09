@@ -2,6 +2,7 @@ require('dotenv').config()
 
 const express = require('express');
 const bodyParser = require('body-parser')
+const morgan = require('morgan')
 const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
@@ -49,6 +50,9 @@ if (!isDev && cluster.isMaster) {
   const handleArtist = require('./api/artist')
   const handleForms = require('./api/forms')
 
+  // Log requests with dev template
+  app.use(morgan('dev'))
+
   // Priority serve any static files.
   app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
 
@@ -78,4 +82,3 @@ if (!isDev && cluster.isMaster) {
     console.error(`Node ${isDev ? 'dev server' : 'cluster worker '+process.pid}: listening on port ${PORT}`);
   });
 }
-
