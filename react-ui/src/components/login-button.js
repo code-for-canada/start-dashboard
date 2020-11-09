@@ -7,7 +7,7 @@ const LoginButton = props => {
     <Button
       onClick={handleLogin}
       variant="primary"
-      className="btn-margin">
+      className="btn-margin ml-md-2">
       Log In
     </Button>
   )

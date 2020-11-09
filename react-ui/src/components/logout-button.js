@@ -7,7 +7,7 @@ const LogoutButton = props => {
     <Button
       onClick={handleLogout}
       variant="danger"
-      className="btn-margin">
+      className="btn-margin ml-md-2">
       Log Out
     </Button>
   )

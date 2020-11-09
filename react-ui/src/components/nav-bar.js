@@ -34,14 +34,6 @@ const StaffNav = () => (
       activeClassName="router-link-exact-active">
       Add location
     </Nav.Link>
-    <Nav.Link
-      as={RouterNavLink}
-      to="/account"
-      exact
-      className="text-dark"
-      activeClassName="router-link-exact-active">
-      My Account
-    </Nav.Link>
   </Nav>
 )
 
@@ -61,7 +53,15 @@ const AuthNav = props => {
   } = props
 
   return (
-    <Nav className="justify-content-end ml-md-4">
+    <Nav className="justify-content-end">
+      <Nav.Link
+        as={RouterNavLink}
+        to="/account"
+        exact
+        className="text-dark"
+        activeClassName="router-link-exact-active">
+        My Account
+      </Nav.Link>
       {isAuthenticated
         ? <LogoutButton handleLogout={handleLogout} />
         : <LoginButton handleLogin={handleLogin} />
