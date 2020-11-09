@@ -62,10 +62,11 @@ const AuthNav = props => {
         activeClassName="router-link-exact-active">
         My Account
       </Nav.Link>
-      {isAuthenticated
-        ? <LogoutButton handleLogout={handleLogout} />
-        : <LoginButton handleLogin={handleLogin} />
-      }
+      {isAuthenticated ? (
+        <LogoutButton handleLogout={handleLogout} />
+      ) : (
+        <LoginButton handleLogin={handleLogin} />
+      )}
     </Nav>
   )
 }
@@ -88,8 +89,12 @@ const renderNavLinks = role => {
 
 const NavBar = ({ useAuthHook = useAuth0 }) => {
   const { isAuthenticated, user, logout, loginWithRedirect } = useAuthHook()
-  const userName = user ? (user['https://streetartoronto.ca/first_name'] || user.nickname) : 'Guest'
-  const role = user ? (user['https://streetartoronto.ca/role'] || 'Artist') : 'Artist' // TODO: this should probably be set as a constant
+  const userName = user
+    ? user['https://streetartoronto.ca/first_name'] || user.nickname
+    : 'Guest'
+  const role = user
+    ? user['https://streetartoronto.ca/role'] || 'Artist'
+    : 'Artist' // TODO: this should probably be set as a constant
 
   return (
     <Navbar
@@ -116,9 +121,9 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
               <AuthNav
                 isAuthenticated={isAuthenticated}
                 handleLogin={() => loginWithRedirect()}
-                handleLogout={() => logout({
-                  returnTo: window.location.origin
-                })}
+                handleLogout={() =>
+                  logout({ returnTo: window.location.origin })
+                }
               />
             </Navbar.Collapse>
           </Grid>

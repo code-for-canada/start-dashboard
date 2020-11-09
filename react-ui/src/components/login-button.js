@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Button } from 'react-bootstrap'
 
 const LoginButton = props => {
@@ -11,6 +12,10 @@ const LoginButton = props => {
       Log In
     </Button>
   )
+}
+
+LoginButton.propTypes = {
+  handleLogin: PropTypes.func
 }
 
 export default LoginButton

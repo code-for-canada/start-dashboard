@@ -29,7 +29,7 @@ const imageStyle = {
   width: '100%',
   height: 'auto',
   maxHeight: '500px',
-  objectFit: 'cover',
+  objectFit: 'cover'
 }
 
 const DashboardLayout = ({ children }) => {
@@ -59,9 +59,7 @@ const DashboardLayout = ({ children }) => {
             </Grid>
           </Container>
         ) : (
-          <Container maxWidth="xl">
-            {children}
-          </Container>
+          <Container maxWidth="xl">{children}</Container>
         )}
       </main>
       <Footer />

@@ -9,14 +9,14 @@ export default {
 }
 
 const Template = args => (
-  <div style={{width: '100px'}}>
+  <div style={{ width: '100px' }}>
     <ConfigDrawer {...args} />
   </div>
 )
 
 export const Default = Template.bind({})
 Default.args = {
-  children: <div style={{width: '200px', margin: '10px'}}>Ohai!</div>
+  children: <div style={{ width: '200px', margin: '10px' }}>Ohai!</div>
 }
 
 export const WithConfigContent = Template.bind({})

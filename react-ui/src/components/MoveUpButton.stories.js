@@ -2,8 +2,8 @@ import React from 'react'
 import MoveUpButton from './MoveUpButton'
 
 export default {
-    component: MoveUpButton,
-    title: 'MoveUpButton'
+  component: MoveUpButton,
+  title: 'MoveUpButton'
 }
 
 const Template = args => <MoveUpButton />

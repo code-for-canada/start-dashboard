@@ -312,13 +312,13 @@ class LocationForm extends Component {
 
     const { getAccessTokenSilently } = this.props.auth0
     const token = await getAccessTokenSilently({
-      audience: 'https://dashboard.streetartoronto.ca/',
-    });
+      audience: 'https://dashboard.streetartoronto.ca/'
+    })
 
     const opts = {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify(locationData)
     }
@@ -477,7 +477,8 @@ LocationForm.propTypes = {
   }),
   google: PropTypes.string,
   zoom: PropTypes.number,
-  height: PropTypes.string
+  height: PropTypes.string,
+  auth0: PropTypes.object
 }
 
 LocationForm.defaultProps = {

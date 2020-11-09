@@ -7,7 +7,7 @@ const ENDPOINTS = {
 
 const getResource = async ({ resource, url, opts }) => {
   try {
-    const apiEndpoint = url || ENDPOINTS[resource];
+    const apiEndpoint = url || ENDPOINTS[resource]
     const res = await fetch(apiEndpoint, opts)
     const data = res.json()
     return data
@@ -18,7 +18,7 @@ const getResource = async ({ resource, url, opts }) => {
 
 const createResource = async ({ resource, url, opts }) => {
   try {
-    const apiEndpoint = url || ENDPOINTS[resource];
+    const apiEndpoint = url || ENDPOINTS[resource]
     const res = await fetch(apiEndpoint, {
       method: 'POST',
       ...opts
@@ -38,7 +38,7 @@ const getArtistByEmail = async ({ email, opts }) => {
 
 const updateResource = async ({ resource, url, data, opts }) => {
   try {
-    const apiEndpoint = url || ENDPOINTS[resource];
+    const apiEndpoint = url || ENDPOINTS[resource]
     const res = await fetch(apiEndpoint, {
       method: 'PATCH',
       ...opts
@@ -50,10 +50,4 @@ const updateResource = async ({ resource, url, data, opts }) => {
   }
 }
 
-export {
-  getResource,
-  getArtistByEmail,
-  createResource,
-  updateResource,
-}
-
+export { getResource, getArtistByEmail, createResource, updateResource }

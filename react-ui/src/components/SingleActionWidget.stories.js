@@ -12,9 +12,9 @@ export const Default = Template.bind({})
 Default.args = {
   label: 'List of Items',
   options: [
-    {name: 'Item 1', tag: 'Tag A'},
-    {name: 'Item 2', tag: 'Tag B'},
-    {name: 'Item 3', tag: 'Tag C'}
+    { name: 'Item 1', tag: 'Tag A' },
+    { name: 'Item 2', tag: 'Tag B' },
+    { name: 'Item 3', tag: 'Tag C' }
   ]
 }
 

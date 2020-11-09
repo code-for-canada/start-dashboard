@@ -3,8 +3,8 @@ import IconButton from './IconButton'
 import StarIcon from '@material-ui/icons/Star'
 
 export default {
-    component: IconButton,
-    title: 'IconButton'
+  component: IconButton,
+  title: 'IconButton'
 }
 
 const Template = args => <IconButton {...args} />

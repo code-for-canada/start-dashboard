@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Button } from 'react-bootstrap'
 
 const SignupButton = ({ handleLogin }) => {
@@ -10,6 +11,10 @@ const SignupButton = ({ handleLogin }) => {
       Sign Up
     </Button>
   )
+}
+
+SignupButton.propTypes = {
+  handleLogin: PropTypes.func
 }
 
 export default SignupButton
