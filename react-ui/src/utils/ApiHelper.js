@@ -50,7 +50,6 @@ const updateResource = async ({ resource, url, data, opts }) => {
   }
 }
 
-
 export {
   getResource,
   getArtistByEmail,

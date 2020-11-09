@@ -4,9 +4,7 @@ import { Button } from 'react-bootstrap'
 const SignupButton = ({ handleLogin }) => {
   return (
     <Button
-      onClick={() =>
-        handleLogin({ screen_hint: 'signUp' })
-      }
+      onClick={() => handleLogin({ screen_hint: 'signUp' })}
       variant="link"
       className="btn-margin mt-2">
       Sign Up
