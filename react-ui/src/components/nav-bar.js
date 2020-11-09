@@ -88,7 +88,7 @@ const renderNavLinks = role => {
 
 const NavBar = ({ useAuthHook = useAuth0 }) => {
   const { isAuthenticated, user, logout, loginWithRedirect } = useAuthHook()
-  const userName = user && (user['https://streetartoronto.ca/name'] || user.nickname)
+  const userName = user && (user['https://streetartoronto.ca/first_name'] || user.nickname)
   const role = user['https://streetartoronto.ca/role'] || 'Artist' // TODO: this should probably be set as a constant
 
   return (

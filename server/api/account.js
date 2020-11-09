@@ -14,7 +14,6 @@ const updateAccount = async (req, res) => {
 
   try {
     const auth0UpdateResult = await updateUser(req.user.sub, payload)
-    console.log({auth0UpdateResult})
     if (auth0UpdateResult.status !== 200) {
       return res.status(500).send({ error: `Unable to update user data on Auth0: Failed with status ${auth0UpdateResult.status}` })
     }
