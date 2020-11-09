@@ -36,4 +36,24 @@ const updateUser = async (id, payload) => {
   return auth0res
 }
 
-module.exports = { getManagementApiToken, updateUser }
+const sendVerificationEmail = async (id) => {
+  const token = await getManagementApiToken()
+  const userId = id.split('auth0|')[1]
+  const payload = {
+    "user_id": id,
+    "client_id": process.env.AUTH0_CLIENT_ID,
+  }
+
+  const auth0res = await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/jobs/verification-email`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(payload)
+  })
+
+  return auth0res
+}
+
+module.exports = { getManagementApiToken, updateUser, sendVerificationEmail }

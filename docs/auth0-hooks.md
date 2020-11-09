@@ -25,7 +25,9 @@ Documented here for transparency
 @param {object} context.webtask - webtask context
 @param {function} cb - function (error, response)
 */
+
 module.exports = function (user, context, cb) {
+  const auth0_id = `auth0|${user.id}`;
   const Airtable = require('airtable');
   const base = new Airtable({
       apiKey: context.webtask.secrets.AIRTABLE_API_KEY
@@ -38,7 +40,7 @@ module.exports = function (user, context, cb) {
           "username": user.username,
           "email": user.email,
           "role": "Artist",
-          "auth0_id": user.id
+          "auth0_id": auth0_id
         }
       }
     ], function(err, records) {
@@ -58,7 +60,7 @@ module.exports = function (user, context, cb) {
       {
         "id": existingRecord.id,
         "fields": {
-          "auth0_id": user.id
+          "auth0_id": auth0_id
         }
       }
     ], function(err, records) {
@@ -84,6 +86,9 @@ module.exports = function (user, context, cb) {
         saveUserToAirtable()
       } else {
         const existingRecord = records[0]
+        if (existingRecord.auth0_id) {
+          return cb('This user already has an account')
+        }
         updateUserOnAirtable(existingRecord)
       }
     });

@@ -3,21 +3,34 @@ import DefaultLayout from '../layouts/default-layout'
 import {
   Grid,
   Container,
-  FormControl,
   TextField,
   Button
 } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 import { useAuth0 } from '@auth0/auth0-react'
 import { updateResource } from '../utils/ApiHelper'
 import { Block, BlockTitle } from '../components/dashboard/Block'
+import Loading from '../components/loading'
 
+const StatusAlert = ({ show, message, severity }) => {
+  if (!show) {
+    return null
+  }
+
+  return (
+    <Alert severity={severity} variant="filled" className="mb-2">
+      <p className="mb-0">{message}</p>
+    </Alert>
+  )
+}
 
 const Account = () => {
-  const { user, getAccessTokenSilently } = useAuth0()
+  const { user, getAccessTokenSilently, logout } = useAuth0()
   const [email, setEmail] = useState('')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [loading, setLoading] = useState(false)
+  const [alert, setAlert] = useState({})
 
   useEffect(() => {
     if (user) {
@@ -38,29 +51,57 @@ const Account = () => {
       lastName: lastName,
     }
 
-    const token = await getAccessTokenSilently({
-      audience: 'https://dashboard.streetartoronto.ca/',
-    });
-    const opts = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      },
-      body: JSON.stringify(accountData)
+    try {
+      const token = await getAccessTokenSilently({
+        audience: 'https://dashboard.streetartoronto.ca/',
+      });
+      const opts = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(accountData)
+      }
+      const data = await updateResource({ resource: 'account', opts })
+      setLoading(false)
+      if (data.error) {
+        console.log(data.error)
+        throw(data.error)
+      }
+
+      setAlert({ message: 'Your account has been updated.', severity: 'success' })
+      if (accountData.email !== user.email) {
+        logout({ redirectTo: '/account-updated' })
+      }
+    } catch (err) {
+      setAlert({ message: 'We were unable to update your account. Please try again or contact us.', severity: 'warning' })
     }
-    const data = await updateResource({ resource: 'account', opts })
-    setLoading(false)
-    console.log({data})
+  }
+
+  if (!user.email_verified) {
+    return(
+      <DefaultLayout>
+        <Container maxWidth="md" style={{marginTop: '40px', marginBottom: '40px'}}>
+          <StatusAlert show={true} message={'You must verify your email before you can access this page.'} severity={'warning'} />
+        </Container>
+      </DefaultLayout>
+    )
   }
 
   return (
     <DefaultLayout>
-      <Container>
-        <Grid container justify="center" style={{marginTop: '40px', marginBottom: '40px'}}>
+      <Container style={{marginTop: '40px', marginBottom: '40px'}}>
+        <Grid container justify="center">
           <Grid item md={6}>
-            <Block>
+            <StatusAlert show={Boolean(alert.message)} message={alert.message} severity={alert.severity} />
+          </Grid>
+        </Grid>
+
+        <Grid container justify="center">
+          <Grid item md={6}>
+            <Block style={{ position: 'relative' }}>
               <BlockTitle title="My Account" />
-              <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                   <TextField
                     label="First name"
                     value={firstName || ''}
@@ -86,10 +127,17 @@ const Account = () => {
                     fullWidth={true}
                     variant="outlined"
                     margin="dense"
+                    helperText="If you change your email, you must verify the new email address before you can access your dashboard again."
+                    required
                   />
 
                 <Button type="submit" variant="contained" color="primary" style={{ marginTop: '20px' }}>Save</Button>
               </form>
+              {loading &&
+                <div className="loading-backdrop">
+                  <Loading />
+                </div>
+              }
             </Block>
           </Grid>
         </Grid>

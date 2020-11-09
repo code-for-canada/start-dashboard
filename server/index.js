@@ -9,6 +9,7 @@ const numCPUs = require('os').cpus().length;
 const jwt = require('express-jwt');
 const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require('jwks-rsa');
+const getUserData = require('./api/common').getUserData
 
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 3000;
@@ -29,6 +30,15 @@ const checkJwt = jwt({
   issuer: `https://start-dashboard.us.auth0.com/`,
   algorithms: ['RS256']
 });
+
+const checkEmailVerified = async (req, res, next) => {
+  const userData = await getUserData(req)
+  if (userData.email_verified) {
+    return next()
+  }
+
+  res.status(401).send({ error: 'Your email address is not verified' })
+}
 
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
@@ -60,10 +70,10 @@ if (!isDev && cluster.isMaster) {
   // Answer API requests.
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
-  app.all('/api/location', checkJwt, handleLocations)
-  app.all('/api/artist', checkJwt, handleArtist)
+  app.all('/api/location', checkJwt, checkEmailVerified, handleLocations)
+  app.all('/api/artist', checkJwt, checkEmailVerified, handleArtist)
   app.all('/api/forms', handleForms)
-  app.all('/api/account', checkJwt, handleAccount)
+  app.all('/api/account', checkJwt, checkEmailVerified, handleAccount)
 
   // Only in production is the server the main entry point,
   // so only then serve built static files from filesystem.

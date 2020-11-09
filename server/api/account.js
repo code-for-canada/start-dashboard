@@ -1,5 +1,5 @@
 const { accountsTable } = require('./utils/Airtable')
-const { getManagementApiToken, updateUser } = require('./utils/Auth0')
+const { getManagementApiToken, updateUser, sendVerificationEmail } = require('./utils/Auth0')
 const { methodNotImplemented, checkScopes, getUserData } = require('./common')
 const fetch = require('node-fetch')
 
@@ -15,34 +15,42 @@ const updateAccount = async (req, res) => {
   try {
     const auth0UpdateResult = await updateUser(req.user.sub, payload)
     if (auth0UpdateResult.status !== 200) {
+      console.log({auth0UpdateResult})
       return res.status(500).send({ error: `Unable to update user data on Auth0: Failed with status ${auth0UpdateResult.status}` })
     }
 
-    const auth0Id = req.user.sub.split('auth0|')[1]
+    if (req.user.email !== req.body.email) {
+      const verificationEmailRes = await sendVerificationEmail(req.user.sub)
+      if (verificationEmailRes.status !== 201) {
+        console.log({verificationEmailRes})
+        return res.status(500).send({ error: `Unable to send email verification email on Auth0: Failed with status ${verificationEmailRes.status}` })
+      }
+    }
 
-    accountsTable
-      .select({ filterByFormula: `{auth0_id} = '${auth0Id}'` })
-      .firstPage(async (err, records) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).send({ error: err })
-        }
+    const records = await accountsTable
+      .select({ filterByFormula: `{auth0_id} = '${req.user.sub}'` })
+      .firstPage();
 
-        const accountRecord = records[0]
-        const recordToUpdate = {
-          id: accountRecord.id,
-          fields: {
-            first_name: req.body.firstName,
-            last_name: req.body.lastName,
-            email: req.body.email
-          }
-        }
+    if (records.length === 0) {
+      return res.status(500).send({ error: 'There is no Airtable record associated with this account ID' })
+    }
 
-        const updatedRecord = await accountsTable.update([ recordToUpdate ])
-        return res.status(200).send({ record: updatedRecord })
-      });
+    const accountRecord = records[0]
+
+    const recordToUpdate = {
+      id: accountRecord.id,
+      fields: {
+        first_name: req.body.firstName,
+        last_name: req.body.lastName,
+        email: req.body.email
+      }
+    }
+
+    const updatedRecord = await accountsTable.update([ recordToUpdate ])
+    return res.status(200).send({ record: updatedRecord })
   } catch (err) {
-    return res.status(500).send({ error: err })
+    console.log("Error updating account", err)
+    return res.status(500).send({ error: `Unable to update user data on Airtable: ${err.message}` })
   }
 }
 

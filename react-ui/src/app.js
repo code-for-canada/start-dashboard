@@ -11,7 +11,8 @@ import {
   LocationForm,
   Profile,
   ProfileCreated,
-  Account
+  Account,
+  AccountUpdated
 } from './views'
 
 import './assets/scss/main.scss'
@@ -36,6 +37,7 @@ const App = () => {
       <PrivateRoute path="/profile/success" exact component={ProfileCreated} />
       <PrivateRoute path="/profile/:action" component={Profile} />
       <PrivateRoute path="/account" component={Account} />
+      <Route path="/account-updated" component={AccountUpdated} />
     </Switch>
   )
 }
