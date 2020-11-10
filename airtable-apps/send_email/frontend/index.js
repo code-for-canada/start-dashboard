@@ -4,7 +4,6 @@ import {
   useBase,
   useGlobalConfig,
   useSettingsButton,
-  TablePicker,
   ViewPicker,
   Button,
   Heading,
@@ -16,8 +15,8 @@ import SettingsView from './components/SettingsView'
 import TemplatePicker from './components/TemplatePicker'
 import { getAuth0Token, isTableEmailable } from './utils'
 import CustomFormField from './components/CustomFormField'
+import EmailableTablePicker from './components/EmailableTablePicker'
 
-const UNEMAILABLE_TABLE_MESSAGE = 'The table must have an "email" column.'
 const UNAUTHORIZED_MESSAGE = 'This app is not authorized to send emails.'
 const EMAIL_SUCCESS_MESSAGE = "Your email has been sent!"
 const EMAIL_FAILED_MESSAGE = "There was an error sending your email."
@@ -55,23 +54,9 @@ function SendTemplateEmail() {
     }
   }, [token, globalConfig])
 
-  useEffect(() => {
-    if (selectedTable) {
-      if (!isTableEmailable(selectedTable)) {
-        setAlert(UNEMAILABLE_TABLE_MESSAGE)
-      } else {
-        setAlert(null)
-      }
-    }
-  }, [selectedTable])
-
   const sendEmail = async () => {
     if (!token) {
       return setAlert(UNAUTHORIZED_MESSAGE)
-    }
-
-    if (!isTableEmailable(selectedTable)) {
-      return setAlert(UNEMAILABLE_TABLE_MESSAGE)
     }
 
     const queryResult = selectedView.selectRecords()
@@ -131,9 +116,9 @@ function SendTemplateEmail() {
           label="Table"
           description="Pick the table you want to use for this email. Note: the table must have an 'email' column."
       >
-        <TablePicker
-          table={selectedTable}
-          onChange={newTable => setSelectedTable(newTable)}
+        <EmailableTablePicker
+          value={selectedTable.id}
+          onChange={tableId => setSelectedTable(base.getTableByIdIfExists(tableId))}
           width="100%"
         />
       </CustomFormField>
