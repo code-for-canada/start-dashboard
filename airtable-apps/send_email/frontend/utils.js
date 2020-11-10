@@ -1,5 +1,5 @@
 
-export const getAuth0Token = (audience, clientId, clientSecret, tokenEndpoint) => {
+export const getAuth0Token = async (audience, clientId, clientSecret, tokenEndpoint) => {
   const authParams = {
     "audience": audience,
     "grant_type": "client_credentials",

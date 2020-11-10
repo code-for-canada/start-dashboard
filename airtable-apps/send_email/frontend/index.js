@@ -42,15 +42,18 @@ function SendTemplateEmail() {
   });
 
   useEffect(() => {
-    if (!token) {
-      setToken(
-        getAuth0Token(
-          globalConfig.get('auth0ApiIdentifier'),
-          globalConfig.get('auth0ClientId')),
-          globalConfig.get('auth0ClientSecret'),
-          globalConfig.get('auth0TokenEndpoint')
-        )
+    const getToken = async () => {
+      const auth0token = await getAuth0Token(
+        globalConfig.get('auth0ApiIdentifier'),
+        globalConfig.get('auth0ClientId'),
+        globalConfig.get('auth0ClientSecret'),
+        globalConfig.get('auth0TokenEndpoint')
       )
+
+      setToken(auth0token)
+    }
+    if (!token) {
+      getToken()
     }
   }, [token, globalConfig])
 

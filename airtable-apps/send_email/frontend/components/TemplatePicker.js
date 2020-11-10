@@ -7,6 +7,7 @@ const TemplatePicker = ({ token, selectedTemplate, setSelectedTemplate, setAlert
 
   useEffect(() => {
     const getTemplates = async () => {
+      console.log("getting tmplates!!")
       const res = await fetch(globalConfig.get('dashboardApiEndpoint'), {
         headers: {
           'Content-Type': 'application/json',
