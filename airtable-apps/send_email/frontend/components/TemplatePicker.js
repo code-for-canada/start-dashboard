@@ -39,7 +39,6 @@ const TemplatePicker = ({ token, selectedTemplate, setSelectedTemplate, setAlert
       value={selectedTemplate}
       onChange={newValue => setSelectedTemplate(newValue)}
       width="100%"
-      id="template-picker"
     />
   )
 }

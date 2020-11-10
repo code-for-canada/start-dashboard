@@ -7,9 +7,6 @@ import {
   TablePicker,
   ViewPicker,
   Button,
-  Select,
-  Label,
-  Text,
   Heading,
 } from '@airtable/blocks/ui';
 import { cursor, session } from '@airtable/blocks';
@@ -18,6 +15,7 @@ import Alert from './components/Alert'
 import SettingsView from './components/SettingsView'
 import TemplatePicker from './components/TemplatePicker'
 import { getAuth0Token, isTableEmailable } from './utils'
+import CustomFormField from './components/CustomFormField'
 
 const UNEMAILABLE_TABLE_MESSAGE = 'The table must have an "email" column.'
 const UNAUTHORIZED_MESSAGE = 'This app is not authorized to send emails.'
@@ -128,52 +126,41 @@ function SendTemplateEmail() {
     <div style={{ padding: '10px' }}>
       <Heading size="small" marginBottom="10px">Send email from a template</Heading>
       <Alert alert={alert} onClose={() => setAlert(null)} />
-      <div style={{ paddingBottom: '10px' }}>
-        <Label htmlFor="table-picker">Table</Label>
-        <Text
-          marginBottom="5px"
-          textColor="light"
-        >
-          Pick the table you want to use for this email. Note: the table must have an "email" column.
-        </Text>
+      <CustomFormField
+          paddingBottom="10px"
+          label="Table"
+          description="Pick the table you want to use for this email. Note: the table must have an 'email' column."
+      >
         <TablePicker
           table={selectedTable}
           onChange={newTable => setSelectedTable(newTable)}
           width="100%"
-          id="table-picker"
         />
-      </div>
+      </CustomFormField>
 
       {
         selectedTable &&
-        <div style={{ paddingBottom: '10px' }}>
-          <Label htmlFor="view-picker">View</Label>
-          <Text
-            marginBottom="5px"
-            textColor="light"
-          >
-            Pick the view that contains the selection of records you want to send the email to.
-          </Text>
+        <CustomFormField
+          paddingBottom="10px"
+          label="View"
+          description="Pick the view that contains the selection of records you want to send the email to."
+        >
           <ViewPicker
             table={selectedTable}
             view={selectedView}
             onChange={newView => setSelectedView(newView)}
             width="100%"
-            id="view-picker"
           />
-        </div>
+        </CustomFormField>
       }
 
       {
         selectedView &&
-        <div style={{ paddingBottom: '10px' }}>
-          <Label htmlFor="template-picker">Email Template</Label>
-          <Text
-            marginBottom="5px"
-            textColor="light"
-          >
-            Pick the email template from Mailjet to send to your recipients.
-          </Text>
+        <CustomFormField
+          paddingBottom="10px"
+          label="Email Template"
+          description="Pick the email template from Mailjet to send to your recipients."
+        >
           <TemplatePicker
             selectedTemplate={selectedTemplate}
             setSelectedTemplate={setSelectedTemplate}
@@ -181,7 +168,7 @@ function SendTemplateEmail() {
             setAlert={setAlert}
             firstOption={firstOption}
           />
-        </div>
+        </CustomFormField>
       }
 
       {
