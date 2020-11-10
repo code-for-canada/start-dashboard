@@ -13,7 +13,11 @@ import {
   Heading,
 } from '@airtable/blocks/ui';
 import { cursor, session } from '@airtable/blocks';
-import SettingsView from './SettingsView'
+
+import Alert from './components/Alert'
+import SettingsView from './components/SettingsView'
+import TemplatePicker from './components/TemplatePicker'
+import { getAuth0Token, isTableEmailable } from './utils'
 
 const UNEMAILABLE_TABLE_MESSAGE = 'The table must have an "email" column.'
 const UNAUTHORIZED_MESSAGE = 'This app is not authorized to send emails.'
@@ -21,9 +25,9 @@ const EMAIL_SUCCESS_MESSAGE = "Your email has been sent!"
 const EMAIL_FAILED_MESSAGE = "There was an error sending your email."
 
 function SendTemplateEmail() {
-  const firstOption = { label: 'Pick an email template', value: null}
   const base = useBase()
   const globalConfig = useGlobalConfig();
+  const firstOption = { label: 'Pick an email template', value: null}
 
   const [selectedTable, setSelectedTable] = useState(base.getTableByIdIfExists(cursor.activeTableId))
   const [selectedView, setSelectedView] = useState(null)
@@ -37,61 +41,18 @@ function SendTemplateEmail() {
     setIsShowingSettings(!isShowingSettings);
   });
 
-  const isTableEmailable = table => {
-    const fieldNames = table.fields.map(f => f.name)
-    return fieldNames.includes('email')
-  }
-
   useEffect(() => {
-    const getToken = async () => {
-      const authParams = {
-        "audience": globalConfig.get('auth0ApiIdentifier'),
-        "grant_type": "client_credentials",
-        "client_id": globalConfig.get('auth0ClientId'),
-        "client_secret": globalConfig.get('auth0ClientSecret')
-      }
-
-      const tokenResult = await fetch(globalConfig.get('auth0TokenEndpoint'), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(authParams)
-      })
-
-      const data = await tokenResult.json()
-
-      const token = data.access_token
-
-      setToken(token)
-    }
-
     if (!token) {
-      getToken()
+      setToken(
+        getAuth0Token(
+          globalConfig.get('auth0ApiIdentifier'),
+          globalConfig.get('auth0ClientId')),
+          globalConfig.get('auth0ClientSecret'),
+          globalConfig.get('auth0TokenEndpoint')
+        )
+      )
     }
-  }, [token])
-
-  useEffect(() => {
-    const getTemplates = async () => {
-      const res = await fetch(globalConfig.get('dashboardApiEndpoint'), {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-      })
-      const data = await res.json()
-
-      if (res.statusCode !== 200) {
-        setAlert(data.error)
-      }
-      const tmpls = data.templates.Data
-      setTemplates(tmpls)
-    }
-
-    if (token && !templates.length) {
-      getTemplates()
-    }
-  }, [templates, token])
+  }, [token, globalConfig])
 
   useEffect(() => {
     if (selectedTable) {
@@ -154,12 +115,6 @@ function SendTemplateEmail() {
       }
   }
 
-
-  let templateOptions = templates.map(t => {
-    return { label: t.Name, value: t.ID }
-  })
-  templateOptions.unshift(firstOption)
-
   if (isShowingSettings) {
     return (
       <SettingsView />
@@ -169,26 +124,7 @@ function SendTemplateEmail() {
   return (
     <div style={{ padding: '10px' }}>
       <Heading size="small" marginBottom="10px">Send email from a template</Heading>
-      {
-        alert &&
-        <div style={{
-          padding: '5px 10px',
-          background: '#def5fe',
-          borderRadius: '3px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '10px'
-        }}>
-          <Text>{ alert }</Text>
-          <Button onClick={() => setAlert(null)}
-            variant="secondary"
-            size="small"
-            icon="x"
-          >
-          </Button>
-        </div>
-      }
+      <Alert alert={alert} onClose={() => setAlert(null)} />
       <div style={{ paddingBottom: '10px' }}>
         <Label htmlFor="table-picker">Table</Label>
         <Text
@@ -235,12 +171,12 @@ function SendTemplateEmail() {
           >
             Pick the email template from Mailjet to send to your recipients.
           </Text>
-          <Select
-            options={templateOptions}
-            value={selectedTemplate}
-            onChange={newValue => setSelectedTemplate(newValue)}
-            width="100%"
-            id="template-picker"
+          <TemplatePicker
+            selectedTemplate={selectedTemplate}
+            setSelectedTemplate={setSelectedTemplate}
+            token={token}
+            setAlert={setAlert}
+            firstOption={firstOption}
           />
         </div>
       }
