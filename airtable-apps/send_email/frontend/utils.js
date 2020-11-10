@@ -1,26 +1,58 @@
+import { useState, useEffect } from 'react'
+import { useGlobalConfig } from '@airtable/blocks/ui'
 
-export const getAuth0Token = async (audience, clientId, clientSecret, tokenEndpoint) => {
-  const authParams = {
-    "audience": audience,
-    "grant_type": "client_credentials",
-    "client_id": clientId,
-    "client_secret": clientSecret
-  }
+const useAuth0Token = () => {
+  const [token, setToken] = useState(null)
+  const globalConfig = useGlobalConfig()
 
-  const tokenResult = await fetch(tokenEndpoint, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(authParams)
-  })
+  useEffect(() => {
+    const getToken = async () => {
+      const authParams = {
+        "audience": globalConfig.get('auth0ApiIdentifier'),
+        "grant_type": "client_credentials",
+        "client_id": globalConfig.get('auth0ClientId'),
+        "client_secret": globalConfig.get('auth0ClientSecret')
+      }
 
-  const data = await tokenResult.json()
+      const tokenResult = await fetch(globalConfig.get('auth0TokenEndpoint'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(authParams)
+      })
 
-  return data.access_token
+      const data = await tokenResult.json()
+
+      setToken(data.access_token)
+    }
+
+    if (!token) {
+      getToken()
+    }
+  }, [token, globalConfig])
+
+  return token
 }
 
-export const isTableEmailable = table => {
+const isTableEmailable = table => {
   const fieldNames = table.fields.map(f => f.name)
   return fieldNames.includes('email')
 }
+
+const sendEmail = async (endpoint, token, payload) => {
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(payload)
+  })
+
+  const data = await res.json()
+
+  return { res, data }
+}
+
+export { useAuth0Token, isTableEmailable, sendEmail }

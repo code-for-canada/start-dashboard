@@ -3,7 +3,7 @@ const { methodNotImplemented, checkScopes } = require('./common')
 
 const getTemplates = (req, res) => {
   const request = mailjet
-    .get("template", {'version': 'v3'})
+    .get('template', { 'version': 'v3' })
     .request()
 
   request
@@ -22,6 +22,15 @@ const getTemplates = (req, res) => {
 
 const sendTemplateEmail = (req, res) => {
   const { records, template } = req.body
+  const missingEmails = records.filter(r => !r.email)
+
+  if (missingEmails.length) {
+    return res.status(400).send({
+      error: 'Some of the records are missing an email address.',
+      records: missingEmails
+    })
+  }
+
   const messages = records.map(record => {
     const email = record.email
     if (!email) return
@@ -58,7 +67,6 @@ const sendTemplateEmail = (req, res) => {
 
   request
     .then(result => {
-      console.log(result.body)
       return res.status(200).send(result)
     })
     .catch(err => {

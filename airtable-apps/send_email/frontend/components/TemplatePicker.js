@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Select, useGlobalConfig } from '@airtable/blocks/ui'
+import { useAuth0Token } from '../utils'
+import { DEFAULT_TEMPLATE_PICKER_OPTION } from '../constants'
 
-const TemplatePicker = ({ token, selectedTemplate, setSelectedTemplate, setAlert, firstOption }) => {
+const TemplatePicker = ({ selectedTemplate, setSelectedTemplate, setAlert, disabled }) => {
   const [templates, setTemplates] = useState([])
   const globalConfig = useGlobalConfig()
+  const token = useAuth0Token()
 
   useEffect(() => {
     const getTemplates = async () => {
-      console.log("getting tmplates!!")
       const res = await fetch(globalConfig.get('dashboardApiEndpoint'), {
         headers: {
           'Content-Type': 'application/json',
@@ -31,10 +33,11 @@ const TemplatePicker = ({ token, selectedTemplate, setSelectedTemplate, setAlert
   let templateOptions = templates.map(t => {
     return { label: t.Name, value: t.ID }
   })
-  templateOptions.unshift(firstOption)
+  templateOptions.unshift(DEFAULT_TEMPLATE_PICKER_OPTION)
 
   return (
     <Select
+      disabled={disabled}
       options={templateOptions}
       value={selectedTemplate}
       onChange={newValue => setSelectedTemplate(newValue)}
