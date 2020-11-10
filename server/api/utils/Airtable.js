@@ -5,6 +5,6 @@ const base = new Airtable({ apiKey: process.env.AIRTABLE_TOKEN })
 
 const locationsTable = base('locations')
 const artistsTable = base('artist_profiles')
-const accountsTable = base('access_control')
+const accountsTable = base('accounts')
 
 module.exports = { locationsTable, artistsTable, accountsTable }
