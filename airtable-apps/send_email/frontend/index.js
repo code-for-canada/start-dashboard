@@ -11,11 +11,9 @@ import {
   Label,
   Text,
   Heading,
-  Icon,
-  FormField,
-  Input
 } from '@airtable/blocks/ui';
 import { cursor, session } from '@airtable/blocks';
+import SettingsView from './SettingsView'
 
 const UNEMAILABLE_TABLE_MESSAGE = 'The table must have an "email" column.'
 const UNAUTHORIZED_MESSAGE = 'This app is not authorized to send emails.'
@@ -164,24 +162,7 @@ function SendTemplateEmail() {
 
   if (isShowingSettings) {
     return (
-      <div style={{ padding: '10px' }}>
-        <Heading size="small" marginBottom="10px">Settings</Heading>
-        <FormField label="Dashboard API endpoint">
-          <Input value={globalConfig.get('dashboardApiEndpoint')} onChange={e => globalConfig.setAsync('dashboardApiEndpoint', e.target.value)} />
-        </FormField>
-        <FormField label="Auth0 token endpoint">
-          <Input value={globalConfig.get('auth0TokenEndpoint')} onChange={e => globalConfig.setAsync('auth0TokenEndpoint', e.target.value)} />
-        </FormField>
-        <FormField label="Auth0 API identifier">
-          <Input value={globalConfig.get('auth0ApiIdentifier')} onChange={e => globalConfig.setAsync('auth0ApiIdentifier', e.target.value)} />
-        </FormField>
-        <FormField label="Auth0 Client ID">
-          <Input value={globalConfig.get('auth0ClientId')} onChange={e => globalConfig.setAsync('auth0ClientId', e.target.value)} />
-        </FormField>
-        <FormField label="Auth0 Client Secret">
-          <Input value={globalConfig.get('auth0ClientSecret')} onChange={e => globalConfig.setAsync('auth0ClientSecret', e.target.value)} />
-        </FormField>
-      </div>
+      <SettingsView />
     )
   }
 
