@@ -26,7 +26,7 @@ const sendTemplateEmail = (req, res) => {
 
   if (missingEmails.length) {
     return res.status(400).send({
-      error: 'Some of the records are missing an email address.',
+      error: `${missingEmails.length} records are missing an email address.`,
       records: missingEmails
     })
   }

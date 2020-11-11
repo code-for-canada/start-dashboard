@@ -4,7 +4,7 @@ import { Text, Button } from '@airtable/blocks/ui'
 const MissingEmailsWarning = ({ records = [] }) => {
   return (
     <div>
-      <p>The following records are missing an email address:</p>
+      <p>Your emails were not sent. The following records are missing an email address:</p>
       <ul>
         {records.map(r =>
           <li key={r.record_url}>
