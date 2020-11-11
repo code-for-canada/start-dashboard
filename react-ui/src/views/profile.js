@@ -5,9 +5,10 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { Loading } from '../components'
 import useRole from '../components/dashboard/useRole'
 import { ProfileView, ProfileEdit } from '.'
+import { getArtistByEmail } from '../utils/ApiHelper'
 
 const Profile = () => {
-  const { user } = useAuth0()
+  const { user, getAccessTokenSilently } = useAuth0()
   const [artist, setArtist] = useState(null)
   const [isLoading, setLoading] = useState(true)
   const { action = 'view' } = useParams()
@@ -18,11 +19,22 @@ const Profile = () => {
     const abortController = new AbortController()
     const getArtist = async () => {
       try {
-        const res = await fetch(
-          `/api/artist?email=${encodeURIComponent(user.email)}`,
-          { signal: abortController.signal }
-        )
-        const data = await res.json()
+        const token = await getAccessTokenSilently({
+          audience: 'https://dashboard.streetartoronto.ca/',
+        });
+        const opts = {
+          signal: abortController.signal,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        }
+        const data = await getArtistByEmail({ email: user.email, opts })
+
+        if (data.error) {
+          console.log(data.error)
+          return setLoading(false)
+        }
+
         if (data.records.length > 0) {
           const artistRecord = data.records[0]
           setArtist({ ...artistRecord.fields, id: artistRecord.id })
@@ -30,9 +42,9 @@ const Profile = () => {
         setLoading(false)
       } catch (err) {
         if (abortController.signal.aborted) {
-          console.log('Request to fetch Submittable forms was aborted')
+          console.log('Request to fetch artist was aborted')
         } else {
-          console.log('Error fetching Submittable forms', err)
+          console.log('Error fetching artist', err)
           setLoading(false)
         }
       }
@@ -43,7 +55,7 @@ const Profile = () => {
     return () => {
       abortController.abort()
     }
-  }, [user])
+  }, [user, getAccessTokenSilently])
 
   if (isLoading || isLoadingRole) {
     return <Loading />

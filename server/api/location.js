@@ -1,5 +1,5 @@
 const { locationsTable } = require('./utils/Airtable')
-const { methodNotImplemented } = require('./common')
+const { methodNotImplemented, checkScopes } = require('./common')
 
 const createLocation = (req, res) => {
   const location = req.body
@@ -11,7 +11,7 @@ const createLocation = (req, res) => {
         console.error(err);
         return res.
           status(500)
-          .send({ error: err })
+          .send({ error: err.message })
       }
       records.forEach(function (record) {
         console.log(record.getId());
@@ -26,7 +26,8 @@ const createLocation = (req, res) => {
 module.exports = (req, res) => {
   switch (req.method) {
     case 'POST':
-      createLocation(req, res)
+      const scopes = [ 'is:staff' ]
+      checkScopes(req, res, createLocation, scopes)
       break
     case 'GET':
       res.send('hello')

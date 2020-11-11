@@ -60,3 +60,22 @@ All configuration mentioned will be added to your `.env` file in the project's r
 3. Visit your account page: https://airtable.com/account
 4. Generate an API key if it doesn't already exist.
 5. Enter this key as `START_AIRTABLE_TOKEN` in your `.env` config.
+
+
+## Enable local HTTPS
+
+For Auth0's `getTokenSilently` hook to work, our API can't be on localhost and it needs to be https.
+More info:
+- https://community.auth0.com/t/how-to-gettokensilently-without-consent-on-localhost/39183/2
+- https://auth0.com/docs/authorization/user-consent-and-third-party-applications?&_ga=2.103547520.1065555486.1604253085-942398156.1598382215#skip-consent-for-first-party-applications
+
+Open `/etc/hosts` and add the line
+```
+127.0.0.1 start-dashboard
+```
+
+In the root directory, generate a self-signed certificate
+```
+openssl req -nodes -new -x509 -keyout server.key -out server.cert -subj '/CN=start-dashboard'
+```
+
