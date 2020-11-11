@@ -24,7 +24,7 @@ const Alert = ({ alert, onClose }) => {
         variant="secondary"
         size="small"
         icon="x"
-        ariaLabel="Close"
+        aria-label="Close"
         alignSelf="flex-start"
       >
       </Button>

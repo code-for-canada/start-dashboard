@@ -3,10 +3,18 @@ import { Select, useGlobalConfig } from '@airtable/blocks/ui'
 import { useAuth0Token } from '../utils'
 import { DEFAULT_TEMPLATE_PICKER_OPTION } from '../constants'
 
-const TemplatePicker = ({ selectedTemplate, setSelectedTemplate, setAlert, disabled }) => {
-  const [templates, setTemplates] = useState([])
-  const globalConfig = useGlobalConfig()
-  const token = useAuth0Token()
+const TemplatePicker = ({
+  selectedTemplate,
+  setSelectedTemplate,
+  setAlert,
+  disabled,
+  useGlobalConfigHook = useGlobalConfig,
+  useAuth0TokenHook = useAuth0Token,
+  useStateHook = useState,
+}) => {
+  const [templates, setTemplates] = useStateHook([])
+  const globalConfig = useGlobalConfigHook()
+  const token = useAuth0TokenHook()
 
   useEffect(() => {
     const getTemplates = async () => {
@@ -42,7 +50,6 @@ const TemplatePicker = ({ selectedTemplate, setSelectedTemplate, setAlert, disab
       value={selectedTemplate}
       onChange={newValue => setSelectedTemplate(newValue)}
       width="100%"
-      id="template-picker"
     />
   )
 }
