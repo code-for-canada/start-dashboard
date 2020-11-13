@@ -1,5 +1,5 @@
 const { accountsTable } = require('./utils/Airtable')
-const { getManagementApiToken, updateUser, sendVerificationEmail } = require('./utils/Auth0')
+const { getManagementApiToken, updateUser, sendVerificationEmail, deleteUser } = require('./utils/Auth0')
 const { methodNotImplemented, checkScopes, getUserData } = require('./common')
 const fetch = require('node-fetch')
 
@@ -54,10 +54,39 @@ const updateAccount = async (req, res) => {
   }
 }
 
+const deleteAccount = async (req, res) => {
+  try {
+    const auth0UpdateResult = await deleteUser(req.user.sub)
+    if (auth0UpdateResult.status !== 204) {
+      console.log({auth0UpdateResult})
+      return res.status(500).send({ error: `Unable to delete user on Auth0: Failed with status ${auth0UpdateResult.status}` })
+    }
+
+    const records = await accountsTable
+      .select({ filterByFormula: `{auth0_id} = '${req.user.sub}'` })
+      .firstPage();
+
+    if (records.length === 0) {
+      return res.status(500).send({ error: 'There is no Airtable record associated with this account ID' })
+    }
+
+    const accountRecord = records[0]
+    const deletedRecords = await accountsTable.destroy([accountRecord.id])
+
+    return res.status(200).send({ message: `Record ${accountRecord.id} was deleted.` })
+  } catch (err) {
+    console.log("Error deleting account", err)
+    return res.status(500).send({ error: `Unable to delete account on Airtable: ${err.message}` })
+  }
+}
+
 module.exports = (req, res) => {
   switch (req.method) {
     case 'PATCH':
       updateAccount(req, res)
+      break
+    case 'DELETE':
+      deleteAccount(req, res)
       break
     default:
       methodNotImplemented(req, res)

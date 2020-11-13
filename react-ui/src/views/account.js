@@ -1,49 +1,34 @@
 import React, { useState, useEffect } from 'react'
 import DefaultLayout from '../layouts/default-layout'
-import { Grid, Container, TextField, Button } from '@material-ui/core'
-import { Alert } from '@material-ui/lab'
+import { Grid, Container, Button } from '@material-ui/core'
 import { useAuth0 } from '@auth0/auth0-react'
-import { updateResource } from '../utils/ApiHelper'
+import { updateResource, deleteResource } from '../utils/ApiHelper'
 import { Block, BlockTitle } from '../components/dashboard/Block'
 import Loading from '../components/loading'
+import StatusAlert from '../components/StatusAlert'
+import AccountUpdateForm from '../components/forms/AccountUpdateForm'
+import AccountDeleteForm from '../components/forms/AccountDeleteForm'
 
-const StatusAlert = ({ show = false, message = '', severity = 'success' }) => {
-  if (!show) {
-    return null
-  }
-
-  return (
-    <Alert severity={severity} variant="filled" className="mb-2">
-      <p className="mb-0">{message}</p>
-    </Alert>
-  )
-}
 
 const Account = () => {
   const { user, getAccessTokenSilently, logout } = useAuth0()
-  const [email, setEmail] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
+  const [formData, setFormData] = useState({})
   const [loading, setLoading] = useState(false)
   const [alert, setAlert] = useState({})
 
   useEffect(() => {
     if (user) {
-      setEmail(user.email)
-      setFirstName(user['https://streetartoronto.ca/first_name'])
-      setLastName(user['https://streetartoronto.ca/last_name'])
+      setFormData({
+        email: user.email,
+        firstName: user['https://streetartoronto.ca/first_name'],
+        lastName: user['https://streetartoronto.ca/last_name']
+      })
     }
   }, [user])
 
   const handleSubmit = async e => {
     setLoading(true)
     e.preventDefault()
-
-    const accountData = {
-      email: email,
-      firstName: firstName,
-      lastName: lastName
-    }
 
     try {
       const token = await getAccessTokenSilently({
@@ -54,10 +39,11 @@ const Account = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(accountData)
+        body: JSON.stringify(formData)
       }
       const data = await updateResource({ resource: 'account', opts })
       setLoading(false)
+
       if (data.error) {
         console.log(data.error)
         throw new Error(data.error)
@@ -68,8 +54,9 @@ const Account = () => {
         severity: 'success'
       })
 
-      if (accountData.email !== user.email) {
-        logout({ redirectTo: '/account-updated' })
+      if (formData.email !== user.email) {
+        const returnTo = `${window.location.origin}/account-updated`
+        logout({ returnTo })
       }
     } catch (err) {
       setAlert({
@@ -80,22 +67,42 @@ const Account = () => {
     }
   }
 
-  if (!user.email_verified) {
-    return (
-      <DefaultLayout>
-        <Container
-          maxWidth="md"
-          style={{ marginTop: '40px', marginBottom: '40px' }}>
-          <StatusAlert
-            show={true}
-            message={
-              'You must verify your email before you can access this page.'
-            }
-            severity={'warning'}
-          />
-        </Container>
-      </DefaultLayout>
-    )
+  const handleDelete = async () => {
+    setLoading(true)
+
+    try {
+      const token = await getAccessTokenSilently({
+        audience: 'https://dashboard.streetartoronto.ca/'
+      })
+      const opts = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      }
+      const data = await deleteResource({ resource: 'account', opts })
+      setLoading(false)
+
+      if (data.error) {
+        console.log(data.error)
+        throw new Error(data.error)
+      }
+
+      setAlert({
+        message: 'Your account has been deleted.',
+        severity: 'success'
+      })
+
+      const returnTo = `${window.location.origin}`
+      logout({ returnTo })
+    } catch (err) {
+      console.log({err})
+      setAlert({
+        message:
+          'We were unable to delete your account. Please try again or contact us.',
+        severity: 'warning'
+      })
+    }
   }
 
   return (
@@ -113,46 +120,27 @@ const Account = () => {
 
         <Grid container justify="center">
           <Grid item md={6}>
-            <Block style={{ position: 'relative' }}>
+            <Block style={{ position: 'relative', marginBottom: '20px' }}>
               <BlockTitle title="My Account" />
-              <form onSubmit={handleSubmit}>
-                <TextField
-                  label="First name"
-                  value={firstName || ''}
-                  onChange={e => setFirstName(e.currentTarget.value)}
-                  fullWidth={true}
-                  variant="outlined"
-                  margin="dense"
-                />
+              <AccountUpdateForm
+                onSubmit={handleSubmit}
+                formData={formData}
+                setFormData={setFormData}
+              />
+              {loading && (
+                <div className="loading-backdrop">
+                  <Loading />
+                </div>
+              )}
+            </Block>
+          </Grid>
+        </Grid>
 
-                <TextField
-                  label="Last name"
-                  value={lastName || ''}
-                  onChange={e => setLastName(e.currentTarget.value)}
-                  fullWidth={true}
-                  variant="outlined"
-                  margin="dense"
-                />
-
-                <TextField
-                  label="Email address"
-                  value={email || ''}
-                  onChange={e => setEmail(e.currentTarget.value)}
-                  fullWidth={true}
-                  variant="outlined"
-                  margin="dense"
-                  helperText="If you change your email, you must verify the new email address before you can access your dashboard again."
-                  required
-                />
-
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  style={{ marginTop: '20px' }}>
-                  Save
-                </Button>
-              </form>
+        <Grid container justify="center">
+          <Grid item md={6}>
+            <Block style={{ position: 'relative' }}>
+              <BlockTitle title="Danger Zone" />
+              <AccountDeleteForm onSubmit={handleDelete} email={user.email} setAlert={setAlert} />
               {loading && (
                 <div className="loading-backdrop">
                   <Loading />

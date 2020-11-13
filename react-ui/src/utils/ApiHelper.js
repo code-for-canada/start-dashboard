@@ -9,7 +9,7 @@ const getResource = async ({ resource, url, opts }) => {
   try {
     const apiEndpoint = url || ENDPOINTS[resource]
     const res = await fetch(apiEndpoint, opts)
-    const data = res.json()
+    const data = await res.json()
     return data
   } catch (err) {
     return { error: err.message }
@@ -23,7 +23,7 @@ const createResource = async ({ resource, url, opts }) => {
       method: 'POST',
       ...opts
     })
-    const data = res.json()
+    const data = await res.json()
     return data
   } catch (err) {
     return { error: err.message }
@@ -43,11 +43,26 @@ const updateResource = async ({ resource, url, data, opts }) => {
       method: 'PATCH',
       ...opts
     })
-    const data = res.json()
+    const data = await res.json()
     return data
   } catch (err) {
     return { error: err.message }
   }
 }
 
-export { getResource, getArtistByEmail, createResource, updateResource }
+const deleteResource = async ({ resource, url, data, opts }) => {
+  try {
+    const apiEndpoint = url || ENDPOINTS[resource]
+    const res = await fetch(apiEndpoint, {
+      method: 'DELETE',
+      ...opts
+    })
+    const data = await res.json()
+    console.log({ data })
+    return data
+  } catch (err) {
+    return { error: err.message }
+  }
+}
+
+export { getResource, getArtistByEmail, createResource, updateResource, deleteResource }

@@ -29,7 +29,7 @@ const App = () => {
       <Route exact path="/">
         {isAuthenticated ? <Redirect to="/dashboard" /> : <Home />}
       </Route>
-      <PrivateRoute path="/dashboard" component={Dashboard} />
+      <PrivateRoute path="/dashboard" component={Dashboard} validateEmail={false} />
       <PrivateRoute path="/update" component={Update} />
       <PrivateRoute path="/map" component={InternalMap} />
       <PrivateRoute path="/location" component={LocationForm} />

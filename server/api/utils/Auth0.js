@@ -36,6 +36,20 @@ const updateUser = async (id, payload) => {
   return auth0res
 }
 
+const deleteUser = async (id) => {
+  const token = await getManagementApiToken()
+
+  const auth0res = await fetch(`https://${process.env.AUTH0_DOMAIN}/api/v2/users/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  })
+
+  return auth0res
+}
+
 const sendVerificationEmail = async (id) => {
   const token = await getManagementApiToken()
   const userId = id.split('auth0|')[1]
@@ -56,4 +70,4 @@ const sendVerificationEmail = async (id) => {
   return auth0res
 }
 
-module.exports = { getManagementApiToken, updateUser, sendVerificationEmail }
+module.exports = { getManagementApiToken, updateUser, sendVerificationEmail, deleteUser }
