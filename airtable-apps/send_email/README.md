@@ -6,6 +6,10 @@ This lets Airtable users create a mailing list from any table, save it as a view
 
 ## Local development
 
+Switch to test app:
+```bash
+setup:blocks:test
+```
 Start the local server
 ```bash
 npm run start:dev
@@ -36,9 +40,19 @@ Auth0 API identifier | The identifier for the app, set on the Auth0 platform | `
 Auth0 client ID | The client ID for the StART Dashboard M2M app that the Airtable app is authenticating to | xxx
 Auth0 Client Secret | The client ID for the StART Dashboard M2M app that the Airtable app is authenticating to | xxx
 
+## Gotchas
+
+If you're working on Chrome, you may need to change your configuration to allow insecure localhost since we are securing localhost with a self-signed certificate.
+
+Go to `chrome://flags/#allow-insecure-localhost` and enable the feature.
+
 
 ## Deployment
 
+Switch to production app:
+```bash
+setup:blocks:prod
+```
 Release the block
 ```bash
 block release
