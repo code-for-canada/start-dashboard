@@ -1,6 +1,5 @@
 const { artistsTable } = require('./utils/Airtable')
 const { methodNotImplemented, checkScopes, getUserData } = require('./common')
-const fetch = require('node-fetch')
 
 const getArtist = async (req, res) => {
   const userEmail = req.query.email;
