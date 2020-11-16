@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import DefaultLayout from '../layouts/default-layout'
-import { Grid, Container, Button } from '@material-ui/core'
+import { Grid, Container } from '@material-ui/core'
 import { useAuth0 } from '@auth0/auth0-react'
 import { updateResource, deleteResource } from '../utils/ApiHelper'
 import { Block, BlockTitle } from '../components/dashboard/Block'

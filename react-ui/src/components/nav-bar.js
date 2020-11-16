@@ -63,9 +63,9 @@ const AuthNav = props => {
         My Account
       </Nav.Link>
       {isAuthenticated ? (
-        <LogoutButton handleLogout={handleLogout} />
+        <div className="pl-2"><LogoutButton handleLogout={handleLogout} /></div>
       ) : (
-        <LoginButton handleLogin={handleLogin} />
+        <div className="pl-2"><LoginButton handleLogin={handleLogin} /></div>
       )}
     </Nav>
   )

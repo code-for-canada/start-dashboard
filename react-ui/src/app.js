@@ -11,8 +11,8 @@ import {
   LocationForm,
   Profile,
   Account,
-  AccountUpdated
-  ProfileSaved
+  AccountUpdated,
+  ProfileSaved,
 } from './views'
 
 import './assets/scss/main.scss'
