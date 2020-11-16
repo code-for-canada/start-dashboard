@@ -8,16 +8,14 @@ export default {
   title: 'Panel'
 }
 
-const Template = args => (
-  <Panel {...args} />
-)
+const Template = args => <Panel {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  children: <div style={{height: '100%', backgroundColor: 'lightgray'}} />,
+  children: <div style={{ height: '100%', backgroundColor: 'lightgray' }} />,
   isVisible: false,
   isSmall: true,
-  title: "Example Panel",
+  title: 'Example Panel',
   toggleVisibility: action('toggle open/close'),
   toggleSize: action('toggle big/small')
 }

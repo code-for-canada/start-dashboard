@@ -8,6 +8,8 @@ import ProfileSaved from './profile-saved'
 import ProfileView from './profile-view'
 import ProfileEdit from './profile-edit'
 import Unauthorized from './unauthorized'
+import Account from './account'
+import AccountUpdated from './account-updated'
 
 export {
   Home,
@@ -19,5 +21,7 @@ export {
   ProfileSaved,
   ProfileView,
   ProfileEdit,
-  Unauthorized
+  Unauthorized,
+  Account,
+  AccountUpdated
 }

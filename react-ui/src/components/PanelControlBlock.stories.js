@@ -3,8 +3,8 @@ import PanelControlBlock from './PanelControlBlock'
 import * as PanelControlBlockItemStories from './PanelControlBlockItem.stories'
 
 export default {
-    component: PanelControlBlock,
-    title: 'PanelControlBlock'
+  component: PanelControlBlock,
+  title: 'PanelControlBlock'
 }
 
 const Template = args => <PanelControlBlock {...args} />
@@ -14,6 +14,6 @@ Default.args = {
   panels: [
     { ...PanelControlBlockItemStories.Default.args, title: 'Panel 1' },
     { ...PanelControlBlockItemStories.Default.args, title: 'Panel 2' },
-    { ...PanelControlBlockItemStories.Default.args, title: 'Panel 3' },
+    { ...PanelControlBlockItemStories.Default.args, title: 'Panel 3' }
   ]
 }

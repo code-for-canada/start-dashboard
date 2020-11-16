@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Button } from 'react-bootstrap'
 
 const LogoutButton = props => {
@@ -7,10 +8,14 @@ const LogoutButton = props => {
     <Button
       onClick={handleLogout}
       variant="danger"
-      className="btn-margin">
+      className="btn-margin nav-link">
       Log Out
     </Button>
   )
+}
+
+LogoutButton.propTypes = {
+  handleLogout: PropTypes.func
 }
 
 export default LogoutButton

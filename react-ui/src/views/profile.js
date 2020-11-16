@@ -20,12 +20,12 @@ const Profile = () => {
     const getArtist = async () => {
       try {
         const token = await getAccessTokenSilently({
-          audience: 'https://dashboard.streetartoronto.ca/',
-        });
+          audience: 'https://dashboard.streetartoronto.ca/'
+        })
         const opts = {
           signal: abortController.signal,
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`
           }
         }
         const data = await getArtistByEmail({ email: user.email, opts })

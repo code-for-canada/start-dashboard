@@ -4,32 +4,23 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 import LoginButton from '../components/login-button'
 import SignupButton from '../components/signup-button'
+import getRandomImage from '../utils/randomImage'
 
 import blob1 from '../assets/images/blob1.svg'
 import blob2 from '../assets/images/blob2.svg'
-
-const defaultImg =
-  'https://dl.airtable.com/.attachments/bf85b19d45989b61b38d0499a0c9ab3d/bcb3bc8b/UNADJUSTEDRAW_thumb_f416.jpg'
 
 const Home = () => {
   const [image, setImage] = useState()
   const { loginWithRedirect } = useAuth0()
   useEffect(() => {
-    if (!image) {
-      fetch(
-        'https://raw.githubusercontent.com/code-for-canada/start-map/master/public/geojson/ftrs.json'
-      )
-        .then(response => response.json())
-        .then(data => {
-          const feature =
-            data.features[Math.floor(Math.random() * data.features.length)]
-          console.log(feature)
-          if (feature.properties.media && feature.properties.media.length > 0) {
-            setImage(feature.properties.media[0].url)
-          } else setImage(defaultImg)
-        })
+    const getImage = async () => {
+      const image = await getRandomImage()
+      setImage(image)
     }
-  })
+    if (!image) {
+      getImage()
+    }
+  }, [image])
 
   const styles = {
     contentArea: {

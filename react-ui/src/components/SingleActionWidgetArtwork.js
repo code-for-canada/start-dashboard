@@ -3,9 +3,8 @@ import SingleActionWidget from 'components/SingleActionWidget'
 import PropTypes from 'prop-types'
 
 const SingleActionWidgetArtwork = ({ options = [], onClick, buttonLabel }) => {
-  const makeTitleLocationLabel = option => (
+  const makeTitleLocationLabel = option =>
     `${option.title} (${option.location})`
-  )
 
   return (
     <SingleActionWidget
@@ -20,7 +19,8 @@ const SingleActionWidgetArtwork = ({ options = [], onClick, buttonLabel }) => {
 
 SingleActionWidgetArtwork.propTypes = {
   options: PropTypes.array,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  buttonLabel: PropTypes.string
 }
 
 export default SingleActionWidgetArtwork

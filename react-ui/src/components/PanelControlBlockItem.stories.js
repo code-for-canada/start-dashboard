@@ -3,8 +3,8 @@ import PanelControlBlockItem from './PanelControlBlockItem'
 import { action } from '@storybook/addon-actions'
 
 export default {
-    component: PanelControlBlockItem,
-    title: 'PanelControlBlockItem'
+  component: PanelControlBlockItem,
+  title: 'PanelControlBlockItem'
 }
 
 const Template = args => <PanelControlBlockItem {...args} />

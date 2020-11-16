@@ -10,7 +10,9 @@ import {
   InternalMap,
   LocationForm,
   Profile,
-  ProfileSaved
+  Account,
+  AccountUpdated,
+  ProfileSaved,
 } from './views'
 
 import './assets/scss/main.scss'
@@ -27,13 +29,15 @@ const App = () => {
       <Route exact path="/">
         {isAuthenticated ? <Redirect to="/dashboard" /> : <Home />}
       </Route>
-      <PrivateRoute path="/dashboard" component={Dashboard} />
+      <PrivateRoute path="/dashboard" component={Dashboard} validateEmail={false} />
       <PrivateRoute path="/update" component={Update} />
       <PrivateRoute path="/map" component={InternalMap} />
       <PrivateRoute path="/location" component={LocationForm} />
       <PrivateRoute path="/profile" exact component={Profile} />
       <PrivateRoute path="/profile/success" exact component={ProfileSaved} />
       <PrivateRoute path="/profile/:action" component={Profile} />
+      <PrivateRoute path="/account" component={Account} />
+      <Route path="/account-updated" component={AccountUpdated} />
     </Switch>
   )
 }

@@ -53,11 +53,20 @@ const AuthNav = props => {
   } = props
 
   return (
-    <Nav className="justify-content-end ml-md-4">
-      {isAuthenticated
-        ? <LogoutButton handleLogout={handleLogout} />
-        : <LoginButton handleLogin={handleLogin} />
-      }
+    <Nav className="justify-content-end">
+      <Nav.Link
+        as={RouterNavLink}
+        to="/account"
+        exact
+        className="text-dark"
+        activeClassName="router-link-exact-active">
+        My Account
+      </Nav.Link>
+      {isAuthenticated ? (
+        <div className="pl-2"><LogoutButton handleLogout={handleLogout} /></div>
+      ) : (
+        <div className="pl-2"><LoginButton handleLogin={handleLogin} /></div>
+      )}
     </Nav>
   )
 }
@@ -80,8 +89,12 @@ const renderNavLinks = role => {
 
 const NavBar = ({ useAuthHook = useAuth0 }) => {
   const { isAuthenticated, user, logout, loginWithRedirect } = useAuthHook()
-  const userName = user && (user['https://streetartoronto.ca/name'] || user.nickname)
-  const role = user['https://streetartoronto.ca/role'] || 'Artist' // TODO: this should probably be set as a constant
+  const userName = user
+    ? user['https://streetartoronto.ca/first_name'] || user.nickname
+    : 'Guest'
+  const role = user
+    ? user['https://streetartoronto.ca/role'] || 'Artist'
+    : 'Artist' // TODO: this should probably be set as a constant
 
   return (
     <Navbar
@@ -108,9 +121,9 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
               <AuthNav
                 isAuthenticated={isAuthenticated}
                 handleLogin={() => loginWithRedirect()}
-                handleLogout={() => logout({
-                  returnTo: window.location.origin
-                })}
+                handleLogout={() =>
+                  logout({ returnTo: window.location.origin })
+                }
               />
             </Navbar.Collapse>
           </Grid>
