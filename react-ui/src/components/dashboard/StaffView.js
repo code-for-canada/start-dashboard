@@ -19,12 +19,39 @@ const StaffDashboard = () => {
 
   // Array 2 objects merged into array 1 objects based on provided key.
   // Index order from array 1 is preserved.
-  const mergeBy = (key, arr1, arr2) => {
-    return arr1.map(item1 => ({
-      ...item1,
-      ...arr2.find(item2 => (item2[key] === item1[key]) && item2)
-    }))
+  // const mergeBy = (key, arr1, arr2) => {
+  //   return arr1.map(item1 => ({
+  //     ...item1,
+  //     ...arr2.find(item2 => (item2[key] === item1[key]) && item2)
+  //   }))
+  // }
+
+  const addConfigToDefaultPanels = () => {
+    return PANELS_DATA.map(panel => {
+      const panelConfig = panels.find(config => config.id === panel.id)
+      return {
+        ...panel,
+        isVisible: panelConfig ? panelConfig.isVisible : panel.isVisible,
+        isSmall: panelConfig ? panelConfig.isSmall : panel.isSmall
+      }
+    })
   }
+
+  const orderPanels = panelsWithConfig => {
+    panels.forEach((config, configIndex) => {
+      const panel = panelsWithConfig.find(p => p.id === config.id)
+      if (panel) {
+        const panelIndex = panelsWithConfig.indexOf(panel)
+        panelsWithConfig.splice(panelIndex, 1)
+        panelsWithConfig.splice(configIndex, 0, panel)
+      }
+    })
+
+    return panelsWithConfig
+  }
+
+  const panelsWithConfig = addConfigToDefaultPanels()
+  const orderedPanels = orderPanels(panelsWithConfig)
 
   return (
     <Container fluid>
@@ -50,7 +77,7 @@ const StaffDashboard = () => {
             <Col>
               <Container fluid className="px-0">
                 <Row>
-                  {mergeBy('id', panels, PANELS_DATA).map((panel, index) => (
+                  {orderedPanels.map((panel, index) => (
                     <Panel
                       {...panel}
                       key={panel.id}
