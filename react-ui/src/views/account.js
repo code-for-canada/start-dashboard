@@ -59,6 +59,7 @@ const Account = () => {
         logout({ returnTo })
       }
     } catch (err) {
+      setLoading(false)
       setAlert({
         message:
           'We were unable to update your account. Please try again or contact us.',
