@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { Text, Button, Box, colors } from '@airtable/blocks/ui'
 
 const Alert = ({ alert, onClose }) => {
@@ -30,6 +31,10 @@ const Alert = ({ alert, onClose }) => {
       </Button>
     </Box>
   )
+}
+Alert.propTypes = {
+  alert: PropTypes.string.isRequired,
+  onClose: PropTypes.func
 }
 
 export default Alert
