@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
+const cors = require('cors')
 const jwt = require('express-jwt');
 const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require('jwks-rsa');
@@ -12,6 +13,11 @@ const getUserData = require('./api/common').getUserData
 
 const isDev = process.env.NODE_ENV !== 'production';
 const PORT = process.env.PORT || 3000;
+
+const emailCors = {
+  origin: '*',
+  optionsSuccessStatus: 200
+}
 
 const checkJwt = jwt({
   // Dynamically provide a signing key
@@ -60,6 +66,7 @@ if (!isDev && cluster.isMaster) {
   const handleArtist = require('./api/artist')
   const handleForms = require('./api/forms')
   const handleAccount = require('./api/account')
+  const handleEmailTemplates = require('./api/emails')
 
   // Log requests with dev template
   app.use(morgan('dev'))
@@ -70,10 +77,12 @@ if (!isDev && cluster.isMaster) {
   // Answer API requests.
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
+
   app.all('/api/location', checkJwt, checkEmailVerified, handleLocations)
   app.all('/api/artist', checkJwt, checkEmailVerified, handleArtist)
   app.all('/api/forms', handleForms)
   app.all('/api/account', checkJwt, checkEmailVerified, handleAccount)
+  app.all('/api/email-templates', cors(), checkJwt, handleEmailTemplates)
 
   // Only in production is the server the main entry point,
   // so only then serve built static files from filesystem.
