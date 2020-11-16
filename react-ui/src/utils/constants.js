@@ -219,7 +219,7 @@ export const PANELS_DATA = [
   {
     id: 'artwork-status-board',
     title: 'Artwork Status Board',
-    isVisible: false,
+    isVisible: true,
     isSmall: false,
     editLink:
       'https://airtable.com/tbl5ApSEOzPpe4fwp/viwiX18oxXONzk8th?blocks=hide',
@@ -251,7 +251,7 @@ export const PANELS_DATA = [
   {
     id: 'artists',
     title: 'Artists',
-    isVisible: false,
+    isVisible: true,
     isSmall: false,
     editLink: 'https://www.cognitoforms.com/forms/startartistprofile/entries',
     editText: 'Edit in CognitoForms',
