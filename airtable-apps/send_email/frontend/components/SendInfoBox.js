@@ -25,8 +25,8 @@ const SendInfoBox = ({ tableData = [], templateVars = [], templateEditLink = '#'
       <Box>
         <Text marginBottom={1}>
           Selected Template:
-          <Link href={templateEditLink} icon="edit" marginLeft={2}>Edit</Link>
-          <Link href={templatePreviewLink} icon="show1" marginLeft={2}>Preview</Link>
+          <Link target="_blank" href={templateEditLink} icon="edit" marginLeft={2}>Edit</Link>
+          <Link target="_blank" href={templatePreviewLink} icon="show1" marginLeft={2}>Preview</Link>
         </Text>
       </Box>
       <Text size="large" marginBottom={1}>Template Variables:</Text>
