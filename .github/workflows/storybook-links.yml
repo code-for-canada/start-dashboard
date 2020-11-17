@@ -1,0 +1,47 @@
+name: Deploy Storybooks
+on:
+  pull_request:
+    types: ["opened", "reopened", "synchronize"]
+    paths:
+      - '.github/workflows/storybook.yml'
+      - '.github/workflows/storybook-links.yml'
+      - 'react-ui/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CI_COMMIT_ID: ${{ github.event.pull_request.head.sha || github.sha }}
+      CI_REPO_NAME: ${{ github.repository }}
+
+    steps:
+      # See: https://github.community/t/if-expression-with-context-variable/16558/6
+      - name: Check if secrets available
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          unset HAS_SECRET
+          if [ -n "$GITHUB_TOKEN" ]; then HAS_SECRET=true; fi
+          echo ::set-env name=HAS_SECRET::${HAS_SECRET}
+
+      # See: https://stackoverflow.com/a/58035262/504018
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract-branch
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 14.4.0
+
+      # See: https://github.com/taskworld/commit-status
+      - name: Install commit-status CLI tool
+        run: npm install -g commit-status
+
+      - name: Set commit status messages and success states
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          commit-status success "Storybook: React UI" "Available a few minutes after push." "https://${{ steps.extract-branch.outputs.branch }}--5f9b7272e5c4a70022388106.chromatic.com/"
+          commit-status success "Storybook: Airtable app (Email)" "Available a few minutes after push." "https://${{ steps.extract-branch.outputs.branch }}--5fb3fd84c168100021f7aa64.chromatic.com"
