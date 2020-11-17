@@ -1,4 +1,4 @@
-name: Deploy Storybooks
+name: Link to Storybooks
 on:
   push:
     paths:
@@ -7,7 +7,7 @@ on:
       - 'react-ui/**'
 
 jobs:
-  deploy:
+  add-links:
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -31,7 +31,6 @@ jobs:
         run: npm install -g commit-status
 
       - name: Set commit status messages and success states
-        if: github.event.pull_request.head.repo.full_name == github.repository
         run: |
           commit-status success "Storybook: React UI" "Available a few minutes after push." "https://${{ steps.extract-branch.outputs.branch }}--5f9b7272e5c4a70022388106.chromatic.com/"
           commit-status success "Storybook: Airtable app (Email)" "Available a few minutes after push." "https://${{ steps.extract-branch.outputs.branch }}--5fb3fd84c168100021f7aa64.chromatic.com"
