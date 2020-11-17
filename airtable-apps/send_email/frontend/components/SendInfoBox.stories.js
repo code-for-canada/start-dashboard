@@ -49,3 +49,16 @@ NoTemplateVariables.args = {
   ...Default.args,
   templateVars: []
 }
+
+function range(start, end) {
+  return Array.from({ length: end - start + 1 }, (_, i) => i)
+}
+
+var manyRows = range(0, 9999).map(n => ({email: `user${n}@example.com`, first_name: `Jane ${n}`}))
+manyRows[10].email = null
+
+export const ManyRecipients = Template.bind({})
+ManyRecipients.args = {
+  ...Default.args,
+  tableData: manyRows
+}

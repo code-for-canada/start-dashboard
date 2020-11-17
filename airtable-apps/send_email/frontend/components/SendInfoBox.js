@@ -19,7 +19,7 @@ const SendInfoBox = ({ tableData = [], templateVars = [], templateEditLink = '#'
           {' '}
           <span style={{fontWeight: 700}}>{totalCount - emailMissingCount}</span> rows
           {emailMissingCount > 0 &&
-            <span>{', '}{emailMissingCount} row(s) missing email address</span>
+            <span>{', '}{emailMissingCount} missing email(s)</span>
           }
         </Text>
       </Box>
