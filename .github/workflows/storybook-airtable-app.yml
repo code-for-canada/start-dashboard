@@ -21,7 +21,7 @@ jobs:
       # Move all react files to root (including hidden dotfiles)
       - run: |
           shopt -s dotglob
-          git airtable-apps/send_email/* ./ -fk
+          git mv airtable-apps/send_email/* ./ -fk
 
       - run: npm install
 
