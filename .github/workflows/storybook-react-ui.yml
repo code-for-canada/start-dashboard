@@ -5,7 +5,7 @@ on:
   push:
     paths:
       - 'react-ui/**'
-      - '.github/workflows/storybook.yml'
+      - '.github/workflows/storybook-react-ui.yml'
 
 # what the action will do
 jobs:
