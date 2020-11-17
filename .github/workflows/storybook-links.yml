@@ -1,7 +1,6 @@
 name: Deploy Storybooks
 on:
-  pull_request:
-    types: ["opened", "reopened", "synchronize"]
+  push:
     paths:
       - '.github/workflows/storybook.yml'
       - '.github/workflows/storybook-links.yml'
