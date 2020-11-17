@@ -21,7 +21,7 @@ Default.args = {
     {name: 'program_name', default: 'StART', isColMissing: false},
   ],
   templateEditLink: 'https://app.mailjet.com/template/1743481/build',
-  templatePreviewLink: 'https://app.mailjet.com/template/1743481/version-history',
+  templatePreviewLink: 'https://app.mailjet.com/template/1743612/preview',
 }
 
 export const ViewMissingColumn = Template.bind({})
