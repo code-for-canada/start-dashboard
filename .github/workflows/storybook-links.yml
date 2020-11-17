@@ -16,15 +16,6 @@ jobs:
       CI_REPO_NAME: ${{ github.repository }}
 
     steps:
-      # See: https://github.community/t/if-expression-with-context-variable/16558/6
-      - name: Check if secrets available
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          unset HAS_SECRET
-          if [ -n "$GITHUB_TOKEN" ]; then HAS_SECRET=true; fi
-          echo ::set-env name=HAS_SECRET::${HAS_SECRET}
-
       # See: https://stackoverflow.com/a/58035262/504018
       - name: Extract branch name
         shell: bash
