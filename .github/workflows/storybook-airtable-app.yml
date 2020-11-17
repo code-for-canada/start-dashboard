@@ -4,8 +4,8 @@ name: 'Push StorybookJS to Chromatic'
 on:
   push:
     paths:
-      - 'react-ui/**'
-      - '.github/workflows/storybook.yml'
+      - 'airtable-apps/send_email/**'
+      - '.github/workflows/storybook-airtable-app.yml'
 
 # what the action will do
 jobs:
@@ -21,14 +21,12 @@ jobs:
       # Move all react files to root (including hidden dotfiles)
       - run: |
           shopt -s dotglob
-          git mv react-ui/* ./ -fk
+          git airtable-apps/send_email/* ./ -fk
 
-      - run: |
-          npm install
-          npm run prebuild
+      - run: npm install
 
       - uses: chromaui/action@v1
         # options required to the GitHub chromatic action
         with:
-          projectToken: fe45j91f9zd
+          projectToken: ayhiuop76lu
           token: ${{ secrets.GITHUB_TOKEN }}
