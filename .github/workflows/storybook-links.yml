@@ -32,5 +32,5 @@ jobs:
 
       - name: Set commit status messages and success states
         run: |
-          commit-status success "Storybook: React UI" "Available a few minutes after push." "https://${{ steps.extract-branch.outputs.branch }}--5f9b7272e5c4a70022388106.chromatic.com/"
-          commit-status success "Storybook: Airtable app (Email)" "Available a few minutes after push." "https://${{ steps.extract-branch.outputs.branch }}--5fb3fd84c168100021f7aa64.chromatic.com"
+          commit-status success "Storybook: React UI"             "Available after deploy" "https://${{ steps.extract-branch.outputs.branch }}--5f9b7272e5c4a70022388106.chromatic.com/"
+          commit-status success "Storybook: Airtable app - Email" "Available after deploy" "https://${{ steps.extract-branch.outputs.branch }}--5fb3fd84c168100021f7aa64.chromatic.com"
