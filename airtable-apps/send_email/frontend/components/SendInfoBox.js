@@ -1,5 +1,6 @@
-import { Box, Icon, Link, Text, Tooltip, Heading } from '@airtable/blocks/ui'
+import { Box, Icon, Text } from '@airtable/blocks/ui'
 import React from 'react'
+import HintedLink from './HintedLink'
 
 const SendInfoBox = ({ tableData = [], templateVars = [], templateEditLink = '#', templatePreviewLink = '#' }) => {
   const totalCount = tableData.length
@@ -12,8 +13,8 @@ const SendInfoBox = ({ tableData = [], templateVars = [], templateEditLink = '#'
       padding={2}
       backgroundColor="lightGray1"
     >
-      <Box>
-        <Text marginBottom={1}>
+      <Box marginBottom={2}>
+        <Text>
           To be sent:
           {' '}
           <span style={{fontWeight: 700}}>{totalCount - emailMissingCount}</span> rows
@@ -22,14 +23,14 @@ const SendInfoBox = ({ tableData = [], templateVars = [], templateEditLink = '#'
           }
         </Text>
       </Box>
-      <Box>
-        <Text marginBottom={1}>
-          Selected Template:
-          <Link target="_blank" href={templateEditLink} icon="edit" marginLeft={2}>Edit</Link>
-          <Link target="_blank" href={templatePreviewLink} icon="show1" marginLeft={2}>Preview</Link>
+      <Box marginBottom={2}>
+        <Text marginBottom={2}>
+          Selected template:
+          <HintedLink hint="Redirects to Mailjet. Login required." icon="edit" href={templateEditLink}>Edit</HintedLink>
+          <HintedLink hint="Redirects to Mailjet. Login required." icon="show1" href={templatePreviewLink}>View/Test</HintedLink>
         </Text>
       </Box>
-      <Text size="large" marginBottom={1}>Template Variables:</Text>
+      <Text size="large" marginBottom={2}>Template variables:</Text>
       {templateVars.length === 0 && <Text textColor="gray" marginLeft={4}>(none)</Text>}
       {templateVars.map((v, i) => (
         v.isColMissing
