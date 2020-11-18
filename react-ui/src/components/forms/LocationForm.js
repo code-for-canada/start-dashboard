@@ -10,8 +10,8 @@ import Geocode from 'react-geocode'
 import Autocomplete from 'react-google-autocomplete'
 import { Alert } from 'react-bootstrap'
 import { withAuth0 } from '@auth0/auth0-react'
-import { DEFAULT_MAP_CENTER, AIRTABLE_LINKS } from '../../utils/constants'
-import { createResource } from '../../utils/ApiHelper'
+import { DEFAULT_MAP_CENTER, AIRTABLE_LINKS } from 'utils/constants'
+import { createResource } from 'utils/apiHelper'
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
 Geocode.enableDebug()

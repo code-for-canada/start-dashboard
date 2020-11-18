@@ -59,8 +59,7 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "chromatic": "npx chromatic --project-token fe45j91f9zd",
-    "prebuild": "cp heroku.env .env"
+    "chromatic": "npx chromatic --project-token fe45j91f9zd"
   },
   "eslintConfig": {
     "extends": "react-app"

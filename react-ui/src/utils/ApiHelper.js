@@ -65,4 +65,10 @@ const deleteResource = async ({ resource, url, data, opts }) => {
   }
 }
 
-export { getResource, getArtistByEmail, createResource, updateResource, deleteResource }
+export {
+  getResource,
+  getArtistByEmail,
+  createResource,
+  updateResource,
+  deleteResource
+}

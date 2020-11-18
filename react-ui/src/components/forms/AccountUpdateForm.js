@@ -7,7 +7,9 @@ const AccountUpdateForm = ({ onSubmit, formData, setFormData }) => (
     <TextField
       label="First name"
       value={formData.firstName || ''}
-      onChange={e => setFormData({ ...formData, firstName: e.currentTarget.value })}
+      onChange={e =>
+        setFormData({ ...formData, firstName: e.currentTarget.value })
+      }
       fullWidth={true}
       variant="outlined"
       margin="dense"
@@ -16,7 +18,9 @@ const AccountUpdateForm = ({ onSubmit, formData, setFormData }) => (
     <TextField
       label="Last name"
       value={formData.lastName || ''}
-      onChange={e => setFormData({ ...formData, lastName: e.currentTarget.value})}
+      onChange={e =>
+        setFormData({ ...formData, lastName: e.currentTarget.value })
+      }
       fullWidth={true}
       variant="outlined"
       margin="dense"
@@ -25,7 +29,7 @@ const AccountUpdateForm = ({ onSubmit, formData, setFormData }) => (
     <TextField
       label="Email address"
       value={formData.email || ''}
-      onChange={e => setFormData({ ...formData, email: e.currentTarget.value})}
+      onChange={e => setFormData({ ...formData, email: e.currentTarget.value })}
       fullWidth={true}
       variant="outlined"
       margin="dense"
