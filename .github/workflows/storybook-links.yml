@@ -1,10 +1,5 @@
 name: Link to Storybooks
-on:
-  push:
-    paths:
-      - '.github/workflows/storybook.yml'
-      - '.github/workflows/storybook-links.yml'
-      - 'react-ui/**'
+on: push
 
 jobs:
   add-links:
