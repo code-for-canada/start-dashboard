@@ -1,19 +1,28 @@
 {
-    "dependencies": {
-        "@airtable/blocks": "1.2.0",
-        "node-mailjet": "^3.3.1",
-        "react": "^16.13.0",
-        "react-dom": "^16.13.0"
-    },
-    "devDependencies": {
-        "eslint": "^6.8.0",
-        "eslint-plugin-react": "^7.18.3",
-        "eslint-plugin-react-hooks": "^2.5.0"
-    },
-    "scripts": {
-        "start": "block run",
-        "setup:prod": "cd .block && cp prod.remote.json remote.json",
-        "setup:test": "cd .block && cp test.remote.json remote.json",
-        "lint": "eslint frontend"
-    }
+  "dependencies": {
+    "@airtable/blocks": "1.2.0",
+    "node-mailjet": "^3.3.1",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@storybook/addon-actions": "^6.0.28",
+    "@storybook/addon-essentials": "^6.0.28",
+    "@storybook/addon-links": "^6.0.28",
+    "@storybook/react": "^6.0.28",
+    "babel-loader": "^8.2.1",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^2.5.0",
+    "react-is": "^17.0.1"
+  },
+  "scripts": {
+    "start": "block run",
+    "setup:prod": "cd .block && cp prod.remote.json remote.json",
+    "setup:test": "cd .block && cp test.remote.json remote.json",
+    "lint": "eslint frontend",
+    "storybook": "start-storybook -p 6006 --no-dll",
+    "build-storybook": "build-storybook --no-dll"
+  }
 }

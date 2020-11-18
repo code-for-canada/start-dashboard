@@ -1,16 +1,22 @@
 # name of our action
-name: 'Push StorybookJS to Chromatic'
+name: 'Deploy StorybookJS: React UI'
 # the event that will trigger the action
-on: push
+on:
+  push:
+    paths:
+      - 'react-ui/**'
+      - '.github/workflows/storybook-react-ui.yml'
 
 # what the action will do
 jobs:
-  build-push:
+  deploy:
     # the operating system it will run on
     runs-on: ubuntu-latest
     # the list of steps that the action will go through
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       # Move all react files to root (including hidden dotfiles)
       - run: |
