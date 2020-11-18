@@ -2,14 +2,18 @@ const { artistsTable } = require('./utils/Airtable')
 const { methodNotImplemented, checkScopes, getUserData } = require('./common')
 
 const getArtist = async (req, res) => {
-  const userEmail = req.query.email;
+  const userEmail = req.query.email
   const permissions = req.user.permissions
 
-  if (req.user.permissions.includes('is:artist')) {
+  if (permissions.includes('is:artist')) {
     const userData = await getUserData(req)
 
     if (!(userData.email_verified && userData.email === userEmail)) {
-      return res.status(403).send({ error: 'You are not authorized to see this profile.' })
+      return res
+        .status(403)
+        .send({
+          error: 'You are not authorized to see this profile.'
+        })
     }
   }
 
@@ -21,7 +25,7 @@ const getArtist = async (req, res) => {
         return res.status(500).send({ error: err })
       }
       return res.status(200).send({ records: records })
-    });
+    })
 }
 
 module.exports = (req, res) => {

@@ -1,0 +1,13 @@
+env:
+  node: true
+  es2020: true
+plugins:
+  - babel
+extends:
+  - standard
+  - prettier-standard
+  - eslint:recommended
+rules: {}
+parserOptions:
+  ecmaVersion: 11
+  sourceType: module

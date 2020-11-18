@@ -2,11 +2,11 @@ const fetch = require('node-fetch')
 
 const getManagementApiToken = async () => {
   const authParams = {
-      "audience": process.env.AUTH0_ADMIN_API_IDENTIFIER,
-      "grant_type": "client_credentials",
-      "client_id": process.env.AUTH0_ADMIN_CLIENT_ID,
-      "client_secret": process.env.AUTH0_ADMIN_CLIENT_SECRET,
-    }
+    'audience': process.env.AUTH0_ADMIN_API_IDENTIFIER,
+    'grant_type': 'client_credentials',
+    'client_id': process.env.AUTH0_ADMIN_CLIENT_ID,
+    'client_secret': process.env.AUTH0_ADMIN_CLIENT_SECRET,
+  }
 
   const tokenResult = await fetch(process.env.AUTH0_TOKEN_ENDPOINT, {
     method: 'POST',

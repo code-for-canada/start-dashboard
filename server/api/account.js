@@ -1,29 +1,38 @@
 const { accountsTable } = require('./utils/Airtable')
-const { getManagementApiToken, updateUser, sendVerificationEmail, deleteUser } = require('./utils/Auth0')
-const { methodNotImplemented, checkScopes, getUserData } = require('./common')
-const fetch = require('node-fetch')
+const {
+  updateUser,
+  sendVerificationEmail,
+  deleteUser
+} = require('./utils/Auth0')
+const { methodNotImplemented } = require('./common')
 
 const updateAccount = async (req, res) => {
   const payload = {
     email: req.body.email,
     user_metadata: {
       first_name: req.body.firstName,
-      last_name: req.body.lastName,
+      last_name: req.body.lastName
     }
   }
 
   try {
     const auth0UpdateResult = await updateUser(req.user.sub, payload)
     if (auth0UpdateResult.status !== 200) {
-      console.log({auth0UpdateResult})
-      return res.status(500).send({ error: `Unable to update user data on Auth0: Failed with status ${auth0UpdateResult.status}` })
+      return res
+        .status(500)
+        .send({
+          error: `Unable to update user data on Auth0: Failed with status ${auth0UpdateResult.status}`
+        })
     }
 
     if (req.user.email !== req.body.email) {
       const verificationEmailRes = await sendVerificationEmail(req.user.sub)
       if (verificationEmailRes.status !== 201) {
-        console.log({verificationEmailRes})
-        return res.status(500).send({ error: `Unable to send email verification email on Auth0: Failed with status ${verificationEmailRes.status}` })
+        return res
+          .status(500)
+          .send({
+            error: `Unable to send email verification email on Auth0: Failed with status ${verificationEmailRes.status}`
+          })
       }
     }
 
@@ -32,7 +41,11 @@ const updateAccount = async (req, res) => {
       .firstPage();
 
     if (records.length === 0) {
-      return res.status(500).send({ error: 'There is no Airtable record associated with this account ID' })
+      return res
+        .status(500)
+        .send({
+          error: 'There is no Airtable record associated with this account ID'
+        })
     }
 
     const accountRecord = records[0]
@@ -50,7 +63,11 @@ const updateAccount = async (req, res) => {
     return res.status(200).send({ record: updatedRecord })
   } catch (err) {
     console.log("Error updating account", err)
-    return res.status(500).send({ error: `Unable to update user data on Airtable: ${err.message}` })
+    return res
+      .status(500)
+      .send({
+        error: `Unable to update user data on Airtable: ${err.message}`
+      })
   }
 }
 
@@ -58,8 +75,11 @@ const deleteAccount = async (req, res) => {
   try {
     const auth0UpdateResult = await deleteUser(req.user.sub)
     if (auth0UpdateResult.status !== 204) {
-      console.log({auth0UpdateResult})
-      return res.status(500).send({ error: `Unable to delete user on Auth0: Failed with status ${auth0UpdateResult.status}` })
+      return res
+        .status(500)
+        .send({
+          error: `Unable to delete user on Auth0: Failed with status ${auth0UpdateResult.status}`
+        })
     }
 
     const records = await accountsTable
@@ -67,16 +87,28 @@ const deleteAccount = async (req, res) => {
       .firstPage();
 
     if (records.length === 0) {
-      return res.status(500).send({ error: 'There is no Airtable record associated with this account ID' })
+      return res
+        .status(500)
+        .send({
+          error: 'There is no Airtable record associated with this account ID'
+        })
     }
 
     const accountRecord = records[0]
     const deletedRecords = await accountsTable.destroy([accountRecord.id])
 
-    return res.status(200).send({ message: `Record ${accountRecord.id} was deleted.` })
+    return res
+      .status(200)
+      .send({
+        message: `Record ${accountRecord.id} was deleted.`
+      })
   } catch (err) {
     console.log("Error deleting account", err)
-    return res.status(500).send({ error: `Unable to delete account on Airtable: ${err.message}` })
+    return res
+      .status(500)
+      .send({
+        error: `Unable to delete account on Airtable: ${err.message}`
+      })
   }
 }
 
