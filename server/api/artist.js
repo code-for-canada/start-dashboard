@@ -9,11 +9,9 @@ const getArtist = async (req, res) => {
     const userData = await getUserData(req)
 
     if (!(userData.email_verified && userData.email === userEmail)) {
-      return res
-        .status(403)
-        .send({
-          error: 'You are not authorized to see this profile.'
-        })
+      return res.status(403).send({
+        error: 'You are not authorized to see this profile.'
+      })
     }
   }
 
@@ -21,7 +19,7 @@ const getArtist = async (req, res) => {
     .select({ filterByFormula: `{email} = '${userEmail}'` })
     .firstPage((err, records) => {
       if (err) {
-        console.error(err);
+        console.error(err)
         return res.status(500).send({ error: err })
       }
       return res.status(200).send({ records: records })
@@ -31,8 +29,7 @@ const getArtist = async (req, res) => {
 module.exports = (req, res) => {
   switch (req.method) {
     case 'GET':
-      const scopes = [ 'is:staff', 'is:artist' ]
-      checkScopes(req, res, getArtist, scopes)
+      checkScopes(req, res, getArtist, ['is:staff', 'is:artist'])
       break
     default:
       methodNotImplemented(req, res)
