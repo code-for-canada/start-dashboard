@@ -45,13 +45,11 @@ const ArtistNav = () => (
   </Nav>
 )
 
-const AuthNav = props => {
-  const {
-    isAuthenticated = true,
-    handleLogin = () => {},
-    handleLogout = () => {}
-  } = props
-
+const AuthNav = ({
+  isAuthenticated = true,
+  handleLogin = () => {},
+  handleLogout = () => {}
+}) => {
   return (
     <Nav className="justify-content-end">
       <Nav.Link

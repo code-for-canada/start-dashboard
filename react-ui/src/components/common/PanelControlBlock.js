@@ -2,9 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import PanelControlBlockItem from 'components/common/PanelControlBlockItem'
 
-const PanelControlBlock = props => {
-  const { panels = [] } = props
-
+const PanelControlBlock = ({ panels = [], ...props }) => {
   return (
     <div id="panel-control-block">
       <h4 className="my-3">All views</h4>

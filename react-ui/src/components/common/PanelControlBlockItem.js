@@ -4,18 +4,16 @@ import MoveUpButton from 'components/common/MoveUpButton'
 import MoveDownButton from 'components/common/MoveDownButton'
 import ShowHideButton from 'components/common/ShowHideButton'
 
-const PanelControlBlockItem = props => {
-  const {
-    title,
-    index,
-    isVisible = false,
-    isFirstItem = false,
-    isLastItem = false,
-    toggleVisibility,
-    moveUp,
-    moveDown
-  } = props
-
+const PanelControlBlockItem = ({
+  title,
+  index,
+  isVisible = false,
+  isFirstItem = false,
+  isLastItem = false,
+  toggleVisibility,
+  moveUp,
+  moveDown
+}) => {
   return (
     <>
       <style type="text/css">

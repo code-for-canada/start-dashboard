@@ -1,7 +1,19 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
-const EmbeddedIframe = ({ title, src, width, height, style, className }) => {
+const defaultStyle = {
+  background: 'transparent',
+  border: '1px solid #ccc'
+}
+
+const EmbeddedIframe = ({
+  title,
+  src,
+  width = '100%',
+  height = '533',
+  style = defaultStyle,
+  className = ''
+}) => {
   const [scrollEnabled, setScrollEnabled] = useState(false)
   const enableScroll = () => {
     setScrollEnabled(true)
@@ -39,13 +51,6 @@ EmbeddedIframe.propTypes = {
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   style: PropTypes.object,
   className: PropTypes.string
-}
-
-EmbeddedIframe.defaultProps = {
-  width: '100%',
-  height: '533',
-  style: { background: 'transparent', border: '1px solid #ccc' },
-  className: ''
 }
 
 export default EmbeddedIframe

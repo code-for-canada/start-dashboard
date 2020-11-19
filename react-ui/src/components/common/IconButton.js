@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const IconButton = props => {
-  const { onClick, disabled = false, children } = props
-
+const IconButton = ({ onClick, disabled = false, children }) => {
   return (
     <>
       <style type="text/css">
@@ -23,6 +21,7 @@ const IconButton = props => {
     </>
   )
 }
+
 IconButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool,

@@ -1,15 +1,14 @@
 require('dotenv').config()
 const fetch = require('node-fetch')
 const { methodNotImplemented } = require('./common')
+const { SUBMITTABLE_CATEGORIES_ENDPOINTS } = require('./utils/constants')
 
 const getSubmittableForms = async (req, res) => {
-  const endpoint = 'https://api.submittable.com/v1/categories?count=200'
-
   try {
     const encodedToken = Buffer.from(
       process.env.SUBMITTABLE_ACCESS_TOKEN
     ).toString('base64')
-    const response = await fetch(endpoint, {
+    const response = await fetch(SUBMITTABLE_CATEGORIES_ENDPOINTS, {
       headers: {
         Authorization: `Basic ${encodedToken}`
       }

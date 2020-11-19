@@ -5,11 +5,11 @@ import UnfoldMore from '@material-ui/icons/UnfoldMore'
 import Edit from '@material-ui/icons/Edit'
 
 const Panel = ({
+  editLink = 'https://airtable.com/tbl5ApSEOzPpe4fwp/viw2swQLeJ9xwU82F?blocks=hide',
+  editText = 'Edit in Airtable',
+  isVisible = true,
+  isSmall = false,
   title,
-  editLink,
-  editText,
-  isVisible,
-  isSmall,
   index,
   children,
   toggleVisibility,
@@ -68,14 +68,6 @@ Panel.propTypes = {
   children: PropTypes.node,
   toggleVisibility: PropTypes.func,
   toggleSize: PropTypes.func
-}
-
-Panel.defaultProps = {
-  isVisible: true,
-  isSmall: false,
-  editText: 'Edit in Airtable',
-  editLink:
-    'https://airtable.com/tbl5ApSEOzPpe4fwp/viw2swQLeJ9xwU82F?blocks=hide'
 }
 
 export default Panel
