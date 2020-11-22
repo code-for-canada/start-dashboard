@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container } from 'react-bootstrap'
+import { Container } from '@material-ui/core'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
 
 const CuratorDashboard = user => {

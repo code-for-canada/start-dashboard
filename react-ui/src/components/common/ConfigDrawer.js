@@ -1,8 +1,15 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import Drawer from '@material-ui/core/Drawer'
 import SettingsIcon from '@material-ui/icons/Settings'
 import CloseIcon from '@material-ui/icons/Close'
+import { Drawer, IconButton, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles({
+  drawer: {
+    padding: '1rem'
+  }
+})
 
 const ConfigDrawer = props => {
   const [open, setOpen] = useState(false)
@@ -19,23 +26,28 @@ const ConfigDrawer = props => {
     setOpen(open)
   }
 
+  const classes = useStyles()
+
   return (
-    <>
-      <button className="btn btn-light btn-block" onClick={toggleDrawer(true)}>
-        <SettingsIcon />
-      </button>
-      <Drawer anchor="right" open={open}>
-        <div className="mx-3 pt-2">
-          <button
-            className="btn btn-light"
-            type="button"
-            onClick={toggleDrawer(false)}>
-            <CloseIcon />
-          </button>
-          {children}
-        </div>
-      </Drawer>
-    </>
+    <Grid container justify="flex-end">
+      <Grid item>
+        <IconButton onClick={toggleDrawer(true)}>
+          <SettingsIcon />
+        </IconButton>
+        <Drawer anchor="right" open={open}>
+          <div className={classes.drawer}>
+            <Grid container justify="flex-end">
+              <Grid item>
+                <IconButton size="small" onClick={toggleDrawer(false)}>
+                  <CloseIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+            {children}
+          </div>
+        </Drawer>
+      </Grid>
+    </Grid>
   )
 }
 ConfigDrawer.propTypes = {

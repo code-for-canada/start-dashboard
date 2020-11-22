@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Container } from 'react-bootstrap'
+import { Container } from '@material-ui/core'
 import { useAuth0 } from '@auth0/auth0-react'
 
 import LoginButton from 'components/common/LoginButton'

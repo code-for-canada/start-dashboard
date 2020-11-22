@@ -3,10 +3,23 @@ import PropTypes from 'prop-types'
 import { useAuth0 } from '@auth0/auth0-react'
 import { Alert } from '@material-ui/lab'
 import { Container, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
 import NavBar from 'components/common/NavBar'
 import Footer from 'components/common/Footer'
 import getRandomImage from 'utils/randomImage'
+
+const useStyles = makeStyles(theme => ({
+  main: {
+    backgroundColor: theme.palette.background.default,
+    flex: '1 1 auto'
+  },
+  app: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%'
+  }
+}))
 
 const EmailVerificationAlert = ({ show }) => {
   if (!show) {
@@ -47,10 +60,12 @@ const DashboardLayout = ({ children }) => {
     }
   }, [image, user])
 
+  const classes = useStyles()
+
   return (
-    <div id="app" className="d-flex flex-column h-100">
+    <div id="app" className={classes.app}>
       <NavBar />
-      <main className="py-4 bg-light">
+      <main className={classes.main}>
         {user && !user.email_verified ? (
           <Container maxWidth="md">
             <EmailVerificationAlert show={user && !user.email_verified} />

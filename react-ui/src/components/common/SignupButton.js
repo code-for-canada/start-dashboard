@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button } from 'react-bootstrap'
+import { Button } from '@material-ui/core'
 
 const SignupButton = ({ handleLogin }) => {
   return (
     <Button
       onClick={() => handleLogin({ screen_hint: 'signUp' })}
-      variant="link"
       className="btn-margin mt-2">
       Sign Up
     </Button>

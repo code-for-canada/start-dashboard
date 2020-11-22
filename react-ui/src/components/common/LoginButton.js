@@ -1,11 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Button } from 'react-bootstrap'
+import { Button } from '@material-ui/core'
 
 const LoginButton = props => {
   const { handleLogin } = props
   return (
-    <Button onClick={handleLogin} variant="primary" className="btn-margin">
+    <Button
+      onClick={handleLogin}
+      variant="contained"
+      color="primary"
+      className="btn-margin">
       Log In
     </Button>
   )

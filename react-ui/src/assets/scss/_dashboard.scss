@@ -1,11 +1,12 @@
-html, body {
+html, body, #root {
   font-family: $primary-font;
+  color: $black;
+  height: 100%;
 }
 
-main {
-  flex: 1 1 auto;
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
 }
-
 
 .panel {
   transition: all 0.3s ease;

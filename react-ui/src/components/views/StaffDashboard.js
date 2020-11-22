@@ -1,5 +1,6 @@
 import React from 'react'
-import { Col, Container, Row } from 'react-bootstrap'
+import { Container, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
 import Panel from 'components/common/Panel'
@@ -7,6 +8,12 @@ import ConfigDrawer from 'components/common/ConfigDrawer'
 import PanelControlBlock from 'components/common/PanelControlBlock'
 import usePanelState from 'customHooks/usePanelState'
 import { PANELS_DATA } from 'utils/constants'
+
+const useStyles = makeStyles({
+  header: {
+    marginTop: '2rem'
+  }
+})
 
 const StaffDashboard = () => {
   const {
@@ -16,15 +23,6 @@ const StaffDashboard = () => {
     moveUp,
     moveDown
   } = usePanelState(PANELS_DATA)
-
-  // Array 2 objects merged into array 1 objects based on provided key.
-  // Index order from array 1 is preserved.
-  // const mergeBy = (key, arr1, arr2) => {
-  //   return arr1.map(item1 => ({
-  //     ...item1,
-  //     ...arr2.find(item2 => (item2[key] === item1[key]) && item2)
-  //   }))
-  // }
 
   const addConfigToDefaultPanels = () => {
     return PANELS_DATA.map(panel => {
@@ -52,14 +50,19 @@ const StaffDashboard = () => {
 
   const panelsWithConfig = addConfigToDefaultPanels()
   const orderedPanels = orderPanels(panelsWithConfig)
+  const classes = useStyles()
 
   return (
-    <Container fluid>
-      <Row className="mt-4">
-        <Col>
-          <h1 className="mb-2">StART Staff Dashboard</h1>
-        </Col>
-        <Col xs={1}>
+    <Container maxWidth={false}>
+      <Grid
+        container
+        spacing={2}
+        justify="space-between"
+        className={classes.header}>
+        <Grid item>
+          <h1>StART Staff Dashboard</h1>
+        </Grid>
+        <Grid item>
           <ConfigDrawer>
             <PanelControlBlock
               panels={panels}
@@ -68,31 +71,21 @@ const StaffDashboard = () => {
               toggleVisibility={toggleVisibility}
             />
           </ConfigDrawer>
-        </Col>
-      </Row>
+        </Grid>
+      </Grid>
 
-      <Row>
-        <Container fluid>
-          <Row>
-            <Col>
-              <Container fluid className="px-0">
-                <Row>
-                  {orderedPanels.map((panel, index) => (
-                    <Panel
-                      {...panel}
-                      key={panel.id}
-                      index={index}
-                      toggleVisibility={toggleVisibility}
-                      toggleSize={toggleSize}>
-                      <EmbeddedIframe title={panel.id} src={panel.frameSrc} />
-                    </Panel>
-                  ))}
-                </Row>
-              </Container>
-            </Col>
-          </Row>
-        </Container>
-      </Row>
+      <Grid container spacing={2}>
+        {orderedPanels.map((panel, index) => (
+          <Panel
+            {...panel}
+            key={panel.id}
+            index={index}
+            toggleVisibility={toggleVisibility}
+            toggleSize={toggleSize}>
+            <EmbeddedIframe title={panel.id} src={panel.frameSrc} />
+          </Panel>
+        ))}
+      </Grid>
     </Container>
   )
 }

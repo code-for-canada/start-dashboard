@@ -8,7 +8,7 @@ import {
 } from 'react-google-maps'
 import Geocode from 'react-geocode'
 import Autocomplete from 'react-google-autocomplete'
-import { Alert } from 'react-bootstrap'
+import StatusAlert from 'components/common/StatusAlert'
 import { withAuth0 } from '@auth0/auth0-react'
 import { DEFAULT_MAP_CENTER, AIRTABLE_LINKS } from 'utils/constants'
 import { createResource } from 'utils/apiHelper'
@@ -18,7 +18,7 @@ Geocode.enableDebug()
 
 const SuccessAlert = ({ show, recordId, address, onClose }) => {
   return (
-    <Alert show={show} variant="success" dismissible onClose={onClose}>
+    <StatusAlert show={show} severity="success" onClose={onClose}>
       <p>{`This location (${address}) has been added to the database.`}</p>
       <p>
         <a
@@ -28,7 +28,7 @@ const SuccessAlert = ({ show, recordId, address, onClose }) => {
           Edit on Airtable
         </a>
       </p>
-    </Alert>
+    </StatusAlert>
   )
 }
 SuccessAlert.propTypes = {
@@ -40,10 +40,10 @@ SuccessAlert.propTypes = {
 
 const ErrorAlert = ({ show, error, onClose }) => {
   return (
-    <Alert show={show} variant="error" dismissible onClose={onClose}>
+    <StatusAlert show={show} severity="error" onClose={onClose}>
       <p>There was an error saving this location:</p>
       {error && <code>{JSON.stringify(error)}</code>}
-    </Alert>
+    </StatusAlert>
   )
 }
 

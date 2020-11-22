@@ -1,137 +1,85 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { NavLink as RouterNavLink } from 'react-router-dom'
-import { Nav, Navbar } from 'react-bootstrap'
-import { Container, Grid } from '@material-ui/core'
+import { NavLink } from 'react-router-dom'
+import { AppBar, Toolbar, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
 import { useAuth0 } from '@auth0/auth0-react'
 import LogoutButton from 'components/common/LogoutButton'
 import LoginButton from 'components/common/LoginButton'
 
-const StaffNav = () => (
-  <Nav className="ml-auto">
-    <Nav.Link
-      as={RouterNavLink}
-      to="/"
-      exact
-      className="text-dark"
-      activeClassName="router-link-exact-active">
-      Dashboard
-    </Nav.Link>
-    <Nav.Link
-      as={RouterNavLink}
-      to="/map"
-      exact
-      className="text-dark"
-      activeClassName="router-link-exact-active">
-      Map
-    </Nav.Link>
-    <Nav.Link
-      as={RouterNavLink}
-      to="/location"
-      exact
-      className="text-dark"
-      activeClassName="router-link-exact-active">
-      Add location
-    </Nav.Link>
-  </Nav>
-)
-
-const ArtistNav = () => (
-  <Nav className="ml-auto">
-    <Nav.Link href="https://streetartoronto.ca/" className="text-dark">
-      StART Map
-    </Nav.Link>
-  </Nav>
-)
+const useStyles = makeStyles(theme => ({
+  menuSection: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  nav: {
+    paddingRight: '0.5rem',
+    paddingLeft: '0.5rem',
+    textDecoration: 'none',
+    color: theme.palette.text.primary,
+    '&:hover': {
+      color: theme.palette.primary.main
+    },
+    '&:focus': {
+      color: theme.palette.primary.dark
+    }
+  }
+}))
 
 const AuthNav = ({
   isAuthenticated = true,
   handleLogin = () => {},
   handleLogout = () => {}
 }) => {
-  return (
-    <Nav className="justify-content-end">
-      <Nav.Link
-        as={RouterNavLink}
-        to="/account"
-        exact
-        className="text-dark"
-        activeClassName="router-link-exact-active">
-        My Account
-      </Nav.Link>
-      {isAuthenticated ? (
-        <div className="pl-2">
-          <LogoutButton handleLogout={handleLogout} />
-        </div>
-      ) : (
-        <div className="pl-2">
-          <LoginButton handleLogin={handleLogin} />
-        </div>
-      )}
-    </Nav>
-  )
+  if (isAuthenticated) {
+    return <LogoutButton handleLogout={handleLogout} />
+  }
+
+  return <LoginButton handleLogin={handleLogin} />
 }
+
 AuthNav.propTypes = {
   handleLogin: PropTypes.func,
   handleLogout: PropTypes.func,
   isAuthenticated: PropTypes.bool
 }
 
-const renderNavLinks = role => {
-  switch (role) {
-    case 'StART Staff':
-      return <StaffNav />
-    case 'Artist':
-      return <ArtistNav />
-    default:
-      return null
-  }
-}
-
 const NavBar = ({ useAuthHook = useAuth0 }) => {
   const { isAuthenticated, user, logout, loginWithRedirect } = useAuthHook()
+  const classes = useStyles()
   const userName = user
     ? user['https://streetartoronto.ca/first_name'] || user.nickname
     : 'Guest'
-  const role = user
-    ? user['https://streetartoronto.ca/role'] || 'Artist'
-    : 'Artist' // TODO: this should probably be set as a constant
 
   return (
-    <Navbar
-      bg="white"
-      expand="md"
-      collapseOnSelect
-      className="shadow-depth px-0">
-      <Container maxWidth="xl">
+    <AppBar position="static" color="transparent">
+      <Toolbar variant="dense">
         <Grid container justify="space-between">
-          <Grid item>
-            <Nav.Link
-              as={RouterNavLink}
-              to="/"
-              exact
-              className="text-dark text-bold pl-0"
-              activeClassName="router-link-exact-active">
+          <Grid item className={classes.menuSection}>
+            <NavLink to="/" className={classes.nav}>
               {userName ? `Hi, ${userName}! 👋` : 'StART Guest'}
-            </Nav.Link>
+            </NavLink>
           </Grid>
-          <Grid item>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
-              {renderNavLinks(role)}
+
+          <Grid item className={classes.menuSection}>
+            <NavLink to="/map" className={classes.nav}>
+              StART map
+            </NavLink>
+            <NavLink to="/account" className={classes.nav}>
+              My account
+            </NavLink>
+            <div className={classes.nav}>
               <AuthNav
                 isAuthenticated={isAuthenticated}
-                handleLogin={() => loginWithRedirect()}
-                handleLogout={() =>
-                  logout({ returnTo: window.location.origin })
-                }
+                handleLogin={loginWithRedirect}
+                handleLogout={logout}
               />
-            </Navbar.Collapse>
+            </div>
           </Grid>
         </Grid>
-      </Container>
-    </Navbar>
+      </Toolbar>
+    </AppBar>
   )
 }
 

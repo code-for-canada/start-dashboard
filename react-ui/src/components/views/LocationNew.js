@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container } from 'react-bootstrap'
+import { Container } from '@material-ui/core'
 
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import LocationForm from 'components/forms/LocationForm'
