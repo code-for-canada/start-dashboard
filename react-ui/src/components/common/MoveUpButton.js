@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import IconButton from 'components/common/IconButton'
 
-const MoveUpButton = ({ onClick, disabled = false }) => (
-  <IconButton {...{ onClick, disabled }}>
+const MoveUpButton = ({ onClick, disabled = false, ...rest }) => (
+  <IconButton {...{ onClick, disabled }} {...rest}>
     <KeyboardArrowUpIcon />
   </IconButton>
 )

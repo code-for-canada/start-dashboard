@@ -3,6 +3,13 @@ import PropTypes from 'prop-types'
 import MoveUpButton from 'components/common/MoveUpButton'
 import MoveDownButton from 'components/common/MoveDownButton'
 import ShowHideButton from 'components/common/ShowHideButton'
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles(theme => ({
+  button: {
+    padding: theme.spacing(1)
+  }
+}))
 
 const PanelControlBlockItem = ({
   title,
@@ -14,15 +21,9 @@ const PanelControlBlockItem = ({
   moveUp,
   moveDown
 }) => {
+  const classes = useStyles()
   return (
     <>
-      <style type="text/css">
-        {`
-        .btn-group-micro > .btn {
-          padding: 0.1rem 0.25rem;
-        }
-        `}
-      </style>
       <tr>
         <td className="align-middle">
           <nobr>{title}</nobr>
@@ -33,14 +34,17 @@ const PanelControlBlockItem = ({
             role="group"
             aria-label={`Actions on view: ${title}`}>
             <ShowHideButton
+              className={classes.button}
               isVisible={isVisible}
               onClick={() => toggleVisibility(index)}
             />
             <MoveUpButton
+              className={classes.button}
               disabled={isFirstItem}
               onClick={() => moveUp(index)}
             />
             <MoveDownButton
+              className={classes.button}
               disabled={isLastItem}
               onClick={() => moveDown(index)}
             />

@@ -12,7 +12,9 @@ import getRandomImage from 'utils/randomImage'
 const useStyles = makeStyles(theme => ({
   main: {
     backgroundColor: theme.palette.background.default,
-    flex: '1 1 auto'
+    flex: '1 1 auto',
+    paddingTop: '1rem',
+    paddingBottom: '1rem'
   },
   app: {
     display: 'flex',

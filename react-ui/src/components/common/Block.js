@@ -1,13 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/core/styles'
 
-const Block = ({ children, style }) => (
-  <div className="panel outlined bg-white p-4" style={style}>
-    {children}
-  </div>
-)
+const useStyles = makeStyles(theme => ({
+  title: {
+    marginBottom: theme.spacing(1)
+  },
+  block: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(3),
+    border: '1px solid #000',
+    borderColor: theme.palette.divider
+  }
+}))
 
-const BlockTitle = ({ title }) => <h2 className="mb-4">{title}</h2>
+const Block = ({ children, style }) => {
+  const classes = useStyles()
+  return (
+    <div className={classes.block} style={style}>
+      {children}
+    </div>
+  )
+}
+
+const BlockTitle = ({ title }) => {
+  const classes = useStyles()
+  return <h2 className={classes.title}>{title}</h2>
+}
 
 Block.propTypes = {
   children: PropTypes.node,

@@ -4,37 +4,18 @@ import 'react-app-polyfill/stable'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
+import { ThemeProvider } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import App from 'app'
 import Auth0ProviderWithHistory from 'components/Auth0ProviderWithHistory'
+import theme from 'utils/theme'
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: '#004b84'
-    },
-    secondary: {
-      main: '#b72941'
-    }
-  },
-  typography: {
-    fontFamily: ['Helvetica', 'Arial', 'Roboto', 'sans-serif'],
-    h1: {
-      fontWeight: 'normal'
-    },
-    h2: {
-      fontWeight: 'normal'
-    },
-    h3: {
-      fontWeight: 'normal'
-    }
-  }
-})
 
 ReactDOM.render(
   <Router>
     <Auth0ProviderWithHistory>
+      <CssBaseline />
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>

@@ -55,7 +55,6 @@ const Panel = ({
           <h2 className={classes.title}>{title}</h2>
           <Hidden smDown>
             <a
-              className="d-none d-md-block"
               href={editLink}
               target="_blank"
               rel="noopener noreferrer">

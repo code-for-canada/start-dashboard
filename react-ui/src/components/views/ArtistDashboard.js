@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useAuth0 } from '@auth0/auth0-react'
-import { Grid } from '@material-ui/core'
+import { Grid, Button } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import { Link, useLocation, useHistory } from 'react-router-dom'
 
 import { COGNITO_FORMS_IDS } from 'utils/constants'
@@ -10,8 +11,20 @@ import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import Loading from 'components/common/Loading'
 import { getArtistByEmail, getResource } from 'utils/apiHelper'
 
+const useStyles = makeStyles(theme => ({
+  codeArea: {
+    backgroundColor: theme.palette.action.hover,
+    padding: theme.spacing(1),
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: theme.spacing(1)
+  }
+}))
+
 const ProfileURL = ({ url }) => {
   const [copied, setCopied] = useState(false)
+  const classes = useStyles()
 
   const copyURL = async () => {
     await navigator.clipboard.writeText(url)
@@ -20,13 +33,13 @@ const ProfileURL = ({ url }) => {
 
   return (
     <div className="profile-url">
-      <div className="bg-light url p-2">
+      <div className={classes.codeArea}>
         <code id="copy-url" className="text-dark mr-2">
           {url}
         </code>
-        <button className="btn btn-secondary btn-sm" onClick={copyURL}>
+        <Button size="small" onClick={copyURL}>
           {`${copied ? 'Copied!' : 'Copy'}`}
-        </button>
+        </Button>
       </div>
     </div>
   )
@@ -40,7 +53,7 @@ const WelcomeMessage = ({ artist }) => {
   if (artist) {
     return (
       <React.Fragment>
-        <p>Welcome to StART Digital!</p>
+        <BlockTitle title="Welcome to StART Digital!" />
         <p>
           Please make sure to keep your profile up to date. This is how we
           contact you about your current projects, ongoing applications, or
@@ -57,7 +70,7 @@ const WelcomeMessage = ({ artist }) => {
 
   return (
     <React.Fragment>
-      <p>Welcome to StART Digital!</p>
+      <BlockTitle title="Welcome to StART Digital!" />
       <p>This is the online home of Street Art Toronto.</p>
       <p>
         Now that you&apos;ve registered, you have access to the Artist
@@ -88,9 +101,9 @@ const ArtistProfile = ({ artist, user }) => {
           formId={COGNITO_FORMS_IDS.artistProfile}
           showForm={isOwnProfile}
         />
-        <Link className="btn btn-primary mt-2" to={'/profile/edit'}>
+        <Button component={Link} to={'/profile/edit'} variant="contained" color="primary">
           Edit your profile
-        </Link>
+        </Button>
       </React.Fragment>
     )
   }
