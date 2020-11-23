@@ -55,7 +55,9 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
     : 'Guest'
 
   return (
-    <AppBar position="static" className={`${commonClasses.shadow} ${commonClasses.bgWhite}`}>
+    <AppBar
+      position="static"
+      className={`${commonClasses.shadow} ${commonClasses.bgWhite}`}>
       <Toolbar variant="dense">
         <Grid container justify="space-between">
           <Grid item className={classes.menuSection}>

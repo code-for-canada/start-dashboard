@@ -38,7 +38,9 @@ const AccountUpdateForm = ({ onSubmit, formData, setFormData }) => {
       <TextField
         label="Email address"
         value={formData.email || ''}
-        onChange={e => setFormData({ ...formData, email: e.currentTarget.value })}
+        onChange={e =>
+          setFormData({ ...formData, email: e.currentTarget.value })
+        }
         fullWidth={true}
         variant="outlined"
         margin="dense"

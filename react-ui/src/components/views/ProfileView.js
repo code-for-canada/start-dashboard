@@ -59,7 +59,11 @@ const ProfileView = ({ artist, isStaff }) => {
             </h1>
             <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artistProfile} />
             {isOwnProfile && (
-              <Button variant='contained' color='primary' component={Link} to={'/profile/edit'}>
+              <Button
+                variant="contained"
+                color="primary"
+                component={Link}
+                to={'/profile/edit'}>
                 Edit your profile
               </Button>
             )}

@@ -1,20 +1,28 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/core/styles'
 
-const defaultStyle = {
-  background: 'transparent',
-  border: '1px solid #ccc'
-}
+const useStyles = makeStyles(theme => ({
+  iframeContainer: {
+    height: 'inherit'
+  },
+  iframe: props => ({
+    height: 'inherit',
+    background: 'transparent',
+    border: '1px solid #ccc',
+    ...props.style
+  })
+}))
 
 const EmbeddedIframe = ({
   title,
   src,
   width = '100%',
-  height = '533',
-  style = defaultStyle,
-  className = ''
+  height = '500',
+  style = {}
 }) => {
   const [scrollEnabled, setScrollEnabled] = useState(false)
+  const classes = useStyles({ style })
   const enableScroll = () => {
     setScrollEnabled(true)
   }
@@ -30,15 +38,15 @@ const EmbeddedIframe = ({
     <div
       onClick={enableScroll}
       onMouseLeave={disableScroll}
-      className={`iframe-container`}>
+      className={classes.iframeContainer}>
       <iframe
         title={title}
-        className={`${className} airtable-embed`}
+        className={`${classes.iframe} airtable-embed`}
         src={src}
         frameBorder="0"
         width={width}
         height={height}
-        style={{ ...iframeStyle, ...style }}
+        style={iframeStyle}
       />
     </div>
   )

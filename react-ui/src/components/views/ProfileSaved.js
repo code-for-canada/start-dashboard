@@ -14,19 +14,24 @@ const useStyles = makeStyles(theme => ({
 
 const ProfileSaved = () => {
   const classes = useStyles()
-  return(
+  return (
     <DefaultLayout>
       <Container maxWidth="xl">
         <Grid container justify="center">
           <Grid item md={6}>
             <Block>
-              <BlockTitle title='Your profile has been saved!' />
+              <BlockTitle title="Your profile has been saved!" />
               <p>
                 Please make sure to keep your profile up to date. This is how we
-                contact you about your current projects, ongoing applications, or
-                future opportunities we think you would be interested in.
+                contact you about your current projects, ongoing applications,
+                or future opportunities we think you would be interested in.
               </p>
-              <Button component={Link} to={'/dashboard'} variant="contained" color="primary" className={classes.button}>
+              <Button
+                component={Link}
+                to={'/dashboard'}
+                variant="contained"
+                color="primary"
+                className={classes.button}>
                 Back to my dashboard
               </Button>
             </Block>

@@ -28,7 +28,6 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-
 const ProfileURL = ({ url }) => {
   const [copied, setCopied] = useState(false)
   const classes = useStyles()
@@ -106,7 +105,11 @@ const ArtistProfile = ({ artist, user }) => {
           formId={COGNITO_FORMS_IDS.artistProfile}
           showForm={isOwnProfile}
         />
-        <Button component={Link} to={'/profile/edit'} variant="contained" color="primary">
+        <Button
+          component={Link}
+          to="/profile/edit"
+          variant="contained"
+          color="primary">
           Edit your profile
         </Button>
       </React.Fragment>
@@ -132,7 +135,11 @@ const ArtistProfile = ({ artist, user }) => {
         </li>
       </ul>
       {isEmailVerified ? (
-        <Button component={Link} to={'/profile/edit'} variant="contained" color="primary">
+        <Button
+          component={Link}
+          to="/profile/edit"
+          variant="contained"
+          color="primary">
           Create your profile
         </Button>
       ) : (

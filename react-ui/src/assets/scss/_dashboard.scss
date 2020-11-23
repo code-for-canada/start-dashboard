@@ -13,67 +13,6 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 0.5em;
 }
 
-.panel {
-  transition: all 0.3s ease;
-
-  &.outlined {
-    border: 1px solid #cccccc;
-  }
-
-  .header {
-    background-color: $white;
-    border: 1px solid #cccccc;
-    margin-bottom: 5px;
-
-    h2 {
-      font-size: 1.25rem;
-    }
-  }
-
-  .body {
-    transition: all 0.3s ease;
-    height: 500px;
-  }
-
-  &.open {
-    .body {
-      height: 500px;
-    }
-  }
-
-  &.closed {
-    .body {
-      height: 0;
-      overflow: hidden;
-    }
-
-  }
-
-  &.small {
-    .body {
-      width: 50%;
-      overflow: hidden;
-    }
-
-  }
-
-  &.large {
-    .body {
-      width: 100%;
-      overflow: hidden;
-    }
-
-  }
-
-  .iframe-container {
-    height: inherit;
-
-    iframe {
-      height: inherit;
-    }
-  }
-}
-
 .cognito {
   .c-forms-heading {
     .c-forms-form-title {

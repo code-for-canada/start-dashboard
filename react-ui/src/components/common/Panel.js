@@ -6,21 +6,21 @@ import Edit from '@material-ui/icons/Edit'
 import { Grid, IconButton, Hidden } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   header: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '0.5rem',
+    padding: theme.spacing(1),
     backgroundColor: 'white',
     border: '1px solid #cccccc',
-    marginBottom: '5px'
+    marginBottom: theme.spacing(1)
   },
   title: {
     fontSize: '1.25rem',
     marginBottom: 0,
-    marginRight: '1rem',
-    marginLeft: '1rem'
+    marginRight: theme.spacing(1),
+    marginLeft: theme.spacing(1)
   },
   flex: {
     display: 'flex',
@@ -30,9 +30,15 @@ const useStyles = makeStyles({
     transform: 'rotate(90deg)'
   },
   panel: {
-    marginBottom: '1rem'
-  }
-})
+    marginBottom: theme.spacing(2),
+    transition: 'all 0.3s ease'
+  },
+  body: props => ({
+    transition: 'all 0.3s ease',
+    height: props.isVisible ? '500px' : '0',
+    overflow: props.isVisible ? 'initial' : 'hidden'
+  })
+}))
 
 const Panel = ({
   editLink = 'https://airtable.com/tbl5ApSEOzPpe4fwp/viw2swQLeJ9xwU82F?blocks=hide',
@@ -45,7 +51,7 @@ const Panel = ({
   toggleVisibility,
   toggleSize
 }) => {
-  const classes = useStyles()
+  const classes = useStyles({ isVisible })
 
   return (
     <Grid item xs={12} lg={isSmall ? 6 : 12} className={classes.panel}>
@@ -53,10 +59,7 @@ const Panel = ({
         <div className={classes.flex}>
           <h2 className={classes.title}>{title}</h2>
           <Hidden smDown>
-            <a
-              href={editLink}
-              target="_blank"
-              rel="noopener noreferrer">
+            <a href={editLink} target="_blank" rel="noopener noreferrer">
               {editText}
             </a>
           </Hidden>
@@ -87,7 +90,7 @@ const Panel = ({
           </IconButton>
         </div>
       </div>
-      <div className="body">{children}</div>
+      <div className={classes.body}>{children}</div>
     </Grid>
   )
 }

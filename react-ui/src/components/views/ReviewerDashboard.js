@@ -10,7 +10,6 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-
 const ReviewerDashboard = user => {
   const classes = useStyles()
   return (
@@ -21,23 +20,21 @@ const ReviewerDashboard = user => {
         </Grid>
 
         <Panel
-          title='Submission Status Board'
-          editLink='https://airtable.com/tblcX15UBd7NvgZNz/viwEVrFXgIndPwQYw?blocks=hide'
-          editText='Edit in Airtable'
-          isSmall={false}
-        >
+          title="Submission Status Board"
+          editLink="https://airtable.com/tblcX15UBd7NvgZNz/viwEVrFXgIndPwQYw?blocks=hide"
+          editText="Edit in Airtable"
+          isSmall={false}>
           <EmbeddedIframe
-            title='Submission Status Board'
-            src='https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on'
+            title="Submission Status Board"
+            src="https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on"
           />
         </Panel>
 
         <Panel
-          title='New Submissions'
-          editLink='https://airtable.com/tblcX15UBd7NvgZNz/viw4z8P0p5Uzs1aDw?blocks=hide'
-          editText='Edit in Airtable'
-          isSmall={false}
-        >
+          title="New Submissions"
+          editLink="https://airtable.com/tblcX15UBd7NvgZNz/viw4z8P0p5Uzs1aDw?blocks=hide"
+          editText="Edit in Airtable"
+          isSmall={false}>
           <EmbeddedIframe
             title="New Submissions"
             src="https://airtable.com/embed/shrbgSefEwH2I8pgM?backgroundColor=red&viewControls=on"
@@ -49,4 +46,3 @@ const ReviewerDashboard = user => {
 }
 
 export default ReviewerDashboard
-

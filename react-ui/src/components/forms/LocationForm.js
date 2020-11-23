@@ -10,7 +10,7 @@ import Geocode from 'react-geocode'
 import Autocomplete from 'react-google-autocomplete'
 import StatusAlert from 'components/common/StatusAlert'
 import { withAuth0 } from '@auth0/auth0-react'
-import { TextField, Container, Grid, Button } from '@material-ui/core'
+import { TextField, Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 import { DEFAULT_MAP_CENTER, AIRTABLE_LINKS } from 'utils/constants'
 import { createResource } from 'utils/apiHelper'
@@ -18,14 +18,14 @@ import { createResource } from 'utils/apiHelper'
 const styles = {
   container: {
     marginTop: '2rem',
-    marginBottom: '2rem',
+    marginBottom: '2rem'
   },
   form: {
     paddingTop: '4rem',
     paddingBottom: '1rem'
   },
   button: {
-    marginTop: '1rem',
+    marginTop: '1rem'
   }
 }
 
@@ -370,93 +370,97 @@ class LocationForm extends Component {
         />
         <form onSubmit={this.createLocation} className={classes.form}>
           <TextField
-            label='Latitude'
+            label="Latitude"
             value={this.state.markerPosition.lat}
             onChange={this.onChange}
-            type='text'
-            name='lat'
+            type="text"
+            name="lat"
             required={true}
             fullWidth={true}
-            variant='outlined'
-            margin='dense'
-            readOnly='readOnly'
+            variant="outlined"
+            margin="dense"
+            readOnly="readOnly"
           />
 
           <TextField
-            label='Longitude'
+            label="Longitude"
             value={this.state.markerPosition.lng}
             onChange={this.onChange}
-            type='text'
-            name='lng'
+            type="text"
+            name="lng"
             required={true}
             fullWidth={true}
-            variant='outlined'
-            margin='dense'
-            readOnly='readOnly'
+            variant="outlined"
+            margin="dense"
+            readOnly="readOnly"
           />
 
           <TextField
-            label='Address'
+            label="Address"
             value={this.state.address}
             onChange={this.onChange}
-            name='address'
+            name="address"
             required={true}
             fullWidth={true}
-            variant='outlined'
-            margin='dense'
+            variant="outlined"
+            margin="dense"
           />
 
           <TextField
-            label='Area'
+            label="Area"
             value={this.state.area}
             onChange={this.onChange}
-            name='area'
+            name="area"
             fullWidth={true}
-            variant='outlined'
-            margin='dense'
+            variant="outlined"
+            margin="dense"
           />
 
           <TextField
-            label='Ward'
+            label="Ward"
             value={this.state.ward}
             onChange={this.onChange}
-            name='ward'
+            name="ward"
             fullWidth={true}
-            variant='outlined'
-            margin='dense'
+            variant="outlined"
+            margin="dense"
           />
 
           <TextField
-            label='Intersection'
+            label="Intersection"
             value={this.state.intersection}
             onChange={this.onChange}
-            name='intersection'
+            name="intersection"
             fullWidth={true}
-            variant='outlined'
-            margin='dense'
+            variant="outlined"
+            margin="dense"
           />
 
           <TextField
-            label='Property description'
+            label="Property description"
             value={this.state.propertyDescription}
             onChange={this.onChange}
-            name='propertyDescription'
+            name="propertyDescription"
             fullWidth={true}
-            variant='outlined'
-            margin='dense'
+            variant="outlined"
+            margin="dense"
           />
 
           <TextField
-            label='Comments'
+            label="Comments"
             value={this.state.comments}
             onChange={this.onChange}
-            name='comments'
+            name="comments"
             fullWidth={true}
-            variant='outlined'
-            margin='dense'
+            variant="outlined"
+            margin="dense"
           />
 
-          <Button type='submit' variant='contained' color='primary' className={classes.button}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            className={classes.button}>
             Create location
           </Button>
         </form>
@@ -483,7 +487,8 @@ LocationForm.propTypes = {
   google: PropTypes.string,
   zoom: PropTypes.number,
   height: PropTypes.string,
-  auth0: PropTypes.object
+  auth0: PropTypes.object,
+  classes: PropTypes.object
 }
 
 LocationForm.defaultProps = {

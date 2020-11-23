@@ -5,10 +5,7 @@ import { Button } from '@material-ui/core'
 const LoginButton = props => {
   const { handleLogin } = props
   return (
-    <Button
-      onClick={handleLogin}
-      variant="contained"
-      color="primary">
+    <Button onClick={handleLogin} variant="contained" color="primary">
       Log In
     </Button>
   )

@@ -8,7 +8,7 @@ import DefaultLayout from 'components/layouts/DefaultLayout'
 const useStyles = makeStyles(theme => ({
   container: {
     marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
+    marginBottom: theme.spacing(3)
   }
 }))
 

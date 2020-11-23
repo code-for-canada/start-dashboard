@@ -5,10 +5,7 @@ import { Button } from '@material-ui/core'
 const LogoutButton = props => {
   const { handleLogout } = props
   return (
-    <Button
-      onClick={handleLogout}
-      variant="contained"
-      color="primary">
+    <Button onClick={handleLogout} variant="contained" color="primary">
       Log Out
     </Button>
   )

@@ -10,7 +10,6 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-
 const CuratorDashboard = user => {
   const classes = useStyles()
   return (
@@ -21,23 +20,21 @@ const CuratorDashboard = user => {
         </Grid>
 
         <Panel
-          title='Published Artworks'
-          editLink='https://airtable.com/tbl5ApSEOzPpe4fwp/viwozx55EaH51F1Su?blocks=hide'
-          editText='Edit in Airtable'
-          isSmall={false}
-        >
+          title="Published Artworks"
+          editLink="https://airtable.com/tbl5ApSEOzPpe4fwp/viwozx55EaH51F1Su?blocks=hide"
+          editText="Edit in Airtable"
+          isSmall={false}>
           <EmbeddedIframe
-            title='Published Artworks'
-            src='https://airtable.com/embed/shrTY5JWaHMkwbm80?backgroundColor=red&viewControls=on'
+            title="Published Artworks"
+            src="https://airtable.com/embed/shrTY5JWaHMkwbm80?backgroundColor=red&viewControls=on"
           />
         </Panel>
 
         <Panel
-          title='Artists'
-          editLink='https://airtable.com/tblj8vuEdvVTxXr98/viwaEsFNyGcxbtFWi?blocks=hide'
-          editText='Edit in Airtable'
-          isSmall={false}
-        >
+          title="Artists"
+          editLink="https://airtable.com/tblj8vuEdvVTxXr98/viwaEsFNyGcxbtFWi?blocks=hide"
+          editText="Edit in Airtable"
+          isSmall={false}>
           <EmbeddedIframe
             title="Artists"
             src="https://airtable.com/embed/shrJegAZi7w7Kj5ue?backgroundColor=red&viewControls=on"
