@@ -17,10 +17,17 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1),
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginTop: theme.spacing(1)
+  },
+  code: {
+    flex: '1 1 auto',
+    alignSelf: 'center',
+    wordBreak: 'break-word',
+    marginRight: theme.spacing(1)
   }
 }))
+
 
 const ProfileURL = ({ url }) => {
   const [copied, setCopied] = useState(false)
@@ -32,15 +39,13 @@ const ProfileURL = ({ url }) => {
   }
 
   return (
-    <div className="profile-url">
-      <div className={classes.codeArea}>
-        <code id="copy-url" className="text-dark mr-2">
-          {url}
-        </code>
-        <Button size="small" onClick={copyURL}>
-          {`${copied ? 'Copied!' : 'Copy'}`}
-        </Button>
-      </div>
+    <div className={classes.codeArea}>
+      <code id="copy-url" className={classes.code}>
+        {url}
+      </code>
+      <Button size="small" onClick={copyURL}>
+        {`${copied ? 'Copied!' : 'Copy'}`}
+      </Button>
     </div>
   )
 }
@@ -127,9 +132,9 @@ const ArtistProfile = ({ artist, user }) => {
         </li>
       </ul>
       {isEmailVerified ? (
-        <Link to={`/profile/edit`} className="btn btn-primary">
+        <Button component={Link} to={'/profile/edit'} variant="contained" color="primary">
           Create your profile
-        </Link>
+        </Button>
       ) : (
         <p>
           You must verify your email before you can access your artist profile.

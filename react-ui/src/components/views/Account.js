@@ -55,7 +55,7 @@ const Account = () => {
       })
 
       if (formData.email !== user.email) {
-        const returnTo = `${window.location.origin}/account-updated`
+        const returnTo = `${window.location.origin}/account/success`
         logout({ returnTo })
       }
     } catch (err) {
@@ -121,7 +121,7 @@ const Account = () => {
 
         <Grid container justify="center">
           <Grid item md={6}>
-            <Block style={{ position: 'relative', marginBottom: '20px' }}>
+            <Block style={{ position: 'relative' }}>
               <BlockTitle title="My Account" />
               <AccountUpdateForm
                 onSubmit={handleSubmit}

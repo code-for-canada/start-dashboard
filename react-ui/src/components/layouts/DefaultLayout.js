@@ -7,7 +7,7 @@ import Footer from 'components/common/Footer'
 
 const useStyles = makeStyles(theme => ({
   main: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
     flex: '1 1 auto'
   },
   app: {

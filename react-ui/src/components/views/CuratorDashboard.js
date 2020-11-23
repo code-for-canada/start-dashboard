@@ -1,35 +1,49 @@
 import React from 'react'
-import { Container } from '@material-ui/core'
+import { Container, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
+import Panel from 'components/common/Panel'
+
+const useStyles = makeStyles(theme => ({
+  header: {
+    marginTop: theme.spacing(2)
+  }
+}))
+
 
 const CuratorDashboard = user => {
+  const classes = useStyles()
   return (
-    <Container>
-      <div className="row">
-        <div className="col-12 mt-4">
-          <h1 className="mb-4">Curator Dashboard Demo</h1>
-        </div>
+    <Container maxWidth={false}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <h1 className={classes.header}>Curator Dashboard Demo</h1>
+        </Grid>
 
-        <div className="col-12">
-          <div className="mb-4">
-            <h2 className="mb-3">Published Artworks</h2>
-            <EmbeddedIframe
-              title="Published Artworks"
-              src="https://airtable.com/embed/shrTY5JWaHMkwbm80?backgroundColor=red&viewControls=onn"
-            />
-          </div>
-        </div>
+        <Panel
+          title='Published Artworks'
+          editLink='https://airtable.com/tbl5ApSEOzPpe4fwp/viwozx55EaH51F1Su?blocks=hide'
+          editText='Edit in Airtable'
+          isSmall={false}
+        >
+          <EmbeddedIframe
+            title='Published Artworks'
+            src='https://airtable.com/embed/shrTY5JWaHMkwbm80?backgroundColor=red&viewControls=on'
+          />
+        </Panel>
 
-        <div className="col-12">
-          <div className="mb-4">
-            <h2 className="mb-3">Artists</h2>
-            <EmbeddedIframe
-              title="Artists"
-              src="https://airtable.com/embed/shrJegAZi7w7Kj5ue?backgroundColor=red&viewControls=on"
-            />
-          </div>
-        </div>
-      </div>
+        <Panel
+          title='Artists'
+          editLink='https://airtable.com/tblj8vuEdvVTxXr98/viwaEsFNyGcxbtFWi?blocks=hide'
+          editText='Edit in Airtable'
+          isSmall={false}
+        >
+          <EmbeddedIframe
+            title="Artists"
+            src="https://airtable.com/embed/shrJegAZi7w7Kj5ue?backgroundColor=red&viewControls=on"
+          />
+        </Panel>
+      </Grid>
     </Container>
   )
 }

@@ -30,8 +30,7 @@ const useStyles = makeStyles({
     transform: 'rotate(90deg)'
   },
   panel: {
-    marginBottom: '1rem',
-    padding: '0.5rem'
+    marginBottom: '1rem'
   }
 })
 
@@ -49,7 +48,7 @@ const Panel = ({
   const classes = useStyles()
 
   return (
-    <Grid xs={12} lg={isSmall ? 6 : 12} className={classes.panel}>
+    <Grid item xs={12} lg={isSmall ? 6 : 12} className={classes.panel}>
       <div className={classes.header}>
         <div className={classes.flex}>
           <h2 className={classes.title}>{title}</h2>

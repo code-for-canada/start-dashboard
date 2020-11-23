@@ -1,10 +1,19 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { TextField, Button } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles(theme => ({
+  button: {
+    marginTop: theme.spacing(2)
+  }
+}))
 
 const AccountDeleteForm = ({ onSubmit, email, setAlert }) => {
   const [validationEmail, setValidationEmail] = useState('')
   const [error, setError] = useState('')
+  const classes = useStyles()
+
   const validateForm = e => {
     e.preventDefault()
     if (validationEmail === email) {
@@ -15,6 +24,7 @@ const AccountDeleteForm = ({ onSubmit, email, setAlert }) => {
       )
     }
   }
+
   return (
     <form onSubmit={validateForm}>
       <p>
@@ -41,7 +51,7 @@ const AccountDeleteForm = ({ onSubmit, email, setAlert }) => {
         type="submit"
         variant="contained"
         color="secondary"
-        style={{ marginTop: '20px' }}>
+        className={classes.button}>
         Delete my account
       </Button>
     </form>

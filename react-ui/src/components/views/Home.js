@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Container } from '@material-ui/core'
+import { Container, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import { useAuth0 } from '@auth0/auth0-react'
 
 import LoginButton from 'components/common/LoginButton'
@@ -9,9 +10,45 @@ import getRandomImage from 'utils/randomImage'
 import blob1 from 'assets/images/blob1.svg'
 import blob2 from 'assets/images/blob2.svg'
 
+const useStyles = makeStyles(theme => ({
+  contentArea: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: theme.spacing(4)
+  },
+  backgroundImage: {
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    width: '100%',
+    height: '100%'
+  },
+  content: {
+    height: '100%',
+    width: '100%',
+    position: 'absolute',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column'
+  },
+  contentBackground: {
+    position: 'relative',
+    height: '100%',
+    width: '100%'
+  },
+  blob: {
+    opacity: '0.9'
+  }
+}))
+
 const Home = () => {
   const [image, setImage] = useState()
   const { loginWithRedirect } = useAuth0()
+  const classes = useStyles()
+
   useEffect(() => {
     const getImage = async () => {
       const image = await getRandomImage()
@@ -22,64 +59,36 @@ const Home = () => {
     }
   }, [image])
 
-  const styles = {
-    contentArea: {
-      position: 'relative',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center'
-    },
-    backgroundImage: {
-      backgroundImage: `url(${image})`,
-      backgroundPosition: 'center',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat'
-    },
-    content: {
-      height: '100%',
-      width: '100%',
-      position: 'absolute',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'column'
-    },
-    contentBackground: {
-      position: 'relative',
-      height: '100%',
-      width: '100%'
-    }
-  }
-
   return (
     <div
-      className="bg-img h-100 w-100"
-      style={styles.backgroundImage}
+      className={classes.backgroundImage}
+      style={{ backgroundImage: `url(${image})` }}
       data-aos="fade-in">
-      <Container className="flex-grow-1">
-        <div
-          className="content-area col-8 col-md-6 pt-5"
-          style={styles.contentArea}>
-          <div className="background" style={styles.contentBackground}>
-            <img
-              src={blob1}
-              alt=""
-              className="rotateme"
-              style={{ position: 'absolute', opacity: '0.9' }}
-            />
-            <img
-              src={blob2}
-              alt=""
-              className="rotateme-reverse"
-              style={{ opacity: '0.9' }}
-            />
-          </div>
-          <div className="content p-5" style={styles.content}>
-            <h1 className="mb-5">StART Digital</h1>
-            <LoginButton handleLogin={loginWithRedirect} />
-            <SignupButton handleLogin={loginWithRedirect} />
-          </div>
-        </div>
+      <Container>
+        <Grid container>
+          <Grid xs={10} sm={8} md={6} lg={5}>
+            <div className={classes.contentArea}>
+              <div className={classes.contentBackground}>
+                <img
+                  src={blob1}
+                  alt=""
+                  className={`${classes.blob} rotateme`}
+                  style={{ position: 'absolute' }}
+                />
+                <img
+                  src={blob2}
+                  alt=""
+                  className={`${classes.blob} rotateme-reverse`}
+                />
+              </div>
+              <div className={classes.content}>
+                <h1>StART Digital</h1>
+                <LoginButton handleLogin={loginWithRedirect} />
+                <SignupButton handleLogin={loginWithRedirect} />
+              </div>
+            </div>
+          </Grid>
+        </Grid>
       </Container>
     </div>
   )

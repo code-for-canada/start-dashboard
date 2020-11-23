@@ -9,11 +9,11 @@ import PanelControlBlock from 'components/common/PanelControlBlock'
 import usePanelState from 'customHooks/usePanelState'
 import { PANELS_DATA } from 'utils/constants'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   header: {
-    marginTop: '2rem'
+    marginTop: theme.spacing(2)
   }
-})
+}))
 
 const StaffDashboard = () => {
   const {

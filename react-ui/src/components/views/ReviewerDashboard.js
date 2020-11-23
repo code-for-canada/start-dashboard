@@ -1,37 +1,52 @@
 import React from 'react'
-import { Container } from '@material-ui/core'
+import { Container, Grid } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
+import Panel from 'components/common/Panel'
+
+const useStyles = makeStyles(theme => ({
+  header: {
+    marginTop: theme.spacing(2)
+  }
+}))
+
 
 const ReviewerDashboard = user => {
+  const classes = useStyles()
   return (
-    <Container>
-      <div className="row">
-        <div className="col-12 mt-4">
-          <h1 className="mb-4">Advisory Committee Dashboard Demo</h1>
-        </div>
+    <Container maxWidth={false}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <h1 className={classes.header}>CAdvisory Committee Dashboard Demo</h1>
+        </Grid>
 
-        <div className="col-12">
-          <div className="mb-4">
-            <h2 className="mb-3">Submission Status Board</h2>
-            <EmbeddedIframe
-              title="Submission Status Board"
-              src="https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on"
-            />
-          </div>
-        </div>
+        <Panel
+          title='Submission Status Board'
+          editLink='https://airtable.com/tblcX15UBd7NvgZNz/viwEVrFXgIndPwQYw?blocks=hide'
+          editText='Edit in Airtable'
+          isSmall={false}
+        >
+          <EmbeddedIframe
+            title='Submission Status Board'
+            src='https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on'
+          />
+        </Panel>
 
-        <div className="col-12">
-          <div className="mb-4">
-            <h2 className="mb-3">New Submissions</h2>
-            <EmbeddedIframe
-              title="New Submissions"
-              src="https://airtable.com/embed/shrbgSefEwH2I8pgM?backgroundColor=red&viewControls=on"
-            />
-          </div>
-        </div>
-      </div>
+        <Panel
+          title='New Submissions'
+          editLink='https://airtable.com/tblcX15UBd7NvgZNz/viw4z8P0p5Uzs1aDw?blocks=hide'
+          editText='Edit in Airtable'
+          isSmall={false}
+        >
+          <EmbeddedIframe
+            title="New Submissions"
+            src="https://airtable.com/embed/shrbgSefEwH2I8pgM?backgroundColor=red&viewControls=on"
+          />
+        </Panel>
+      </Grid>
     </Container>
   )
 }
 
 export default ReviewerDashboard
+

@@ -64,8 +64,8 @@ const App = () => {
       <PrivateRoute path="/profile" exact component={Profile} />
       <PrivateRoute path="/profile/success" exact component={ProfileSaved} />
       <PrivateRoute path="/profile/:action" component={Profile} />
+      <Route exact path="/account/success" component={AccountSaved} />
       <PrivateRoute path="/account" component={Account} />
-      <Route path="/account-updated" component={AccountSaved} />
     </Switch>
   )
 }

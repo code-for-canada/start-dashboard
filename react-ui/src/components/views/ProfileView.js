@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useLocation, useHistory, Link } from 'react-router-dom'
-import { Container } from '@material-ui/core'
+import { Container, Button } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import Unauthorized from 'components/views/Unauthorized'
 import { COGNITO_FORMS_IDS } from 'utils/constants'
 
+const useStyles = makeStyles(theme => ({
+  container: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2)
+  }
+}))
+
 const ProfileView = ({ artist, isStaff }) => {
   const [isOwnProfile, setIsOwnProfile] = useState(false)
   const location = useLocation()
   const history = useHistory()
+  const classes = useStyles()
 
   // if the user is an artist and has a profile, load their profile
   useEffect(() => {
@@ -44,15 +53,15 @@ const ProfileView = ({ artist, isStaff }) => {
     return (
       <DefaultLayout>
         <Container maxWidth="md">
-          <div className="my-5">
+          <div className={classes.container}>
             <h1>
               {isOwnProfile ? 'Your StART Profile' : `StART Artist Profile`}
             </h1>
             <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artistProfile} />
             {isOwnProfile && (
-              <Link className="btn btn-primary mt-2" to={'/profile/edit'}>
+              <Button variant='contained' color='primary' component={Link} to={'/profile/edit'}>
                 Edit your profile
-              </Link>
+              </Button>
             )}
           </div>
         </Container>

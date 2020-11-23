@@ -2,16 +2,25 @@ import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useLocation, useHistory } from 'react-router-dom'
 import { Container } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import Unauthorized from 'components/views/Unauthorized'
 import { COGNITO_FORMS_IDS } from 'utils/constants'
 
+const useStyles = makeStyles(theme => ({
+  container: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2)
+  }
+}))
+
 const ProfileEdit = ({ user, artist, isStaff }) => {
   const [isOwnProfile, setIsOwnProfile] = useState(false)
   const location = useLocation()
   const history = useHistory()
+  const classes = useStyles()
 
   // if the user is an artist and has a profile, load their profile
   useEffect(() => {
@@ -59,7 +68,7 @@ const ProfileEdit = ({ user, artist, isStaff }) => {
     return (
       <DefaultLayout>
         <Container maxWidth="md">
-          <div className="my-5">
+          <div className={classes.container}>
             <h1>{`${artist ? 'Edit ' : 'Create '} Your StART Profile`}</h1>
             <EmbeddedCognitoForm
               formId={COGNITO_FORMS_IDS.artistProfile}

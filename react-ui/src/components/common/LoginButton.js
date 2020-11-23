@@ -8,8 +8,7 @@ const LoginButton = props => {
     <Button
       onClick={handleLogin}
       variant="contained"
-      color="primary"
-      className="btn-margin">
+      color="primary">
       Log In
     </Button>
   )

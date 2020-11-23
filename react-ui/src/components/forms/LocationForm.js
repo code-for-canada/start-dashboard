@@ -10,8 +10,24 @@ import Geocode from 'react-geocode'
 import Autocomplete from 'react-google-autocomplete'
 import StatusAlert from 'components/common/StatusAlert'
 import { withAuth0 } from '@auth0/auth0-react'
+import { TextField, Container, Grid, Button } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 import { DEFAULT_MAP_CENTER, AIRTABLE_LINKS } from 'utils/constants'
 import { createResource } from 'utils/apiHelper'
+
+const styles = {
+  container: {
+    marginTop: '2rem',
+    marginBottom: '2rem',
+  },
+  form: {
+    paddingTop: '4rem',
+    paddingBottom: '1rem'
+  },
+  button: {
+    marginTop: '1rem',
+  }
+}
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
 Geocode.enableDebug()
@@ -338,8 +354,9 @@ class LocationForm extends Component {
   }
 
   render() {
+    const { classes } = this.props
     return (
-      <div className="">
+      <div className={classes.container}>
         <AsyncMap
           googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places`}
           loadingElement={<div style={{ height: `100%` }} />}
@@ -351,109 +368,97 @@ class LocationForm extends Component {
           onPlaceSelected={this.onPlaceSelected}
           onMarkerDragEnd={this.onMarkerDragEnd}
         />
-        <form className="mt-5 mb-3" onSubmit={this.createLocation}>
-          <div className="form-group pt-3">
-            <label htmlFor="">Latitude</label>
-            <input
-              required={true}
-              type="text"
-              name="lat"
-              className="form-control"
-              onChange={this.onChange}
-              readOnly="readOnly"
-              value={this.state.markerPosition.lat}
-            />
-          </div>
+        <form onSubmit={this.createLocation} className={classes.form}>
+          <TextField
+            label='Latitude'
+            value={this.state.markerPosition.lat}
+            onChange={this.onChange}
+            type='text'
+            name='lat'
+            required={true}
+            fullWidth={true}
+            variant='outlined'
+            margin='dense'
+            readOnly='readOnly'
+          />
 
-          <div className="form-group">
-            <label htmlFor="">Longitude</label>
-            <input
-              required={true}
-              type="text"
-              name="lng"
-              className="form-control"
-              onChange={this.onChange}
-              readOnly="readOnly"
-              value={this.state.markerPosition.lng}
-            />
-          </div>
+          <TextField
+            label='Longitude'
+            value={this.state.markerPosition.lng}
+            onChange={this.onChange}
+            type='text'
+            name='lng'
+            required={true}
+            fullWidth={true}
+            variant='outlined'
+            margin='dense'
+            readOnly='readOnly'
+          />
 
-          <div className="form-group">
-            <label htmlFor="">Address</label>
-            <input
-              required={true}
-              type="text"
-              name="address"
-              className="form-control"
-              onChange={this.onChange}
-              readOnly="readOnly"
-              value={this.state.address}
-            />
-          </div>
+          <TextField
+            label='Address'
+            value={this.state.address}
+            onChange={this.onChange}
+            name='address'
+            required={true}
+            fullWidth={true}
+            variant='outlined'
+            margin='dense'
+          />
 
-          <div className="form-group">
-            <label htmlFor="">Area</label>
-            <input
-              type="text"
-              name="area"
-              className="form-control"
-              onChange={this.onChange}
-              readOnly="readOnly"
-              value={this.state.area}
-            />
-          </div>
+          <TextField
+            label='Area'
+            value={this.state.area}
+            onChange={this.onChange}
+            name='area'
+            fullWidth={true}
+            variant='outlined'
+            margin='dense'
+          />
 
-          <div className="form-group">
-            <label htmlFor="">Ward</label>
-            <input
-              type="text"
-              name="ward"
-              className="form-control"
-              onChange={this.onChange}
-              value={this.state.ward}
-            />
-          </div>
+          <TextField
+            label='Ward'
+            value={this.state.ward}
+            onChange={this.onChange}
+            name='ward'
+            fullWidth={true}
+            variant='outlined'
+            margin='dense'
+          />
 
-          <div className="form-group">
-            <label htmlFor="">Intersection</label>
-            <input
-              type="text"
-              name="intersection"
-              className="form-control"
-              onChange={this.onChange}
-              value={this.state.intersection}
-            />
-          </div>
+          <TextField
+            label='Intersection'
+            value={this.state.intersection}
+            onChange={this.onChange}
+            name='intersection'
+            fullWidth={true}
+            variant='outlined'
+            margin='dense'
+          />
 
-          <div className="form-group">
-            <label htmlFor="">Property description</label>
-            <input
-              type="text"
-              name="propertyDescription"
-              className="form-control"
-              onChange={this.onChange}
-              value={this.state.propertyDescription}
-            />
-          </div>
+          <TextField
+            label='Property description'
+            value={this.state.propertyDescription}
+            onChange={this.onChange}
+            name='propertyDescription'
+            fullWidth={true}
+            variant='outlined'
+            margin='dense'
+          />
 
-          <div className="form-group">
-            <label htmlFor="">Comments</label>
-            <input
-              type="text"
-              name="comments"
-              className="form-control"
-              onChange={this.onChange}
-              value={this.state.comments}
-            />
-          </div>
+          <TextField
+            label='Comments'
+            value={this.state.comments}
+            onChange={this.onChange}
+            name='comments'
+            fullWidth={true}
+            variant='outlined'
+            margin='dense'
+          />
 
-          <div className="mt-4">
-            <input
-              type="submit"
-              className="btn btn-primary"
-              value="Create location"
-            />
-          </div>
+          <Button type='submit' variant='contained' color='primary' className={classes.button}>
+            Create location
+          </Button>
         </form>
         <SuccessAlert
           show={this.state.showSuccessAlert}
@@ -485,4 +490,4 @@ LocationForm.defaultProps = {
   center: DEFAULT_MAP_CENTER
 }
 
-export default withAuth0(LocationForm)
+export default withAuth0(withStyles(styles)(LocationForm))
