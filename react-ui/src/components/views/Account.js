@@ -112,7 +112,7 @@ const Account = () => {
     <DefaultLayout>
       <Container className={utilClasses.container}>
         <Grid container justify="center">
-          <Grid item md={6}>
+          <Grid item xs={12} md={6}>
             <StatusAlert
               show={Boolean(alert.message)}
               message={alert.message}
@@ -122,8 +122,8 @@ const Account = () => {
         </Grid>
 
         <Grid container justify="center">
-          <Grid item md={6}>
-            <Block style={{ position: 'relative' }}>
+          <Grid item xs={12} md={6}>
+            <Block>
               <BlockTitle title="My Account" />
               <AccountUpdateForm
                 onSubmit={handleSubmit}
@@ -140,8 +140,8 @@ const Account = () => {
         </Grid>
 
         <Grid container justify="center">
-          <Grid item md={6}>
-            <Block style={{ position: 'relative' }}>
+          <Grid item xs={12} md={6}>
+            <Block>
               <BlockTitle title="Danger Zone" />
               <AccountDeleteForm
                 onSubmit={handleDelete}

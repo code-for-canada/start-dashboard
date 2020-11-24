@@ -66,7 +66,7 @@ const Home = () => {
       data-aos="fade-in">
       <Container>
         <Grid container>
-          <Grid xs={10} sm={8} md={6} lg={5}>
+          <Grid item xs={10} sm={8} md={6} lg={5}>
             <div className={classes.contentArea}>
               <div className={classes.contentBackground}>
                 <img
