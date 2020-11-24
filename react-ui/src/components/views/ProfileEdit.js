@@ -31,7 +31,6 @@ const ProfileEdit = ({ user, artist, isStaff }) => {
 
     if (currentProfileHash) {
       const isOwnProfile = artist.edit_url.includes(currentProfileHash)
-      console.log({isOwnProfile})
       setIsOwnProfile(isOwnProfile)
     } else {
       const editProfileHash = artist.edit_url.split('#')[1]
@@ -40,7 +39,7 @@ const ProfileEdit = ({ user, artist, isStaff }) => {
   }, [artist, location, history])
 
   if (!artist && !isStaff) {
-    return <Redirect to='/profile/new' />
+    return <Redirect to="/profile/new" />
   }
 
   if (isOwnProfile || isStaff) {
@@ -76,7 +75,10 @@ const ProfileEdit = ({ user, artist, isStaff }) => {
         <Container maxWidth="md">
           <div className={classes.container}>
             <h1>Edit Your StART Profile</h1>
-            <p>To edit your name or email address, go to <Link to='/account'>My account</Link>.</p>
+            <p>
+              {`To update your name or email address, go to `}
+              <Link to="/account">My account.</Link>
+            </p>
             <EmbeddedCognitoForm
               formId={COGNITO_FORMS_IDS.artistProfile}
               opts={opts}
