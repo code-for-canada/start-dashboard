@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useLocation, useHistory, Redirect } from 'react-router-dom'
+import { useLocation, useHistory, Redirect, Link } from 'react-router-dom'
 import { Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -49,13 +49,37 @@ const ProfileEdit = ({ user, artist, isStaff }) => {
       history.push('/profile/success')
     }
 
+    let opts = {}
+
+    if (isOwnProfile) {
+      const firstName = user['https://streetartoronto.ca/first_name']
+      const lastName = user['https://streetartoronto.ca/last_name']
+
+      opts = {
+        entry: {
+          PersonalInformation: {
+            EmailAddress: user.email,
+            Name: {
+              First: firstName,
+              Last: lastName
+            }
+          },
+          InternalInformation: {
+            AirtableAccountId: user.sub
+          }
+        }
+      }
+    }
+
     return (
       <DefaultLayout>
         <Container maxWidth="md">
           <div className={classes.container}>
             <h1>Edit Your StART Profile</h1>
+            <p>To edit your name or email address, go to <Link to='/account'>My account</Link>.</p>
             <EmbeddedCognitoForm
               formId={COGNITO_FORMS_IDS.artistProfile}
+              opts={opts}
               afterSubmit={afterSubmit}
             />
           </div>

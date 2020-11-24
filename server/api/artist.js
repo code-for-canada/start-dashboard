@@ -5,7 +5,6 @@ const getArtist = async (req, res) => {
   const userEmail = req.query.email
   const permissions = req.user.permissions
   const userData = await getUserData(req)
-  const id = userData['https://streetartoronto.ca/artist_profile_id']
 
   if (permissions.includes('is:artist')) {
     if (!userData.email_verified) {
@@ -15,6 +14,7 @@ const getArtist = async (req, res) => {
     }
   }
 
+  const id = userData['https://streetartoronto.ca/artist_profile_id']
   artistsTable.find(id, (err, record) => {
     if (err) {
       console.error(err)

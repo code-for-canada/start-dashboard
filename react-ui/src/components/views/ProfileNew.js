@@ -27,11 +27,17 @@ const ProfileNew = ({ user, artist, isStaff }) => {
   }
 
   if (!artist && !isStaff) {
-    console.log({user})
+    const firstName = user['https://streetartoronto.ca/first_name']
+    const lastName = user['https://streetartoronto.ca/last_name']
+
     opts = {
       entry: {
         PersonalInformation: {
-          EmailAddress: user.email
+          EmailAddress: user.email,
+          Name: {
+            First: firstName,
+            Last: lastName
+          }
         },
         InternalInformation: {
           AirtableAccountId: user.sub
