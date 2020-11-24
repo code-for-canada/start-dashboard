@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   block: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(3),
-    margin: theme.spacing(2),
+    marginBottom: theme.spacing(2),
     border: '1px solid #000',
     borderColor: theme.palette.divider
   }

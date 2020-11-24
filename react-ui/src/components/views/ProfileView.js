@@ -6,8 +6,8 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
-import Unauthorized from 'components/views/Unauthorized'
 import { COGNITO_FORMS_IDS } from 'utils/constants'
+import Unauthorized from 'components/views/Unauthorized'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -22,21 +22,19 @@ const ProfileView = ({ artist, isStaff }) => {
   const history = useHistory()
   const classes = useStyles()
 
-  // if the user is an artist and has a profile, load their profile
+  // add profile hash to URL if not present
   useEffect(() => {
     const currentProfileHash = location.hash
 
     // don't redirect to artist profile if the staff member has an artist profile
+    // staff are allowed to see all profiles
     if (currentProfileHash && isStaff) return
 
-    if (!artist) {
-      return history.push(`/profile/edit`)
-    }
-
-    const viewProfileHash = artist.view_url.split('#')[1]
-
-    if (!currentProfileHash.includes(viewProfileHash)) {
-      return history.replace(`${location.pathname}#${viewProfileHash}`)
+    if (artist && !currentProfileHash) {
+      const viewProfileHash = artist.view_url.split('#')[1]
+      if (!currentProfileHash) {
+        return history.replace(`${location.pathname}#${viewProfileHash}`)
+      }
     }
   }, [artist, location, history, isStaff])
 
