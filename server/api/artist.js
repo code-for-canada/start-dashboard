@@ -4,26 +4,24 @@ const { methodNotImplemented, checkScopes, getUserData } = require('./common')
 const getArtist = async (req, res) => {
   const userEmail = req.query.email
   const permissions = req.user.permissions
+  const userData = await getUserData(req)
+  const id = userData['https://streetartoronto.ca/artist_profile_id']
 
   if (permissions.includes('is:artist')) {
-    const userData = await getUserData(req)
-
-    if (!(userData.email_verified && userData.email === userEmail)) {
+    if (!userData.email_verified) {
       return res.status(403).send({
-        error: 'You are not authorized to see this profile.'
+        error: 'Your email address is not verified.'
       })
     }
   }
 
-  artistsTable
-    .select({ filterByFormula: `{email} = '${userEmail}'` })
-    .firstPage((err, records) => {
-      if (err) {
-        console.error(err)
-        return res.status(500).send({ error: err })
-      }
-      return res.status(200).send({ records: records })
-    })
+  artistsTable.find(id, (err, record) => {
+    if (err) {
+      console.error(err)
+      return res.status(500).send({ error: err })
+    }
+    return res.status(200).send({ record: record })
+  })
 }
 
 module.exports = (req, res) => {

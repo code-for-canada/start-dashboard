@@ -9,12 +9,14 @@ import Loading from 'components/common/Loading'
 import StatusAlert from 'components/common/StatusAlert'
 import AccountUpdateForm from 'components/forms/AccountUpdateForm'
 import AccountDeleteForm from 'components/forms/AccountDeleteForm'
+import useUtilityClasses from 'customHooks/useUtilityClasses'
 
 const Account = () => {
   const { user, getAccessTokenSilently, logout } = useAuth0()
   const [formData, setFormData] = useState({})
   const [loading, setLoading] = useState(false)
   const [alert, setAlert] = useState({})
+  const utilClasses = useUtilityClasses()
 
   useEffect(() => {
     if (user) {
@@ -108,7 +110,7 @@ const Account = () => {
 
   return (
     <DefaultLayout>
-      <Container style={{ marginTop: '40px', marginBottom: '40px' }}>
+      <Container className={utilClasses.container}>
         <Grid container justify="center">
           <Grid item md={6}>
             <StatusAlert

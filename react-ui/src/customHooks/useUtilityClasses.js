@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
+const useUtilityClasses = makeStyles(theme => ({
   bgWhite: {
     backgroundColor: theme.palette.background.paper
   },
@@ -11,7 +11,10 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  container: {
+    margin: theme.spacing(3)
   }
 }))
 
-export default useStyles
+export default useUtilityClasses

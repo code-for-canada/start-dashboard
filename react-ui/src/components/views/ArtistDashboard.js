@@ -9,7 +9,7 @@ import { COGNITO_FORMS_IDS } from 'utils/constants'
 import { Block, BlockTitle } from 'components/common/Block'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import Loading from 'components/common/Loading'
-import { getArtistByEmail, getResource } from 'utils/apiHelper'
+import { getArtist, getResource } from 'utils/apiHelper'
 
 const useStyles = makeStyles(theme => ({
   codeArea: {
@@ -25,6 +25,14 @@ const useStyles = makeStyles(theme => ({
     alignSelf: 'center',
     wordBreak: 'break-word',
     marginRight: theme.spacing(1)
+  },
+  list: {
+    listStyle: 'none',
+    paddingLeft: 0,
+    marginLeft: 0
+  },
+  button: {
+    marginTop: theme.spacing(2)
   }
 }))
 
@@ -96,6 +104,9 @@ const ArtistProfile = ({ artist, user }) => {
   const hasProfile = artist
   const isOwnProfile = artist?.view_url.includes(profileHash)
   const isEmailVerified = user && user.email_verified
+  const editProfileId = artist?.edit_url.split('#')[1]
+  const editProfileHash = editProfileId ? `#${editProfileId}` : ''
+  const classes = useStyles()
 
   if (hasProfile) {
     return (
@@ -107,7 +118,7 @@ const ArtistProfile = ({ artist, user }) => {
         />
         <Button
           component={Link}
-          to="/profile/edit"
+          to={`/profile/edit${editProfileHash}`}
           variant="contained"
           color="primary">
           Edit your profile
@@ -136,8 +147,9 @@ const ArtistProfile = ({ artist, user }) => {
       </ul>
       {isEmailVerified ? (
         <Button
+          className={classes.button}
           component={Link}
-          to="/profile/edit"
+          to={`/profile/edit${editProfileHash}`}
           variant="contained"
           color="primary">
           Create your profile
@@ -158,6 +170,8 @@ ArtistProfile.propTypes = {
 
 const FormsList = () => {
   const [forms, setForms] = useState([])
+  const classes = useStyles()
+
   useEffect(() => {
     const abortController = new AbortController()
 
@@ -203,7 +217,7 @@ const FormsList = () => {
 
   if (forms.length > 0) {
     return (
-      <ul className="list-unstyled">
+      <ul className={classes.list}>
         {forms.map(form => (
           <li key={form.category_id} className="mb-2">
             <a href={form.form_url} target="_blank" rel="noopener noreferrer">
@@ -228,7 +242,7 @@ const ArtistDashboard = () => {
   // fetch the artist profile for the authed user
   useEffect(() => {
     const abortController = new AbortController()
-    const getArtist = async () => {
+    const getArtistProfile = async () => {
       try {
         const token = await getAccessTokenSilently({
           audience: 'https://dashboard.streetartoronto.ca/'
@@ -239,15 +253,23 @@ const ArtistDashboard = () => {
             Authorization: `Bearer ${token}`
           }
         }
-        const data = await getArtistByEmail({ email: user.email, opts })
+
+        const profileId = user['https://streetartoronto.ca/artist_profile_id']
+
+        if (!profileId) {
+          console.log('This account does not have a profile.')
+          return setLoading(false)
+        }
+
+        const data = await getArtist({ opts })
 
         if (data.error) {
           console.log(data.error)
           return setLoading(false)
         }
 
-        if (data.records.length > 0) {
-          const artistRecord = data.records[0]
+        if (data.record) {
+          const artistRecord = data.record
           setArtist({ ...artistRecord.fields, id: artistRecord.id })
         }
         setLoading(false)
@@ -261,7 +283,7 @@ const ArtistDashboard = () => {
       }
     }
 
-    getArtist()
+    getArtistProfile()
 
     return () => {
       abortController.abort()
