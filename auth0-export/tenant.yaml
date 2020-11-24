@@ -1,6 +1,6 @@
 rules:
-  - name: Add user role from Airtable
-    script: ./rules/Add user role from Airtable.js
+  - name: Add user role and account data from Airtable
+    script: ./rules/Add user role and account data from Airtable.js
     stage: login_success
     enabled: true
     order: 1
@@ -11,8 +11,8 @@ rules:
     order: 2
 rulesConfigs: []
 hooks:
-  - name: post-user-registration-hook
-    script: ./hooks/post-user-registration-hook.js
+  - name: save-to-airtable-accounts
+    script: ./hooks/save-to-airtable-accounts.js
     dependencies:
       airtable: 0.10.0
     enabled: true
@@ -25,7 +25,7 @@ pages:
     enabled: true
     html: ./pages/login.html
 resourceServers:
-  - name: StART Dashboard
+  - name: StART Dashboard API
     identifier: 'https://dashboard.streetartoronto.ca/'
     allow_offline_access: false
     enforce_policies: true
@@ -170,16 +170,18 @@ clients:
   - name: StART Digital
     allowed_clients: []
     allowed_logout_urls:
+      - 'https://localhost:3000'
       - 'http://localhost:3000'
       - 'http://localhost:8080'
       - 'https://start-dashboard-staging.herokuapp.com'
       - 'https://start-dashboard.herokuapp.com'
       - 'https://start-dashbo-*.herokuapp.com'
       - 'https://start-dashboard:3000'
-      - 'https://start-dashboard:3000/account-updated'
-      - 'https://start-dashboard-staging.herokuapp.com/account-updated'
+      - 'https://start-dashboard:3000/account/success'
+      - 'https://start-dashboard-staging.herokuapp.com/account/success'
     app_type: spa
     callbacks:
+      - 'https://localhost:3000'
       - 'http://localhost:3000'
       - 'http://localhost:8080'
       - 'https://start-dashboard-staging.herokuapp.com'
@@ -214,6 +216,7 @@ clients:
     sso_disabled: false
     token_endpoint_auth_method: none
     web_origins:
+      - 'https://localhost:3000'
       - 'http://localhost:3000'
       - 'http://localhost:8080'
       - 'https://start-dashboard-staging.herokuapp.com'
