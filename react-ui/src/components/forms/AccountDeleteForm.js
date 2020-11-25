@@ -28,12 +28,12 @@ const AccountDeleteForm = ({ onSubmit, email, setAlert }) => {
   return (
     <form onSubmit={validateForm}>
       <p>
-        This will delete your account completely, including your artist profile
-        (if you have one).
+        This will delete your StART Dashboard account and mark your StART Artist
+        Profile as inactive (if you have one).
       </p>
       <p>
-        If you have artworks on the public map, they will only show your current
-        preferred public name.
+        A StART staff will follow up with you shortly about what information you
+        would like to remove from the StART Map.
       </p>
       <p>This is a permanent action that cannot be undone.</p>
       <TextField
