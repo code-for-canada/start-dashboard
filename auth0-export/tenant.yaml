@@ -179,6 +179,8 @@ clients:
       - 'https://start-dashboard:3000'
       - 'https://start-dashboard:3000/account/success'
       - 'https://start-dashboard-staging.herokuapp.com/account/success'
+      - 'https://start-dashboard:3000/account/deleted'
+      - 'https://start-dashboard-staging.herokuapp.com/account/deleted'
     app_type: spa
     callbacks:
       - 'https://localhost:3000'

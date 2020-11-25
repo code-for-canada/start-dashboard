@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const AccountDeleteForm = ({ onSubmit, email, setAlert }) => {
+const AccountDeleteForm = ({ onSubmit, email, setAlert, isArtist }) => {
   const [validationEmail, setValidationEmail] = useState('')
   const [error, setError] = useState('')
   const classes = useStyles()
@@ -28,14 +28,19 @@ const AccountDeleteForm = ({ onSubmit, email, setAlert }) => {
   return (
     <form onSubmit={validateForm}>
       <p>
-        This will delete your account completely, including your artist profile
-        (if you have one).
+        This will delete your StART Dashboard account. This is a permanent
+        action that cannot be undone.
       </p>
-      <p>
-        If you have artworks on the public map, they will only show your current
-        preferred public name.
-      </p>
-      <p>This is a permanent action that cannot be undone.</p>
+      {isArtist && (
+        <p>
+          Your StART Artist Profile will be marked as inactive, meaning that you
+          will no longer receive emails about StART programs. Your information
+          will be used for internal record-keeping and reporting purposes only.
+          If you have any artwork published on the StART Map, a StART staff will
+          follow up with you shortly about what information you would like to
+          remove from the StART Map.
+        </p>
+      )}
       <TextField
         label="Enter your email address to confirm."
         value={validationEmail}
@@ -51,6 +56,7 @@ const AccountDeleteForm = ({ onSubmit, email, setAlert }) => {
         type="submit"
         variant="contained"
         color="secondary"
+        disabled={validationEmail !== email}
         className={classes.button}>
         Delete my account
       </Button>
@@ -61,7 +67,8 @@ const AccountDeleteForm = ({ onSubmit, email, setAlert }) => {
 AccountDeleteForm.propTypes = {
   onSubmit: PropTypes.func,
   setAlert: PropTypes.func,
-  email: PropTypes.string
+  email: PropTypes.string,
+  isArtist: PropTypes.bool
 }
 
 export default AccountDeleteForm

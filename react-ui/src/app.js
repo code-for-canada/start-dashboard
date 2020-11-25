@@ -14,6 +14,7 @@ import Profile from 'components/views/Profile'
 import ProfileSaved from 'components/views/ProfileSaved'
 import Account from 'components/views/Account'
 import AccountSaved from 'components/views/AccountSaved'
+import AccountDeleted from 'components/views/AccountDeleted'
 import Unauthorized from 'components/views/Unauthorized'
 
 import 'assets/scss/main.scss'
@@ -42,6 +43,7 @@ const App = () => {
       <PrivateRoute path="/profile/success" exact component={ProfileSaved} />
       <PrivateRoute path="/profile/:action" component={Profile} />
       <Route exact path="/account/success" component={AccountSaved} />
+      <Route exact path="/account/deleted" component={AccountDeleted} />
       <PrivateRoute path="/account" component={Account} />
       <Route path="/unauthorized" component={Unauthorized} />
     </Switch>
