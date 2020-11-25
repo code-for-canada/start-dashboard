@@ -31,6 +31,26 @@ If you're recreating the setup on a new account:
 5. Under "Allowed Callback URLs", enter `http://localhost:3000`
 6. Go to the [Rules page](https://manage.auth0.com/dashboard/us/start-dashboard/rules) and create the two rules documented in `docs/auth0-rules.md`.
 
+### Auth0: Export Configuration
+
+To ensure we have a record of Auth0 config changes, we use an official Auth0
+tool called `auth0-deploy-cli` that works via the "Auth0 Deploy CLI" extension,
+installed from the [extensions library][auth0-exts]. [install
+docs][auth0-cli-doc] | [export docs][auth0-export-doc]
+
+   [auth9-exts]: https://manage.auth0.com/dashboard/us/start-dashboard/extensions
+   [auth0-cli-doc]: https://auth0.com/docs/extensions/deploy-cli-tool
+   [auth0-export-doc]: https://auth0.com/docs/extensions/deploy-cli-tool/import-export-tenant-configuration-t    o-yaml-file#export-tenant-configuration
+
+1. Setup local config: `npm run auth0:setup`
+2. Copy the _Client Secret_ into `a0deploy-cli.config.json` file.
+  - Found on [this application page][auth0-cli-app]
+3. Ensure your packages are up-to-date: `npm install`
+4. Perform an export: `npm run auth0:export`
+5. Check for any meaningful changes, and commit them if so.
+
+   [auth0-cli-app]: https://manage.auth0.com/dashboard/us/start-dashboard/applications/Z06trzQxk5TOA7tT5x2KPcjPCXQWkkQi/settings
+
 ## Google Maps API Key
 
 Use the API key documented in [StART Digital Tools and Services](https://docs.google.com/document/d/1UTIEjy1KRCjGA6yQ7SQBBm5yi-QKoFJyaIfMVR7XzhI/edit?usp=sharing) or create your own by following the instructions [here](https://developers.google.com/maps/documentation/javascript/get-api-key).

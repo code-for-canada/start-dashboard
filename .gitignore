@@ -706,3 +706,4 @@ react-ui/build
 .idea/
 **/*.cert
 **/*.key
+a0deploy-cli.config.json
