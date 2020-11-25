@@ -33,7 +33,7 @@ module.exports = function (user, context, cb) {
           "first_name": user.user_metadata.first_name,
           "last_name": user.user_metadata.last_name,
           "email": user.email,
-          "role": "Artist",
+          "role": ["Artist"],
           "auth0_id": auth0_id
         }
       }
