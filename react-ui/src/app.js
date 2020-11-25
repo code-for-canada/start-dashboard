@@ -8,10 +8,6 @@ import PrivateRoute from 'components/common/PrivateRoute'
 import Home from 'components/views/Home'
 import StatusUpdateNew from 'components/views/StatusUpdateNew'
 import Dashboard from 'components/views/Dashboard'
-import ArtistDashboard from 'components/views/ArtistDashboard'
-import CuratorDashboard from 'components/views/CuratorDashboard'
-import ReviewerDashboard from 'components/views/ReviewerDashboard'
-import StaffDashboard from 'components/views/StaffDashboard'
 import InternalMap from 'components/views/InternalMap'
 import LocationNew from 'components/views/LocationNew'
 import Profile from 'components/views/Profile'
@@ -37,26 +33,6 @@ const App = () => {
       <PrivateRoute
         path="/dashboard"
         component={Dashboard}
-        validateEmail={false}
-      />
-      <PrivateRoute
-        path="/dashboard/artist"
-        component={ArtistDashboard}
-        validateEmail={false}
-      />
-      <PrivateRoute
-        path="/dashboard/curator"
-        component={CuratorDashboard}
-        validateEmail={false}
-      />
-      <PrivateRoute
-        path="/dashboard/reviewer"
-        component={ReviewerDashboard}
-        validateEmail={false}
-      />
-      <PrivateRoute
-        path="/dashboard/staff"
-        component={StaffDashboard}
         validateEmail={false}
       />
       <PrivateRoute path="/update" component={StatusUpdateNew} />

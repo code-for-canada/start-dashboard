@@ -3,7 +3,7 @@ function addRoleFromAirtable(user, context, callback) {
   const ManagementClient = require('auth0@2.17.0').ManagementClient;
   const ManagementTokenProvider = require('auth0@2.17.0').ManagementTokenProvider;
   
-  const ROLE_IDS = {
+  const AUTH0_ROLE_IDS = {
     'StART Staff': 'rol_h2aH436QWStWk7Oj',
     'Advisory Committee': 'rol_auFaVd6qf3rkVake',
     'Curator': 'rol_IrDonW0nV3VCYizi',
@@ -41,8 +41,6 @@ function addRoleFromAirtable(user, context, callback) {
       context.idToken['https://streetartoronto.ca/artist_profile_id'] = record.artist_profile_id;
     }
     
-    const roleId = ROLE_IDS[record.role] || ROLE_IDS.Artist;
-		console.log("getting user roles");
     management.getUserRoles(
       { id: user.user_id }, 
       (err, data) => {
@@ -50,55 +48,47 @@ function addRoleFromAirtable(user, context, callback) {
           console.log("Error getting user roles: " + err);
           return callback(err);
         }
-			
-      	const currentRoleId = data.length > 0 ? data[0].id : null;
+       
+        const auth0RolesArr = data.map(role => role.name);
+        const airtableRolesArr = record.role || ['Artist'];
         
-        // user has no Auth0 role, assign the Artist role from Airtable
-        if (!currentRoleId) {
-          return management.assignRolestoUser(
-            { id : user.user_id}, 
-            { "roles" : [roleId]}, 
-            (err) => {
-              if (err) {
-                console.log('Error assigning role: ' + err);
-                return callback(err);
-              }    
-              return callback(null, user, context);
-            }
-          );
-        }
-        
-        // user has an Auth0 role but the role on Airtable has changed
-      	if (roleId !== currentRoleId) {
-          console.log("removing role from user");
-        	management.removeRolesFromUser(
-      			{ id: user.user_id },
-      			{ roles: data.map(r => r.id) },
-      			(err, data) => {
-        			if (err) {
-          			console.log("Error removing roles: " + err);
-                return callback(err);
-        			}
-              
-              console.log("Assigning new role to user: " + record.role);
-        			management.assignRolestoUser(
-          			{ id : user.user_id}, 
-          			{ "roles" : [roleId]}, 
-          			(err) => {
-               	  if (err) {
-                  	console.log('Error assigning role: ' + err);
-                    return callback(err);
-                	}    
-                	callback(null, user, context);
-          			}
-        			);
-      			}
-    			);
-        } else {
+        if (auth0RolesArr.sort().join(',') === airtableRolesArr.sort().join(',')) {
           // user already has the correct Auth0 role
-          console.log("user already has the correct role assigned");
-          callback(null, user, context);
+            console.log("User already has the correct roles assigned");
+            return callback(null, user, context);
         }
+        
+        // add roles from Airtable that the Auth0 user does not have
+        const rolesToAdd = airtableRolesArr.map(airtableRole => {
+          return AUTH0_ROLE_IDS[airtableRole];
+        });
+          
+        management.assignRolestoUser(
+          { id : user.user_id }, 
+          { "roles" : rolesToAdd }, 
+          (err) => {
+            if (err) {
+              console.log('Error assigning role: ' + err);
+              return callback(err);
+            }    
+            
+            const rolesToRemove = data.filter(auth0Role => {
+              return !airtableRolesArr.includes(auth0Role.name);
+            });
+
+            management.removeRolesFromUser(
+              { id: user.user_id },
+              { roles: rolesToRemove.map(r => r.id) },
+              (err, data) => {
+                if (err) {
+                  console.log("Error removing roles: " + err);
+                  return callback(err);
+                }
+              }
+            );
+            callback(null, user, context);
+          }
+        );
     });
   });
 

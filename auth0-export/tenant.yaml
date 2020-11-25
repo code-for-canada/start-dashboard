@@ -488,7 +488,7 @@ roles:
     permissions:
       - permission_name: 'is:curator'
         resource_server_identifier: 'https://dashboard.streetartoronto.ca/'
-  - name: StART staff
+  - name: StART Staff
     description: A member of the StART team
     permissions:
       - permission_name: 'is:staff'

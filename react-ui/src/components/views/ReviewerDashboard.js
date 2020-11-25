@@ -16,7 +16,7 @@ const ReviewerDashboard = user => {
     <Container maxWidth={false}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <h1 className={classes.header}>CAdvisory Committee Dashboard Demo</h1>
+          <h1 className={classes.header}>Advisory Committee Dashboard Demo</h1>
         </Grid>
 
         <Panel
