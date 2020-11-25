@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const AccountUpdated = () => {
+const AccountDeleted = () => {
   const classes = useStyles()
   return (
     <DefaultLayout>
@@ -20,7 +20,7 @@ const AccountUpdated = () => {
         <Grid container justify="center">
           <Grid item md={6}>
             <Alert severity="success" variant="filled">
-              Your account has been updated. Please log in again to continue.
+              Your account has been deleted and you have been logged out.
             </Alert>
           </Grid>
         </Grid>
@@ -29,4 +29,4 @@ const AccountUpdated = () => {
   )
 }
 
-export default AccountUpdated
+export default AccountDeleted

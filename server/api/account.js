@@ -1,4 +1,4 @@
-const { accountsTable } = require('./utils/Airtable')
+const { accountsTable, artistsTable } = require('./utils/Airtable')
 const {
   updateUser,
   sendVerificationEmail,
@@ -83,7 +83,18 @@ const deleteAccount = async (req, res) => {
     }
 
     const accountRecord = records[0]
+    const artistProfile = accountRecord.get('artist_profile')
     await accountsTable.destroy([accountRecord.id])
+
+    if (artistProfile) {
+      const artistProfileId = artistProfile[0]
+      await artistsTable.update([{
+        id: artistProfileId,
+        fields: {
+          deactivated: true
+        }
+      }])
+    }
 
     return res.status(200).send({
       message: `Record ${accountRecord.id} was deleted.`
