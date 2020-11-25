@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
 import Loading from 'components/common/Loading'
-import useRole from 'customHooks/useRole'
+import useRoles from 'customHooks/useRoles'
 import ProfileView from 'components/views/ProfileView'
 import ProfileEdit from 'components/views/ProfileEdit'
 import ProfileNew from 'components/views/ProfileNew'
@@ -14,7 +14,7 @@ const Profile = () => {
   const [artist, setArtist] = useState(null)
   const [isLoading, setLoading] = useState(true)
   const { action = 'view' } = useParams()
-  const { isLoadingRole, isStaff } = useRole()
+  const { isLoadingRoles, isStaff } = useRoles()
 
   // fetch the artist profile for the authed user
   useEffect(() => {
@@ -68,7 +68,7 @@ const Profile = () => {
     }
   }, [user, getAccessTokenSilently])
 
-  if (isLoading || isLoadingRole) {
+  if (isLoading || isLoadingRoles) {
     return <Loading />
   }
 
