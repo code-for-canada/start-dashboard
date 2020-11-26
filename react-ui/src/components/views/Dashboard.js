@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { useParams, useHistory } from 'react-router-dom'
-import { Container, Grid, Tabs, Tab, Paper } from '@material-ui/core'
+import { Grid, Tabs, Tab } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import StaffDashboard from 'components/views/StaffDashboard'
@@ -33,13 +34,16 @@ const TabPanel = ({ children, tab, index, ...rest }) => {
       hidden={tab !== index}
       id={`panel-${index}`}
       aria-labelledby={`tab-${index}`}
-      {...rest}
-    >
-      {tab === index && (
-        children
-      )}
+      {...rest}>
+      {tab === index && children}
     </div>
-  );
+  )
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  tab: PropTypes.bool,
+  index: PropTypes.bool
 }
 
 const Dashboard = () => {
@@ -50,12 +54,14 @@ const Dashboard = () => {
   const [unauthorized, setUnauthorized] = useState(true)
   const classes = useStyles()
   const { roles = [] } = useRoles()
-  const availableViews = DASHBOARD_VIEW_ORDER.filter(view => roles.includes(view.role))
+  const availableViews = DASHBOARD_VIEW_ORDER.filter(view =>
+    roles.includes(view.role)
+  )
 
   const handleChange = (event, newValue) => {
     const action = availableViews[newValue].action
     history.push(`/dashboard/${action}`)
-  };
+  }
 
   useEffect(() => {
     if (action) {
@@ -70,9 +76,7 @@ const Dashboard = () => {
     } else {
       setUnauthorized(false)
     }
-
   }, [action, availableViews, tab])
-
 
   if (unauthorized) {
     return <Unauthorized />
@@ -97,32 +101,26 @@ const Dashboard = () => {
             aria-label="Dashboard views navigation"
             indicatorColor="primary"
             className={classes.tabs}>
-          {
-            availableViews.map((view, index) => {
-              return (
-                <Tab
-                  key={view.role}
-                  label={view.role}
-                  id={`tab-${index}`}
-                  aria-controls={`panel-${index}`}
-                  className={tab === index ? utilClasses.bgWhite : ''}
-                />
-              )
-            })
-          }
+            {availableViews.map((view, index) => (
+              <Tab
+                key={view.role}
+                label={view.role}
+                id={`tab-${index}`}
+                aria-controls={`panel-${index}`}
+                className={tab === index ? utilClasses.bgWhite : ''}
+              />
+            ))}
           </Tabs>
         </Grid>
       </Grid>
-        {
-          availableViews.map((view, index)=> {
-            const DashboardView = dashboardViews[view.role]
-            return (
-              <TabPanel tab={tab} index={index} key={view.role}>
-                <DashboardView />
-              </TabPanel>
-            )
-          })
-        }
+      {availableViews.map((view, index) => {
+        const DashboardView = dashboardViews[view.role]
+        return (
+          <TabPanel tab={tab} index={index} key={view.role}>
+            <DashboardView />
+          </TabPanel>
+        )
+      })}
     </DashboardLayout>
   )
 }
