@@ -2,19 +2,25 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import UnfoldLess from '@material-ui/icons/UnfoldLess'
 import UnfoldMore from '@material-ui/icons/UnfoldMore'
+import HelpIcon from '@material-ui/icons/HelpOutline'
 import Edit from '@material-ui/icons/Edit'
-import { Grid, IconButton, Hidden } from '@material-ui/core'
+import {
+  Grid,
+  IconButton,
+  Hidden,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Menu,
+  MenuItem
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   header: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: theme.spacing(1),
-    backgroundColor: 'white',
-    border: '1px solid #cccccc',
-    marginBottom: theme.spacing(1)
+    alignItems: 'center'
   },
   title: {
     fontSize: '1.25rem',
@@ -35,9 +41,13 @@ const useStyles = makeStyles(theme => ({
   },
   body: props => ({
     transition: 'all 0.3s ease',
+    width: '100%',
     height: props.isVisible ? '500px' : '0',
     overflow: props.isVisible ? 'initial' : 'hidden'
-  })
+  }),
+  menuItem: {
+    whiteSpace: 'pre-wrap'
+  }
 }))
 
 const Panel = ({
@@ -49,48 +59,104 @@ const Panel = ({
   index,
   children,
   toggleVisibility,
-  toggleSize
+  toggleSize,
+  guides
 }) => {
   const classes = useStyles({ isVisible })
+  const [anchorEl, setAnchorEl] = React.useState(null)
+
+  const handleMenuClick = event => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleMenuClose = event => {
+    event.stopPropagation()
+    setAnchorEl(null)
+  }
 
   return (
-    <Grid item xs={12} lg={isSmall ? 6 : 12} className={classes.panel}>
-      <div className={classes.header}>
-        <div className={classes.flex}>
+    <Grid item xs={12} md={isSmall ? 6 : 12} className={classes.panel}>
+      <Accordion expanded={isVisible} onChange={() => toggleVisibility(index)}>
+        <AccordionSummary classes={{ content: classes.header }}>
           <h2 className={classes.title}>{title}</h2>
-          <Hidden smDown>
-            <a href={editLink} target="_blank" rel="noopener noreferrer">
-              {editText}
-            </a>
-          </Hidden>
-        </div>
-        <div className={classes.flex}>
-          <Hidden smDown>
-            <IconButton
-              component={'a'}
-              size="small"
-              href={editLink}
-              target="_blank"
-              rel="noopener noreferrer">
-              <Edit />
-            </IconButton>
-          </Hidden>
+          <div className={classes.flex}>
+            {guides && (
+              <>
+                <IconButton
+                  size="small"
+                  aria-controls="docs-menu"
+                  aria-haspopup="true"
+                  title="User Guides"
+                  aria-label="User Guides"
+                  onClick={event => {
+                    event.stopPropagation()
+                    handleMenuClick(event)
+                  }}
+                  onFocus={event => event.stopPropagation()}>
+                  <HelpIcon />
+                </IconButton>
+                <Menu
+                  id="docs-menu"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                  transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleMenuClose}>
+                  {guides.map(guide => (
+                    <MenuItem
+                      key={guide.link}
+                      component="a"
+                      target="_blank"
+                      dense={true}
+                      rel="noopener noreferrer"
+                      href={guide.link}
+                      onClick={handleMenuClose}
+                      classes={{ root: classes.menuItem }}>
+                      {guide.title}
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </>
+            )}
+            <Hidden smDown>
+              <IconButton
+                component={'a'}
+                size="small"
+                href={editLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={event => event.stopPropagation()}
+                onFocus={event => event.stopPropagation()}>
+                <Edit />
+              </IconButton>
+            </Hidden>
 
-          <Hidden smDown>
-            <IconButton size="small" onClick={() => toggleSize(index)}>
-              {isSmall ? (
-                <UnfoldMore className={classes.rotate} />
-              ) : (
-                <UnfoldLess className={classes.rotate} />
-              )}
+            <Hidden smDown>
+              <IconButton
+                size="small"
+                onClick={event => {
+                  event.stopPropagation()
+                  toggleSize(index)
+                }}
+                onFocus={event => event.stopPropagation()}>
+                {isSmall ? (
+                  <UnfoldMore className={classes.rotate} />
+                ) : (
+                  <UnfoldLess className={classes.rotate} />
+                )}
+              </IconButton>
+            </Hidden>
+            <IconButton size="small">
+              {isVisible ? <UnfoldLess /> : <UnfoldMore />}
             </IconButton>
-          </Hidden>
-          <IconButton size="small" onClick={() => toggleVisibility(index)}>
-            {isVisible ? <UnfoldLess /> : <UnfoldMore />}
-          </IconButton>
-        </div>
-      </div>
-      <div className={classes.body}>{children}</div>
+          </div>
+        </AccordionSummary>
+
+        <AccordionDetails>
+          <div className={classes.body}>{children}</div>
+        </AccordionDetails>
+      </Accordion>
     </Grid>
   )
 }
@@ -104,7 +170,8 @@ Panel.propTypes = {
   index: PropTypes.number,
   children: PropTypes.node,
   toggleVisibility: PropTypes.func,
-  toggleSize: PropTypes.func
+  toggleSize: PropTypes.func,
+  guides: PropTypes.array
 }
 
 export default Panel

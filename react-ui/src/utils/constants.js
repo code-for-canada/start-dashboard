@@ -194,6 +194,9 @@ export const MAP_STYLE_BASE = [
   }
 ]
 
+export const USER_GUIDE_DOC =
+  'https://docs.google.com/document/d/1yjuWqRLIfkh997wF9z5egVKRfQrU7slyf63GyhdsNhI/edit'
+
 export const PANELS_DATA = [
   {
     id: 'project-updates',
@@ -235,7 +238,13 @@ export const PANELS_DATA = [
     editLink: 'https://streetartto.submittable.com/submissions',
     editText: 'Edit in Submittable',
     frameSrc:
-      'https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on'
+      'https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on',
+    guides: [
+      {
+        title: 'How to set up an application form on Submittable',
+        link: `${USER_GUIDE_DOC}#heading=h.wsulqj6ofxsi`
+      }
+    ]
   },
   {
     id: 'artworks',
@@ -246,7 +255,21 @@ export const PANELS_DATA = [
       'https://airtable.com/tbl5ApSEOzPpe4fwp/viwfmyIqZl3bsj2eo?blocks=hide',
     editText: 'Edit in Airtable',
     frameSrc:
-      'https://airtable.com/embed/shrdDGqIxvtiIjFzZ?backgroundColor=red&viewControls=on'
+      'https://airtable.com/embed/shrdDGqIxvtiIjFzZ?backgroundColor=red&viewControls=on',
+    guides: [
+      {
+        title: 'How to add an artwork to the database',
+        link: `${USER_GUIDE_DOC}#heading=h.sr3v8nph29mu`
+      },
+      {
+        title: 'How to update an artwork’s information',
+        link: `${USER_GUIDE_DOC}#heading=h.vrelgewywb8c`
+      },
+      {
+        title: 'How to search and filter artworks',
+        link: `${USER_GUIDE_DOC}#heading=h.2pupcjt5sfnf`
+      }
+    ]
   },
   {
     id: 'artists',
@@ -256,7 +279,21 @@ export const PANELS_DATA = [
     editLink: 'https://www.cognitoforms.com/forms/startartistprofile/entries',
     editText: 'Edit in CognitoForms',
     frameSrc:
-      'https://airtable.com/embed/shra4E5FrOJS6fzWO?backgroundColor=red&viewControls=on'
+      'https://airtable.com/embed/shra4E5FrOJS6fzWO?backgroundColor=red&viewControls=on',
+    guides: [
+      {
+        title: 'How to add an artist to the database',
+        link: `${USER_GUIDE_DOC}#heading=h.4didquwn4hfy`
+      },
+      {
+        title: 'How to update an artist’s profile',
+        link: `${USER_GUIDE_DOC}#heading=h.jtbns3bziflx`
+      },
+      {
+        title: 'How to search and filter artists',
+        link: `${USER_GUIDE_DOC}#heading=h.jushirtzch5f`
+      }
+    ]
   }
 ]
 
@@ -274,3 +311,31 @@ export const DASHBOARD_VIEW_ORDER = [
   { action: 'curator', role: 'Curator' },
   { action: 'artist', role: 'Artist' }
 ]
+
+export const DASHBOARD_SHORTCUTS = {
+  staff: [
+    {
+      title: 'Tools and Services (with credentials)',
+      link:
+        'https://docs.google.com/document/d/1UTIEjy1KRCjGA6yQ7SQBBm5yi-QKoFJyaIfMVR7XzhI/edit'
+    },
+    {
+      title: 'User Guides',
+      link:
+        'https://docs.google.com/document/d/1yjuWqRLIfkh997wF9z5egVKRfQrU7slyf63GyhdsNhI/edit'
+    },
+    {
+      title: 'Airtable',
+      link:
+        'https://airtable.com/tbl5ApSEOzPpe4fwp/viwozx55EaH51F1Su?blocks=hide'
+    },
+    {
+      title: 'Submittable',
+      link: 'https://streetartto.submittable.com/'
+    },
+    {
+      title: 'Mailjet',
+      link: 'https://app.mailjet.com/dashboard'
+    }
+  ]
+}

@@ -6,8 +6,9 @@ import EmbeddedIframe from 'components/common/EmbeddedIframe'
 import Panel from 'components/common/Panel'
 import ConfigDrawer from 'components/common/ConfigDrawer'
 import PanelControlBlock from 'components/common/PanelControlBlock'
+import ShortcutMenu from 'components/common/ShortcutMenu'
 import usePanelState from 'customHooks/usePanelState'
-import { PANELS_DATA } from 'utils/constants'
+import { PANELS_DATA, DASHBOARD_SHORTCUTS } from 'utils/constants'
 
 const useStyles = makeStyles(theme => ({
   header: {
@@ -63,14 +64,21 @@ const StaffDashboard = () => {
           <h1>StART Staff Dashboard</h1>
         </Grid>
         <Grid item>
-          <ConfigDrawer>
-            <PanelControlBlock
-              panels={panels}
-              moveUp={moveUp}
-              moveDown={moveDown}
-              toggleVisibility={toggleVisibility}
-            />
-          </ConfigDrawer>
+          <Grid container spacing={1}>
+            <Grid item>
+              <ShortcutMenu links={DASHBOARD_SHORTCUTS.staff} />
+            </Grid>
+            <Grid item>
+              <ConfigDrawer>
+                <PanelControlBlock
+                  panels={panels}
+                  moveUp={moveUp}
+                  moveDown={moveDown}
+                  toggleVisibility={toggleVisibility}
+                />
+              </ConfigDrawer>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
 

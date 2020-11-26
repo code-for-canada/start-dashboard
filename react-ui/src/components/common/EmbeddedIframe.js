@@ -9,7 +9,6 @@ const useStyles = makeStyles(theme => ({
   iframe: props => ({
     height: 'inherit',
     background: 'transparent',
-    border: '1px solid #ccc',
     ...props.style
   })
 }))
