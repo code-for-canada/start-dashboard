@@ -32,6 +32,11 @@ const App = () => {
         {isAuthenticated ? <Redirect to="/dashboard" /> : <Home />}
       </Route>
       <PrivateRoute
+        path="/dashboard/:action"
+        component={Dashboard}
+        validateEmail={false}
+      />
+      <PrivateRoute
         path="/dashboard"
         component={Dashboard}
         validateEmail={false}

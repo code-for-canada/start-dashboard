@@ -53,7 +53,7 @@ const StaffDashboard = () => {
   const classes = useStyles()
 
   return (
-    <Container maxWidth={false}>
+    <div className="staff-view">
       <Grid
         container
         spacing={2}
@@ -86,7 +86,7 @@ const StaffDashboard = () => {
           </Panel>
         ))}
       </Grid>
-    </Container>
+    </div>
   )
 }
 

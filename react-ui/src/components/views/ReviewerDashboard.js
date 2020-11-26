@@ -13,12 +13,14 @@ const useStyles = makeStyles(theme => ({
 const ReviewerDashboard = user => {
   const classes = useStyles()
   return (
-    <Container maxWidth={false}>
+    <div className="reviewer-view">
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <h1 className={classes.header}>Advisory Committee Dashboard Demo</h1>
         </Grid>
+      </Grid>
 
+      <Grid container spacing={2}>
         <Panel
           title="Submission Status Board"
           editLink="https://airtable.com/tblcX15UBd7NvgZNz/viwEVrFXgIndPwQYw?blocks=hide"
@@ -41,7 +43,7 @@ const ReviewerDashboard = user => {
           />
         </Panel>
       </Grid>
-    </Container>
+    </div>
   )
 }
 
