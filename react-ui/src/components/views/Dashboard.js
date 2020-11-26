@@ -49,7 +49,9 @@ TabPanel.propTypes = {
 
 const DashboardTabs = ({ availableViews }) => {
   const { action } = useParams()
-  const initialTab = availableViews.findIndex(view => view.action === action)
+  const initialTab = action
+    ? availableViews.findIndex(view => view.action === action)
+    : 0
   const [tab, setTab] = useState(initialTab)
   const [unauthorized, setUnauthorized] = useState(false)
   const history = useHistory()
