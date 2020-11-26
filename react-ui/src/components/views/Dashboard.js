@@ -47,69 +47,46 @@ TabPanel.propTypes = {
   index: PropTypes.number
 }
 
-const Dashboard = () => {
+const DashboardTabs = ({ availableViews }) => {
   const { action } = useParams()
-  const utilClasses = useUtilityClasses()
-  const history = useHistory()
-  const [tab, setTab] = useState(0)
-  const [availableViews, setAvailableViews] = useState([])
+  const initialTab = availableViews.findIndex(view => view.action === action)
+  const [tab, setTab] = useState(initialTab)
   const [unauthorized, setUnauthorized] = useState(false)
+  const history = useHistory()
+  const utilClasses = useUtilityClasses()
   const classes = useStyles()
-  const { isLoadingRoles, roles = [] } = useRoles()
 
   const handleChange = (event, newValue) => {
-    const action = availableViews[newValue].action
-    history.replace(`/dashboard/${action}`)
-  }
-
-  // check which views user has access to
-  useEffect(() => {
-    if (!isLoadingRoles) {
-      const availableViews = DASHBOARD_VIEW_ORDER.filter(view =>
-        roles.includes(view.role)
+    setTab(newValue)
+    const newView = availableViews[newValue]
+    const actionParam = newView.action
+    if (actionParam === 'artist') {
+      history.replace(`/dashboard/${actionParam}`)
+    } else {
+      window.history.replaceState(
+        null,
+        newView.role,
+        `/dashboard/${actionParam}`
       )
-      setAvailableViews(availableViews)
     }
-  }, [isLoadingRoles, roles])
-
-  // go to correct tab based on action
-  useEffect(() => {
-    if (action && !isLoadingRoles) {
-      const newTab = availableViews.findIndex(view => view.action === action)
-
-      if (newTab !== -1 && tab !== newTab) {
-        setTab(newTab)
-      }
-    }
-  }, [action, availableViews, tab, isLoadingRoles])
+  }
 
   // check if user is authorized to see view
   useEffect(() => {
-    if (action && !isLoadingRoles) {
+    if (action) {
       const view = availableViews.find(view => view.action === action)
       if (!view) {
         setUnauthorized(true)
       }
     }
-  }, [action, availableViews, isLoadingRoles])
+  }, [action, availableViews])
 
   if (unauthorized) {
     return <Unauthorized />
   }
 
-  if (roles.length === 1) {
-    const DashboardView = dashboardViews[roles[0]]
-    return (
-      <DashboardLayout>
-        {isLoadingRoles && <Loading />}
-        <DashboardView />
-      </DashboardLayout>
-    )
-  }
-
   return (
-    <DashboardLayout>
-      {isLoadingRoles && <Loading />}
+    <>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Tabs
@@ -138,6 +115,48 @@ const Dashboard = () => {
           </TabPanel>
         )
       })}
+    </>
+  )
+}
+
+DashboardTabs.propTypes = {
+  availableViews: PropTypes.array
+}
+
+const Dashboard = () => {
+  const [availableViews, setAvailableViews] = useState()
+  const { isLoadingRoles, roles = [] } = useRoles()
+
+  // check which views user has access to
+  useEffect(() => {
+    if (!isLoadingRoles) {
+      const availableViews = DASHBOARD_VIEW_ORDER.filter(view =>
+        roles.includes(view.role)
+      )
+      setAvailableViews(availableViews)
+    }
+  }, [isLoadingRoles, roles])
+
+  if (!availableViews) {
+    return (
+      <DashboardLayout>
+        <Loading />
+      </DashboardLayout>
+    )
+  }
+
+  if (roles.length === 1) {
+    const DashboardView = dashboardViews[roles[0]]
+    return (
+      <DashboardLayout>
+        <DashboardView />
+      </DashboardLayout>
+    )
+  }
+
+  return (
+    <DashboardLayout>
+      <DashboardTabs availableViews={availableViews} />
     </DashboardLayout>
   )
 }
