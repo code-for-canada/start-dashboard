@@ -59,19 +59,19 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (action) {
-      const view = DASHBOARD_VIEW_ORDER.find(view => view.action === action)
-      if (roles.includes(view.role)) {
-        setUnauthorized(false)
-      }
       const newTab = availableViews.findIndex(view => view.action === action)
-      if (tab !== newTab) {
-        setTab(newTab)
+      if (newTab > -1) {
+        setUnauthorized(false)
+
+        if (tab !== newTab) {
+          setTab(newTab)
+        }
       }
     } else {
       setUnauthorized(false)
     }
 
-  }, [action, availableViews])
+  }, [action, availableViews, tab])
 
 
   if (unauthorized) {
@@ -121,7 +121,6 @@ const Dashboard = () => {
                 <DashboardView />
               </TabPanel>
             )
-            return null
           })
         }
     </DashboardLayout>
