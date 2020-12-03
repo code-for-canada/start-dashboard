@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import UnfoldLess from '@material-ui/icons/UnfoldLess'
 import UnfoldMore from '@material-ui/icons/UnfoldMore'
 import HelpIcon from '@material-ui/icons/HelpOutline'
-import Edit from '@material-ui/icons/Edit'
 import {
   Grid,
   IconButton,
@@ -25,8 +24,7 @@ const useStyles = makeStyles(theme => ({
   title: {
     fontSize: '1.25rem',
     marginBottom: 0,
-    marginRight: theme.spacing(1),
-    marginLeft: theme.spacing(1)
+    marginRight: theme.spacing(1)
   },
   flex: {
     display: 'flex',
@@ -42,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   body: props => ({
     transition: 'all 0.3s ease',
     width: '100%',
-    height: props.isVisible ? '500px' : '0',
+    height: props.isVisible ? 'auto' : '0',
     overflow: props.isVisible ? 'initial' : 'hidden'
   }),
   menuItem: {
@@ -51,8 +49,6 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Panel = ({
-  editLink = 'https://airtable.com/tbl5ApSEOzPpe4fwp/viw2swQLeJ9xwU82F?blocks=hide',
-  editText = 'Edit in Airtable',
   isVisible = true,
   isSmall = false,
   title,
@@ -60,7 +56,8 @@ const Panel = ({
   children,
   toggleVisibility,
   toggleSize,
-  guides
+  guides,
+  id
 }) => {
   const classes = useStyles({ isVisible })
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -76,7 +73,7 @@ const Panel = ({
 
   return (
     <Grid item xs={12} md={isSmall ? 6 : 12} className={classes.panel}>
-      <Accordion expanded={isVisible} onChange={() => toggleVisibility(index)}>
+      <Accordion expanded={isVisible} onChange={() => toggleVisibility(id)}>
         <AccordionSummary classes={{ content: classes.header }}>
           <h2 className={classes.title}>{title}</h2>
           <div className={classes.flex}>
@@ -119,25 +116,13 @@ const Panel = ({
                 </Menu>
               </>
             )}
-            <Hidden smDown>
-              <IconButton
-                component={'a'}
-                size="small"
-                href={editLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={event => event.stopPropagation()}
-                onFocus={event => event.stopPropagation()}>
-                <Edit />
-              </IconButton>
-            </Hidden>
 
             <Hidden smDown>
               <IconButton
                 size="small"
                 onClick={event => {
                   event.stopPropagation()
-                  toggleSize(index)
+                  toggleSize(id)
                 }}
                 onFocus={event => event.stopPropagation()}>
                 {isSmall ? (
@@ -163,8 +148,6 @@ const Panel = ({
 
 Panel.propTypes = {
   title: PropTypes.string,
-  editLink: PropTypes.string,
-  editText: PropTypes.string,
   isVisible: PropTypes.bool,
   isSmall: PropTypes.bool,
   index: PropTypes.number,
