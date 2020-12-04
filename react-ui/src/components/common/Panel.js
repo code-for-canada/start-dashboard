@@ -154,7 +154,8 @@ Panel.propTypes = {
   children: PropTypes.node,
   toggleVisibility: PropTypes.func,
   toggleSize: PropTypes.func,
-  guides: PropTypes.array
+  guides: PropTypes.array,
+  id: PropTypes.string
 }
 
 export default Panel

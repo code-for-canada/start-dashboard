@@ -12,7 +12,7 @@ const LocationNew = () => {
   const { isLoadingRoles, isStaff } = useRoles()
   const { getAccessTokenSilently } = useAuth0()
 
-  const handleSubmit = async (locationData) => {
+  const handleSubmit = async locationData => {
     const token = await getAccessTokenSilently({
       audience: 'https://dashboard.streetartoronto.ca/'
     })

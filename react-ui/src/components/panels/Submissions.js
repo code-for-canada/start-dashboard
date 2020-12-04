@@ -7,12 +7,16 @@ const Submissions = props => {
     <div>
       <h3>2020 Submissions by Status</h3>
       <EmbeddedIframe
-        src={'https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on'}
+        src={
+          'https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on'
+        }
       />
 
       <h3>New Submissions</h3>
       <EmbeddedIframe
-        src={'https://airtable.com/embed/shrbgSefEwH2I8pgM?backgroundColor=red&viewControls=on'}
+        src={
+          'https://airtable.com/embed/shrbgSefEwH2I8pgM?backgroundColor=red&viewControls=on'
+        }
       />
 
       <div>

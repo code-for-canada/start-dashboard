@@ -194,6 +194,25 @@ export const MAP_STYLE_BASE = [
   }
 ]
 
+export const MAP_STYLE_WARD_DEFAULT = {
+  visible: true,
+  strokeColor: '#64aae2',
+  strokeOpacity: 1,
+  strokeWeight: 2,
+  fillOpacity: 0.1,
+  fillColor: '#64aae2'
+}
+
+export const MAP_STYLE_WARD_ACTIVE = {
+  // Ensure active ward always has border lines on top.
+  zIndex: 1000,
+  fillColor: '#CFB51D',
+  fillOpacity: 0.1,
+  strokeColor: '#CFB51D',
+  strokeWeight: 2,
+  strokeOpacity: 1
+}
+
 export const USER_GUIDE_DOC =
   'https://docs.google.com/document/d/1yjuWqRLIfkh997wF9z5egVKRfQrU7slyf63GyhdsNhI/edit'
 

@@ -5,10 +5,16 @@ import { Button } from '@material-ui/core'
 const Locations = props => {
   return (
     <div>
-      <EmbeddedIframe src={'https://airtable.com/embed/shrq9Y4H4zVkBhjgx?backgroundColor=red'} />
+      <EmbeddedIframe
+        src={'https://airtable.com/embed/shrq9Y4H4zVkBhjgx?backgroundColor=red'}
+      />
 
       <h3>All locations</h3>
-      <EmbeddedIframe src={'https://airtable.com/embed/shrKy239MuejuvGhM?backgroundColor=red&viewControls=on'} />
+      <EmbeddedIframe
+        src={
+          'https://airtable.com/embed/shrKy239MuejuvGhM?backgroundColor=red&viewControls=on'
+        }
+      />
 
       <div>
         <Button

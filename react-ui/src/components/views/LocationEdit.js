@@ -9,7 +9,6 @@ import useRoles from 'customHooks/useRoles'
 import { getResource, updateResource } from 'utils/apiHelper'
 import Unauthorized from 'components/views/Unauthorized'
 
-
 const LocationEdit = () => {
   const { getAccessTokenSilently } = useAuth0()
   const [location, setLocation] = useState(null)
@@ -17,7 +16,7 @@ const LocationEdit = () => {
   const { isLoadingRoles, isStaff } = useRoles()
   const { id } = useParams()
 
- // fetch the location
+  // fetch the location
   useEffect(() => {
     const abortController = new AbortController()
     const getLocationAsync = async () => {
@@ -69,7 +68,7 @@ const LocationEdit = () => {
     }
   }, [id, getAccessTokenSilently])
 
-  const handleSubmit = async (locationData) => {
+  const handleSubmit = async locationData => {
     const token = await getAccessTokenSilently({
       audience: 'https://dashboard.streetartoronto.ca/'
     })

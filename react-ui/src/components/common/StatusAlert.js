@@ -30,7 +30,8 @@ StatusAlert.propTypes = {
   message: PropTypes.string,
   severity: PropTypes.string,
   children: PropTypes.node,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  classes: PropTypes.object
 }
 
 export default StatusAlert

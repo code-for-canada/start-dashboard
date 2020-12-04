@@ -6,7 +6,11 @@ const Artists = props => {
   return (
     <div>
       <h3>All Artists</h3>
-      <EmbeddedIframe src={'https://airtable.com/embed/shra4E5FrOJS6fzWO?backgroundColor=red&viewControls=on'} />
+      <EmbeddedIframe
+        src={
+          'https://airtable.com/embed/shra4E5FrOJS6fzWO?backgroundColor=red&viewControls=on'
+        }
+      />
 
       <div>
         <Button

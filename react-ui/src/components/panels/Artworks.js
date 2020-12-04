@@ -14,10 +14,18 @@ const Artworks = props => {
   return (
     <div>
       <h3>Artworks by Status</h3>
-      <EmbeddedIframe src={'https://airtable.com/embed/shrTlL5928ssPbMeP?backgroundColor=red&viewControls=on'} />
+      <EmbeddedIframe
+        src={
+          'https://airtable.com/embed/shrTlL5928ssPbMeP?backgroundColor=red&viewControls=on'
+        }
+      />
 
       <h3>All Artworks</h3>
-      <EmbeddedIframe src={'https://airtable.com/embed/shrdDGqIxvtiIjFzZ?backgroundColor=red&viewControls=on'} />
+      <EmbeddedIframe
+        src={
+          'https://airtable.com/embed/shrdDGqIxvtiIjFzZ?backgroundColor=red&viewControls=on'
+        }
+      />
 
       <div>
         <Button

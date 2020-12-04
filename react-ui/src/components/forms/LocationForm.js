@@ -1,18 +1,26 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
-import {
-  withGoogleMap,
-  GoogleMap,
-  withScriptjs,
-  Marker
-} from 'react-google-maps'
+
 import Geocode from 'react-geocode'
 import Autocomplete from 'react-google-autocomplete'
 import StatusAlert from 'components/common/StatusAlert'
-import { TextField, Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import { Card, FormControl, InputLabel, Select } from '@material-ui/core'
-import { DEFAULT_MAP_CENTER, AIRTABLE_LINKS } from 'utils/constants'
+import {
+  Card,
+  FormControl,
+  InputLabel,
+  Select,
+  TextField,
+  Button
+} from '@material-ui/core'
+import {
+  DEFAULT_MAP_CENTER,
+  AIRTABLE_LINKS,
+  MAP_STYLE_BASE,
+  MAP_STYLE_WARD_DEFAULT,
+  MAP_STYLE_WARD_ACTIVE
+} from 'utils/constants'
+import { Map, Marker, GoogleApiWrapper } from '@nomadiclabs/google-maps-react'
 
 const styles = {
   container: {
@@ -21,14 +29,18 @@ const styles = {
   },
   form: {
     padding: '1rem',
-    paddingTop: '4rem',
+    paddingTop: '4rem'
   },
   button: {
     marginTop: '1rem'
   },
   alert: {
     margin: '1rem',
-    marginTop: 0,
+    marginTop: 0
+  },
+  mapContainer: {
+    position: 'relative',
+    height: '400px'
   }
 }
 
@@ -37,7 +49,11 @@ Geocode.enableDebug()
 
 const SuccessAlert = ({ show, recordId, address, onClose, classes }) => {
   return (
-    <StatusAlert show={show} severity="success" onClose={onClose} classes={classes}>
+    <StatusAlert
+      show={show}
+      severity="success"
+      onClose={onClose}
+      classes={classes}>
       {`This location (${address}) has been saved. `}
       <a
         target="_blank"
@@ -52,12 +68,17 @@ SuccessAlert.propTypes = {
   show: PropTypes.bool,
   recordId: PropTypes.string,
   address: PropTypes.string,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  classes: PropTypes.object
 }
 
 const ErrorAlert = ({ show, error, onClose, classes }) => {
   return (
-    <StatusAlert show={show} severity="error" onClose={onClose} classes={classes}>
+    <StatusAlert
+      show={show}
+      severity="error"
+      onClose={onClose}
+      classes={classes}>
       <p>There was an error saving this location:</p>
       {error && <code>{JSON.stringify(error)}</code>}
     </StatusAlert>
@@ -67,49 +88,112 @@ const ErrorAlert = ({ show, error, onClose, classes }) => {
 ErrorAlert.propTypes = {
   show: PropTypes.bool,
   error: PropTypes.object,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  classes: PropTypes.object
 }
 
-const AsyncMap = withScriptjs(
-  withGoogleMap(props => {
-    return (
-      <GoogleMap
-        google={props.google}
-        defaultZoom={props.zoom}
-        center={{
-          lat: props.mapPosition.lat,
-          lng: props.mapPosition.lng
-        }}>
-        <div style={{ padding: '1rem' }}>
-        <Autocomplete
-          apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
-          style={{
-            width: '100%',
-            height: '40px',
-            paddingLeft: '16px',
-          }}
-          onPlaceSelected={props.onPlaceSelected}
-          types={['address']}
-          componentRestrictions={{ country: 'ca' }}
-        />
-        </div>
-        {/* Marker */}
-        <Marker
-          google={props.google}
-          name={'Selected location'}
-          draggable={true}
-          onDragEnd={props.onMarkerDragEnd}
-          position={{
-            lat: props.markerPosition.lat,
-            lng: props.markerPosition.lng
-          }}
-        />
-        <Marker />
-        {/* For Auto complete Search Box */}
-      </GoogleMap>
+const InteractiveMap = props => {
+  const {
+    loaded,
+    google,
+    mapRef,
+    center,
+    zoom,
+    classes,
+    onMarkerDragEnd,
+    markerPosition,
+    onPlaceSelected
+  } = props
+
+  let infowindow = null
+
+  const handleMapClick = (e, map) => {
+    const feature = e.feature
+    // Clicking a ward feature on the map.
+    if (feature.getGeometry().getType() === 'MultiPolygon') {
+      // Clicking on a ward mulitpolygon feature on the map.
+      map.data.revertStyle()
+      map.data.overrideStyle(feature, MAP_STYLE_WARD_ACTIVE)
+      const content = `Ward ${feature.getProperty(
+        'AREA_S_CD'
+      )}: ${feature.getProperty('AREA_NAME')}`
+      if (infowindow) {
+        infowindow.close()
+      }
+      infowindow = new google.maps.InfoWindow({
+        content: content,
+        position: e.latLng
+      })
+      infowindow.open(map)
+    }
+  }
+
+  const onMapReady = (mapProps, map) => {
+    map.setOptions({
+      styles: MAP_STYLE_BASE,
+      zoomControlOptions: {
+        position: google.maps.ControlPosition.TOP_RIGHT
+      }
+    })
+    map.data.loadGeoJson(
+      'https://raw.githubusercontent.com/code-for-canada/start-map/master/public/geojson/wards.json',
+      { idPropertyName: 'AREA_ID' }
     )
-  })
-)
+    map.data.setStyle(MAP_STYLE_WARD_DEFAULT)
+    map.data.addListener('click', e => handleMapClick(e, map))
+  }
+
+  if (!loaded || !google) {
+    return <div className="loading" />
+  }
+
+  return (
+    <>
+      <div className={classes.mapContainer}>
+        <Map
+          ref={mapRef}
+          google={google}
+          initialCenter={center}
+          center={center}
+          zoom={zoom}
+          onReady={(mapProps, map) => onMapReady(mapProps, map)}
+          containerStyle={{ height: '100%' }}>
+          <Marker
+            position={markerPosition}
+            draggable={true}
+            onDragend={onMarkerDragEnd}
+          />
+        </Map>
+      </div>
+      <Autocomplete
+        style={{
+          width: '100%',
+          height: '40px',
+          paddingLeft: '16px'
+        }}
+        onPlaceSelected={onPlaceSelected}
+        types={['address']}
+        componentRestrictions={{ country: 'ca' }}
+      />
+    </>
+  )
+}
+
+InteractiveMap.propTypes = {
+  loaded: PropTypes.bool,
+  google: PropTypes.object,
+  mapRef: PropTypes.object,
+  center: PropTypes.object,
+  markerPosition: PropTypes.object,
+  zoom: PropTypes.number,
+  classes: PropTypes.object,
+  onMarkerDragEnd: PropTypes.func,
+  onPlaceSelected: PropTypes.func
+}
+
+const LocationMap = GoogleApiWrapper(props => ({
+  apiKey: props.googleApiKey
+}))(withStyles(styles)(InteractiveMap))
 
 class LocationForm extends Component {
   constructor(props) {
@@ -135,6 +219,7 @@ class LocationForm extends Component {
         lng: this.props.center.lng
       }
     }
+    this.mapRef = createRef()
   }
 
   componentDidUpdate(prevProps) {
@@ -143,11 +228,12 @@ class LocationForm extends Component {
         coordinates,
         address,
         status,
+        // eslint-disable-next-line camelcase
         property_description = '',
         ward = '',
         intersection = '',
         comments = ''
-      } = this.props.location;
+      } = this.props.location
       const [lat, lng] = coordinates.split(',').map(l => Number(l.trim()))
       this.setState({
         ...this.state,
@@ -158,7 +244,7 @@ class LocationForm extends Component {
         ward: ward,
         status: status,
         intersection: intersection,
-        comments: comments,
+        comments: comments
       })
     }
   }
@@ -248,9 +334,12 @@ class LocationForm extends Component {
    *
    * @param event
    */
-  onMarkerDragEnd = event => {
-    const newLat = event.latLng.lat()
-    const newLng = event.latLng.lng()
+  onMarkerDragEnd = (marker, map, coordinates) => {
+    console.log(marker)
+    console.log(coordinates)
+    const { latLng } = coordinates
+    const newLat = latLng.lat()
+    const newLng = latLng.lng()
 
     Geocode.fromLatLng(newLat, newLng).then(
       response => {
@@ -315,7 +404,7 @@ class LocationForm extends Component {
   onSubmit = async e => {
     e.preventDefault()
 
-    let locationData = {
+    const locationData = {
       fields: {
         address: this.state.address,
         coordinates: `${this.state.markerPosition.lat}, ${this.state.markerPosition.lng}`,
@@ -339,7 +428,7 @@ class LocationForm extends Component {
       })
     }
 
-    console.log({result})
+    console.log({ result })
 
     this.setState({
       showSuccessAlert: true,
@@ -351,16 +440,14 @@ class LocationForm extends Component {
     const { classes } = this.props
     return (
       <Card className={classes.container}>
-        <AsyncMap
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places`}
-          loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div style={{ height: this.props.height }} />}
-          mapElement={<div style={{ height: `100%` }} />}
+        <LocationMap
           zoom={this.props.zoom}
-          mapPosition={this.state.mapPosition}
+          center={this.state.mapPosition}
           markerPosition={this.state.markerPosition}
           onPlaceSelected={this.onPlaceSelected}
           onMarkerDragEnd={this.onMarkerDragEnd}
+          mapRef={this.mapRef}
+          googleApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
         />
         <form onSubmit={this.onSubmit} className={classes.form}>
           <TextField
@@ -451,7 +538,9 @@ class LocationForm extends Component {
           />
 
           <FormControl variant="outlined" margin="dense">
-            <InputLabel htmlFor="status" variant="outlined" margin="dense">Status</InputLabel>
+            <InputLabel htmlFor="status" variant="outlined" margin="dense">
+              Status
+            </InputLabel>
             <Select
               native
               value={this.state.status}
@@ -461,9 +550,8 @@ class LocationForm extends Component {
               margin="dense"
               inputProps={{
                 name: 'status',
-                id: 'status',
-              }}
-            >
+                id: 'status'
+              }}>
               <option value={'new'}>New</option>
               <option value={'under review'}>Under review</option>
               <option value={'approved'}>Approved</option>
@@ -509,12 +597,14 @@ LocationForm.propTypes = {
   zoom: PropTypes.number,
   height: PropTypes.string,
   auth0: PropTypes.object,
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  location: PropTypes.object,
+  handleSubmit: PropTypes.func
 }
 
 LocationForm.defaultProps = {
   center: DEFAULT_MAP_CENTER,
-  height: "400px",
+  height: '400px',
   zoom: 14
 }
 

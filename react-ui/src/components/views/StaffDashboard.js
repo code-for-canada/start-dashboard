@@ -26,7 +26,7 @@ export const PANELS_DATA = [
         title: 'How to set up an application form on Submittable',
         link: `${USER_GUIDE_DOC}#heading=h.wsulqj6ofxsi`
       }
-    ],
+    ]
   },
   {
     id: 'artworks',
