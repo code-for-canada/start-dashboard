@@ -1,10 +1,3 @@
-# Auth0 Hooks
-
-Documented here for transparency
-
-## Post-registration hook to save user data to Airtable
-
-```js
 /**
 @param {object} user - The user being created
 @param {string} user.id - user id
@@ -25,7 +18,6 @@ Documented here for transparency
 @param {object} context.webtask - webtask context
 @param {function} cb - function (error, response)
 */
-
 module.exports = function (user, context, cb) {
   const auth0_id = `auth0|${user.id}`;
   const Airtable = require('airtable');
@@ -34,10 +26,12 @@ module.exports = function (user, context, cb) {
     }).base(context.webtask.secrets.AIRTABLE_BASE_ID);
 
   const saveUserToAirtable = () => {
-    base('access_control').create([
+    base('accounts').create([
       {
         "fields": {
           "username": user.username,
+          "first_name": user.user_metadata.first_name,
+          "last_name": user.user_metadata.last_name,
           "email": user.email,
           "role": "Artist",
           "auth0_id": auth0_id
@@ -56,11 +50,13 @@ module.exports = function (user, context, cb) {
   }
 
   const updateUserOnAirtable = (existingRecord) => {
-    base('access_control').update([
+    base('accounts').update([
       {
         "id": existingRecord.id,
         "fields": {
-          "auth0_id": auth0_id
+          "auth0_id": auth0_id,
+          "first_name": user.user_metadata.first_name,
+          "last_name": user.user_metadata.last_name,
         }
       }
     ], function(err, records) {
@@ -74,8 +70,8 @@ module.exports = function (user, context, cb) {
     });
     cb()
   }
-
-  base('access_control')
+    
+  base('accounts')
     .select({ filterByFormula: `{email} = '${user.email}'` })
     .firstPage((err, records) => {
       if (err) {
@@ -93,5 +89,3 @@ module.exports = function (user, context, cb) {
       }
     });
 };
-
-````
