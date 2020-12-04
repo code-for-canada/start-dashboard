@@ -11,6 +11,9 @@ jobs:
     # the list of steps that the action will go through
     steps:
       - uses: actions/checkout@v2
+        with:
+          # Required for full history
+          fetch-depth: 0
 
       # Move all react files to root (including hidden dotfiles)
       - run: |
