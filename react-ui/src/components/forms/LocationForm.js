@@ -9,11 +9,10 @@ import {
 import Geocode from 'react-geocode'
 import Autocomplete from 'react-google-autocomplete'
 import StatusAlert from 'components/common/StatusAlert'
-import { withAuth0 } from '@auth0/auth0-react'
 import { TextField, Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
+import { Card, FormControl, InputLabel, Select } from '@material-ui/core'
 import { DEFAULT_MAP_CENTER, AIRTABLE_LINKS } from 'utils/constants'
-import { createResource } from 'utils/apiHelper'
 
 const styles = {
   container: {
@@ -21,29 +20,31 @@ const styles = {
     marginBottom: '2rem'
   },
   form: {
+    padding: '1rem',
     paddingTop: '4rem',
-    paddingBottom: '1rem'
   },
   button: {
     marginTop: '1rem'
+  },
+  alert: {
+    margin: '1rem',
+    marginTop: 0,
   }
 }
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
 Geocode.enableDebug()
 
-const SuccessAlert = ({ show, recordId, address, onClose }) => {
+const SuccessAlert = ({ show, recordId, address, onClose, classes }) => {
   return (
-    <StatusAlert show={show} severity="success" onClose={onClose}>
-      <p>{`This location (${address}) has been added to the database.`}</p>
-      <p>
-        <a
-          target="_blank"
-          rel="noreferrer noopener"
-          href={`${AIRTABLE_LINKS.locationsTable}${recordId}`}>
-          Edit on Airtable
-        </a>
-      </p>
+    <StatusAlert show={show} severity="success" onClose={onClose} classes={classes}>
+      {`This location (${address}) has been saved. `}
+      <a
+        target="_blank"
+        rel="noreferrer noopener"
+        href={`${AIRTABLE_LINKS.locationsTable}${recordId}`}>
+        Edit on Airtable
+      </a>
     </StatusAlert>
   )
 }
@@ -54,9 +55,9 @@ SuccessAlert.propTypes = {
   onClose: PropTypes.func
 }
 
-const ErrorAlert = ({ show, error, onClose }) => {
+const ErrorAlert = ({ show, error, onClose, classes }) => {
   return (
-    <StatusAlert show={show} severity="error" onClose={onClose}>
+    <StatusAlert show={show} severity="error" onClose={onClose} classes={classes}>
       <p>There was an error saving this location:</p>
       {error && <code>{JSON.stringify(error)}</code>}
     </StatusAlert>
@@ -79,17 +80,19 @@ const AsyncMap = withScriptjs(
           lat: props.mapPosition.lat,
           lng: props.mapPosition.lng
         }}>
+        <div style={{ padding: '1rem' }}>
         <Autocomplete
+          apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
           style={{
             width: '100%',
             height: '40px',
             paddingLeft: '16px',
-            marginTop: '2px'
           }}
           onPlaceSelected={props.onPlaceSelected}
           types={['address']}
           componentRestrictions={{ country: 'ca' }}
         />
+        </div>
         {/* Marker */}
         <Marker
           google={props.google}
@@ -122,6 +125,7 @@ class LocationForm extends Component {
       ward: '',
       propertyDescription: '',
       comments: '',
+      status: 'new',
       mapPosition: {
         lat: this.props.center.lat,
         lng: this.props.center.lng
@@ -133,34 +137,30 @@ class LocationForm extends Component {
     }
   }
 
-  /**
-   * Get the current address from the default map position and set those values in the state
-   */
-  componentDidMount() {
-    Geocode.fromLatLng(
-      this.state.mapPosition.lat,
-      this.state.mapPosition.lng
-    ).then(
-      response => {
-        const address = response.results[0].formatted_address
-        const addressArray = response.results[0].address_components
-        const city = this.getCity(addressArray)
-        const area = this.getArea(addressArray)
-        const state = this.getState(addressArray)
-
-        console.log('city', city, area, state)
-
-        this.setState({
-          address: address || '',
-          area: area || '',
-          city: city || '',
-          state: state || ''
-        })
-      },
-      error => {
-        console.error(error)
-      }
-    )
+  componentDidUpdate(prevProps) {
+    if (prevProps.location !== this.props.location) {
+      const {
+        coordinates,
+        address,
+        status,
+        property_description = '',
+        ward = '',
+        intersection = '',
+        comments = ''
+      } = this.props.location;
+      const [lat, lng] = coordinates.split(',').map(l => Number(l.trim()))
+      this.setState({
+        ...this.state,
+        address: address,
+        mapPosition: { lat, lng },
+        markerPosition: { lat, lng },
+        propertyDescription: property_description,
+        ward: ward,
+        status: status,
+        intersection: intersection,
+        comments: comments,
+      })
+    }
   }
 
   /**
@@ -312,10 +312,10 @@ class LocationForm extends Component {
     })
   }
 
-  createLocation = async e => {
+  onSubmit = async e => {
     e.preventDefault()
 
-    const locationData = {
+    let locationData = {
       fields: {
         address: this.state.address,
         coordinates: `${this.state.markerPosition.lat}, ${this.state.markerPosition.lng}`,
@@ -326,37 +326,31 @@ class LocationForm extends Component {
       }
     }
 
-    const { getAccessTokenSilently } = this.props.auth0
-    const token = await getAccessTokenSilently({
-      audience: 'https://dashboard.streetartoronto.ca/'
-    })
-
-    const opts = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify(locationData)
+    if (this.props.location) {
+      locationData.id = this.props.location.id
     }
-    const data = await createResource({ resource: 'location', opts })
 
-    if (data.error) {
+    const result = await this.props.handleSubmit(locationData)
+
+    if (result.error) {
       return this.setState({
         showErrorAlert: true,
-        error: data.error
+        error: result.error
       })
     }
 
+    console.log({result})
+
     this.setState({
       showSuccessAlert: true,
-      recordId: data.recordId
+      recordId: result.record.id
     })
   }
 
   render() {
     const { classes } = this.props
     return (
-      <div className={classes.container}>
+      <Card className={classes.container}>
         <AsyncMap
           googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places`}
           loadingElement={<div style={{ height: `100%` }} />}
@@ -368,7 +362,7 @@ class LocationForm extends Component {
           onPlaceSelected={this.onPlaceSelected}
           onMarkerDragEnd={this.onMarkerDragEnd}
         />
-        <form onSubmit={this.createLocation} className={classes.form}>
+        <form onSubmit={this.onSubmit} className={classes.form}>
           <TextField
             label="Latitude"
             value={this.state.markerPosition.lat}
@@ -379,7 +373,7 @@ class LocationForm extends Component {
             fullWidth={true}
             variant="outlined"
             margin="dense"
-            readOnly="readOnly"
+            readOnly={true}
           />
 
           <TextField
@@ -392,7 +386,7 @@ class LocationForm extends Component {
             fullWidth={true}
             variant="outlined"
             margin="dense"
-            readOnly="readOnly"
+            readOnly={true}
           />
 
           <TextField
@@ -456,26 +450,53 @@ class LocationForm extends Component {
             margin="dense"
           />
 
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className={classes.button}>
-            Create location
-          </Button>
+          <FormControl variant="outlined" margin="dense">
+            <InputLabel htmlFor="status" variant="outlined" margin="dense">Status</InputLabel>
+            <Select
+              native
+              value={this.state.status}
+              onChange={this.onChange}
+              name="status"
+              variant="outlined"
+              margin="dense"
+              inputProps={{
+                name: 'status',
+                id: 'status',
+              }}
+            >
+              <option value={'new'}>New</option>
+              <option value={'under review'}>Under review</option>
+              <option value={'approved'}>Approved</option>
+              <option value={'rejected'}>Rejected</option>
+              <option value={'needs repair'}>Needs repair</option>
+              <option value={'has artwork'}>Has artwork</option>
+            </Select>
+          </FormControl>
+
+          <div>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.button}>
+              Save location
+            </Button>
+          </div>
         </form>
         <SuccessAlert
+          classes={{ root: classes.alert }}
           show={this.state.showSuccessAlert}
           address={this.state.address}
           recordId={this.state.recordId}
           onClose={() => this.setState({ showSuccessAlert: false })}
         />
         <ErrorAlert
+          classes={{ root: classes.alert }}
           show={this.state.showErrorAlert}
           error={this.state.error}
           onClose={() => this.setState({ showErrorAlert: false })}
         />
-      </div>
+      </Card>
     )
   }
 }
@@ -492,7 +513,9 @@ LocationForm.propTypes = {
 }
 
 LocationForm.defaultProps = {
-  center: DEFAULT_MAP_CENTER
+  center: DEFAULT_MAP_CENTER,
+  height: "400px",
+  zoom: 14
 }
 
-export default withAuth0(withStyles(styles)(LocationForm))
+export default withStyles(styles)(LocationForm)

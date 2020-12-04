@@ -9,8 +9,38 @@ const createLocation = (req, res) => {
       return res.status(500).send({ error: err.message })
     }
     records.forEach(function (record) {
-      return res.status(201).send({ recordId: record.getId() })
+      return res.status(201).send({ record })
     })
+  })
+}
+
+const updateLocation = (req, res) => {
+  const location = req.body
+  locationsTable.update([location], (err, records) => {
+    if (err) {
+      console.error(err)
+      return res.status(500).send({ error: err.message })
+    }
+    records.forEach(function (record) {
+      return res.status(200).send({ record })
+    })
+  })
+}
+
+const getLocation = (req, res) => {
+  const { id } = req.query
+  if (!id) {
+    return res.status(400).send({ error: "Missing location ID" })
+  }
+
+  locationsTable.find(id, (err, record) => {
+    if (err) {
+      console.error(err)
+      return res.status(500).send({ error: err.message })
+    }
+
+    const location = { ...record.fields, id: record.id }
+    return res.status(200).send({ location })
   })
 }
 
@@ -20,7 +50,10 @@ module.exports = (req, res) => {
       checkScopes(req, res, createLocation, ['is:staff'])
       break
     case 'GET':
-      res.send('hello')
+      checkScopes(req, res, getLocation, ['is:staff'])
+      break
+    case 'PATCH':
+      checkScopes(req, res, updateLocation, ['is:staff'])
       break
     default:
       methodNotImplemented(req, res)

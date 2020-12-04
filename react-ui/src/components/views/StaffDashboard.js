@@ -12,6 +12,7 @@ import Submissions from 'components/panels/Submissions'
 import Artists from 'components/panels/Artists'
 import Artworks from 'components/panels/Artworks'
 import Charts from 'components/panels/Charts'
+import Locations from 'components/panels/Locations'
 
 export const PANELS_DATA = [
   {
@@ -83,6 +84,19 @@ export const PANELS_DATA = [
       {
         title: 'How to update a chart',
         link: `${USER_GUIDE_DOC}#heading=h.txw6yatvymev`
+      }
+    ]
+  },
+  {
+    id: 'locations',
+    title: 'Locations',
+    isVisible: true,
+    isSmall: false,
+    content: Locations,
+    guides: [
+      {
+        title: 'How to add a location to the database',
+        link: `${USER_GUIDE_DOC}#heading=h.d21ujobpprag`
       }
     ]
   }

@@ -10,6 +10,7 @@ import StatusUpdateNew from 'components/views/StatusUpdateNew'
 import Dashboard from 'components/views/Dashboard'
 import InternalMap from 'components/views/InternalMap'
 import LocationNew from 'components/views/LocationNew'
+import LocationEdit from 'components/views/LocationEdit'
 import Profile from 'components/views/Profile'
 import ProfileSaved from 'components/views/ProfileSaved'
 import Account from 'components/views/Account'
@@ -43,7 +44,8 @@ const App = () => {
       />
       <PrivateRoute path="/update" component={StatusUpdateNew} />
       <PrivateRoute path="/map" component={InternalMap} />
-      <PrivateRoute path="/location" component={LocationNew} />
+      <PrivateRoute path="/location/new" component={LocationNew} />
+      <PrivateRoute path="/location/edit/:id" component={LocationEdit} />
       <PrivateRoute path="/profile" exact component={Profile} />
       <PrivateRoute path="/profile/success" exact component={ProfileSaved} />
       <PrivateRoute path="/profile/:action" component={Profile} />
