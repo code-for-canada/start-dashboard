@@ -113,7 +113,7 @@ const Account = () => {
   return (
     <DefaultLayout>
       {loading && <Loading />}
-      <Container className={utilClasses.container} maxWidth="lg">
+      <Container className={utilClasses.container}>
         <Grid container justify="center">
           <Grid item xs={12} md={6}>
             <StatusAlert
