@@ -13,8 +13,8 @@ const useUtilityClasses = makeStyles(theme => ({
     alignItems: 'center'
   },
   container: {
-    margin: theme.spacing(3)
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(3)
   }
 }))
 
-export default useUtilityClasses

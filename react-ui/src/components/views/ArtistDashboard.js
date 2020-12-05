@@ -33,6 +33,9 @@ const useStyles = makeStyles(theme => ({
   },
   button: {
     marginTop: theme.spacing(2)
+  },
+  container: {
+    marginTop: theme.spacing(2)
   }
 }))
 
@@ -238,6 +241,7 @@ const ArtistDashboard = () => {
   const history = useHistory()
   const [artist, setArtist] = useState(null)
   const [isLoading, setLoading] = useState(true)
+  const classes = useStyles()
 
   // fetch the artist profile for the authed user
   useEffect(() => {
@@ -295,7 +299,7 @@ const ArtistDashboard = () => {
     const isShowingProfile = !!location.hash
     if (!isShowingProfile && artist) {
       const profileHash = artist.view_url.split('#')[1]
-      history.replace(`/dashboard/#${profileHash}`)
+      history.replace(`/dashboard/artist#${profileHash}`)
     }
   }, [artist, location, history])
 
@@ -304,7 +308,7 @@ const ArtistDashboard = () => {
   }
 
   return (
-    <div className="artist-view">
+    <div className={classes.container}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Block>

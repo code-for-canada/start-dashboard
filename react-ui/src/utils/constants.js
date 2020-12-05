@@ -267,3 +267,10 @@ export const COGNITO_FORMS_IDS = {
 export const AIRTABLE_LINKS = {
   locationsTable: 'https://airtable.com/tbleiRmVudM7u9BDE/viwEgRCnV41UaOmIk/'
 }
+
+export const DASHBOARD_VIEW_ORDER = [
+  { action: 'staff', role: 'StART Staff' },
+  { action: 'reviewer', role: 'Advisory Committee' },
+  { action: 'curator', role: 'Curator' },
+  { action: 'artist', role: 'Artist' }
+]

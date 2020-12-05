@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Grid } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
@@ -53,7 +53,7 @@ const StaffDashboard = () => {
   const classes = useStyles()
 
   return (
-    <Container maxWidth={false}>
+    <div className="staff-view">
       <Grid
         container
         spacing={2}
@@ -86,7 +86,7 @@ const StaffDashboard = () => {
           </Panel>
         ))}
       </Grid>
-    </Container>
+    </div>
   )
 }
 

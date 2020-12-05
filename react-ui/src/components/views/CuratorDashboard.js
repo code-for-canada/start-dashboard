@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Grid } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
 import Panel from 'components/common/Panel'
@@ -13,12 +13,14 @@ const useStyles = makeStyles(theme => ({
 const CuratorDashboard = user => {
   const classes = useStyles()
   return (
-    <Container maxWidth={false}>
+    <div className="curator-view">
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <h1 className={classes.header}>Curator Dashboard Demo</h1>
         </Grid>
+      </Grid>
 
+      <Grid container spacing={2}>
         <Panel
           title="Published Artworks"
           editLink="https://airtable.com/tbl5ApSEOzPpe4fwp/viwozx55EaH51F1Su?blocks=hide"
@@ -41,7 +43,7 @@ const CuratorDashboard = user => {
           />
         </Panel>
       </Grid>
-    </Container>
+    </div>
   )
 }
 

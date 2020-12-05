@@ -11,7 +11,7 @@ import getRandomImage from 'utils/randomImage'
 
 const useStyles = makeStyles(theme => ({
   main: {
-    backgroundColor: theme.palette.background.default,
+    backgroundColor: theme.palette.background.paper,
     flex: '1 1 auto',
     paddingTop: '1rem',
     paddingBottom: '1rem'
@@ -78,7 +78,7 @@ const DashboardLayout = ({ children }) => {
             </Grid>
           </Container>
         ) : (
-          <Container maxWidth="xl">{children}</Container>
+          <Container maxWidth="lg">{children}</Container>
         )}
       </main>
       <Footer />

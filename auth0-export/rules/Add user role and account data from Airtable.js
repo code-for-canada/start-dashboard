@@ -51,7 +51,6 @@ function addRoleFromAirtable(user, context, callback) {
        
         const auth0RolesArr = data.map(role => role.name);
         const airtableRolesArr = record.role || ['Artist'];
-        console.log("airtableRolesArr", airtableRolesArr)
         
         if (auth0RolesArr.sort().join(',') === airtableRolesArr.sort().join(',')) {
           // user already has the correct Auth0 role
