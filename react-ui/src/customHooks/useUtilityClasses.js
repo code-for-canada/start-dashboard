@@ -18,3 +18,4 @@ const useUtilityClasses = makeStyles(theme => ({
   }
 }))
 
+export default useUtilityClasses
