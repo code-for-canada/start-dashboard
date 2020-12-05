@@ -31,7 +31,11 @@ const ConfigDrawer = props => {
   return (
     <Grid container justify="flex-end">
       <Grid item>
-        <IconButton onClick={toggleDrawer(true)}>
+        <IconButton
+          size="small"
+          onClick={toggleDrawer(true)}
+          aria-label="Settings"
+          title="Settings">
           <SettingsIcon />
         </IconButton>
         <Drawer anchor="right" open={open}>

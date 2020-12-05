@@ -194,71 +194,27 @@ export const MAP_STYLE_BASE = [
   }
 ]
 
-export const PANELS_DATA = [
-  {
-    id: 'project-updates',
-    title: 'Project Updates',
-    isVisible: true,
-    isSmall: true,
-    editLink:
-      'https://airtable.com/tblhqR67jrTJ169Cf/viwvQN6OyFyxsPYtq?blocks=hide',
-    editText: 'Edit in Airtable',
-    frameSrc:
-      'https://airtable.com/embed/shrxrrqGr1tu5UKt9?backgroundColor=red&viewControls=on'
-  },
-  {
-    id: 'submit-updates',
-    title: 'Submit Update',
-    isVisible: true,
-    isSmall: true,
-    editLink:
-      'https://airtable.com/tblhqR67jrTJ169Cf/viwV5AQuGxE4OfNX0?blocks=hide',
-    editText: 'Edit in Airtable',
-    frameSrc: 'https://airtable.com/embed/shr087J79r2jG6rE2?backgroundColor=red'
-  },
-  {
-    id: 'artwork-status-board',
-    title: 'Artwork Status Board',
-    isVisible: true,
-    isSmall: false,
-    editLink:
-      'https://airtable.com/tbl5ApSEOzPpe4fwp/viwiX18oxXONzk8th?blocks=hide',
-    editText: 'Edit in Airtable',
-    frameSrc:
-      'https://airtable.com/embed/shrTlL5928ssPbMeP?backgroundColor=red&viewControls=on'
-  },
-  {
-    id: 'submissions',
-    title: 'Submissions',
-    isVisible: true,
-    isSmall: false,
-    editLink: 'https://streetartto.submittable.com/submissions',
-    editText: 'Edit in Submittable',
-    frameSrc:
-      'https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on'
-  },
-  {
-    id: 'artworks',
-    title: 'Artworks',
-    isVisible: true,
-    isSmall: false,
-    editLink:
-      'https://airtable.com/tbl5ApSEOzPpe4fwp/viwfmyIqZl3bsj2eo?blocks=hide',
-    editText: 'Edit in Airtable',
-    frameSrc:
-      'https://airtable.com/embed/shrdDGqIxvtiIjFzZ?backgroundColor=red&viewControls=on'
-  },
-  {
-    id: 'artists',
-    title: 'Artists',
-    isVisible: true,
-    isSmall: false,
-    editLink: 'https://www.cognitoforms.com/forms/startartistprofile/entries',
-    editText: 'Edit in CognitoForms',
-    frameSrc:
-      'https://airtable.com/embed/shra4E5FrOJS6fzWO?backgroundColor=red&viewControls=on'
-  }
-]
+export const MAP_STYLE_WARD_DEFAULT = {
+  visible: true,
+  strokeColor: '#64aae2',
+  strokeOpacity: 1,
+  strokeWeight: 2,
+  fillOpacity: 0.1,
+  fillColor: '#64aae2'
+}
+
+export const MAP_STYLE_WARD_ACTIVE = {
+  // Ensure active ward always has border lines on top.
+  zIndex: 1000,
+  fillColor: '#CFB51D',
+  fillOpacity: 0.1,
+  strokeColor: '#CFB51D',
+  strokeWeight: 2,
+  strokeOpacity: 1
+}
+
+export const USER_GUIDE_DOC =
+  'https://docs.google.com/document/d/1yjuWqRLIfkh997wF9z5egVKRfQrU7slyf63GyhdsNhI/edit'
 
 export const COGNITO_FORMS_IDS = {
   artistProfile: '11'
@@ -274,3 +230,31 @@ export const DASHBOARD_VIEW_ORDER = [
   { action: 'curator', role: 'Curator' },
   { action: 'artist', role: 'Artist' }
 ]
+
+export const DASHBOARD_SHORTCUTS = {
+  staff: [
+    {
+      title: 'Tools and Services (with credentials)',
+      link:
+        'https://docs.google.com/document/d/1UTIEjy1KRCjGA6yQ7SQBBm5yi-QKoFJyaIfMVR7XzhI/edit'
+    },
+    {
+      title: 'User Guides',
+      link:
+        'https://docs.google.com/document/d/1yjuWqRLIfkh997wF9z5egVKRfQrU7slyf63GyhdsNhI/edit'
+    },
+    {
+      title: 'Airtable',
+      link:
+        'https://airtable.com/tbl5ApSEOzPpe4fwp/viwozx55EaH51F1Su?blocks=hide'
+    },
+    {
+      title: 'Submittable',
+      link: 'https://streetartto.submittable.com/'
+    },
+    {
+      title: 'Mailjet',
+      link: 'https://app.mailjet.com/dashboard'
+    }
+  ]
+}

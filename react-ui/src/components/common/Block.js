@@ -1,26 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
+import { Card, CardContent } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   title: {
     marginBottom: theme.spacing(1)
   },
   block: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(3),
-    marginBottom: theme.spacing(2),
-    border: '1px solid #000',
-    borderColor: theme.palette.divider
+    marginBottom: theme.spacing(2)
   }
 }))
 
 const Block = ({ children, style }) => {
   const classes = useStyles()
   return (
-    <div className={classes.block} style={style}>
-      {children}
-    </div>
+    <Card style={style} className={classes.block}>
+      <CardContent>{children}</CardContent>
+    </Card>
   )
 }
 

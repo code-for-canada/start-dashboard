@@ -11,7 +11,6 @@ import ArtistDashboard from 'components/views/ArtistDashboard'
 import Unauthorized from 'components/views/Unauthorized'
 import DashboardLayout from 'components/layouts/DashboardLayout'
 import { DASHBOARD_VIEW_ORDER } from 'utils/constants'
-import useUtilityClasses from 'customHooks/useUtilityClasses'
 import useRoles from 'customHooks/useRoles'
 import Loading from 'components/common/Loading'
 
@@ -55,7 +54,6 @@ const DashboardTabs = ({ availableViews }) => {
   const [tab, setTab] = useState(initialTab)
   const [unauthorized, setUnauthorized] = useState(false)
   const history = useHistory()
-  const utilClasses = useUtilityClasses()
   const classes = useStyles()
 
   const handleChange = (event, newValue) => {
@@ -103,7 +101,6 @@ const DashboardTabs = ({ availableViews }) => {
                 label={view.role}
                 id={`tab-${index}`}
                 aria-controls={`panel-${index}`}
-                className={tab === index ? utilClasses.bgWhite : ''}
               />
             ))}
           </Tabs>

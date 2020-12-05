@@ -1,19 +1,26 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
-import {
-  withGoogleMap,
-  GoogleMap,
-  withScriptjs,
-  Marker
-} from 'react-google-maps'
+
 import Geocode from 'react-geocode'
 import Autocomplete from 'react-google-autocomplete'
 import StatusAlert from 'components/common/StatusAlert'
-import { withAuth0 } from '@auth0/auth0-react'
-import { TextField, Button } from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
-import { DEFAULT_MAP_CENTER, AIRTABLE_LINKS } from 'utils/constants'
-import { createResource } from 'utils/apiHelper'
+import {
+  Card,
+  FormControl,
+  InputLabel,
+  Select,
+  TextField,
+  Button
+} from '@material-ui/core'
+import {
+  DEFAULT_MAP_CENTER,
+  AIRTABLE_LINKS,
+  MAP_STYLE_BASE,
+  MAP_STYLE_WARD_DEFAULT,
+  MAP_STYLE_WARD_ACTIVE
+} from 'utils/constants'
+import { Map, Marker, GoogleApiWrapper } from '@nomadiclabs/google-maps-react'
 
 const styles = {
   container: {
@@ -21,29 +28,39 @@ const styles = {
     marginBottom: '2rem'
   },
   form: {
-    paddingTop: '4rem',
-    paddingBottom: '1rem'
+    padding: '1rem',
+    paddingTop: '4rem'
   },
   button: {
     marginTop: '1rem'
+  },
+  alert: {
+    margin: '1rem',
+    marginTop: 0
+  },
+  mapContainer: {
+    position: 'relative',
+    height: '400px'
   }
 }
 
 Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY)
 Geocode.enableDebug()
 
-const SuccessAlert = ({ show, recordId, address, onClose }) => {
+const SuccessAlert = ({ show, recordId, address, onClose, classes }) => {
   return (
-    <StatusAlert show={show} severity="success" onClose={onClose}>
-      <p>{`This location (${address}) has been added to the database.`}</p>
-      <p>
-        <a
-          target="_blank"
-          rel="noreferrer noopener"
-          href={`${AIRTABLE_LINKS.locationsTable}${recordId}`}>
-          Edit on Airtable
-        </a>
-      </p>
+    <StatusAlert
+      show={show}
+      severity="success"
+      onClose={onClose}
+      classes={classes}>
+      {`This location (${address}) has been saved. `}
+      <a
+        target="_blank"
+        rel="noreferrer noopener"
+        href={`${AIRTABLE_LINKS.locationsTable}${recordId}`}>
+        Edit on Airtable
+      </a>
     </StatusAlert>
   )
 }
@@ -51,12 +68,17 @@ SuccessAlert.propTypes = {
   show: PropTypes.bool,
   recordId: PropTypes.string,
   address: PropTypes.string,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  classes: PropTypes.object
 }
 
-const ErrorAlert = ({ show, error, onClose }) => {
+const ErrorAlert = ({ show, error, onClose, classes }) => {
   return (
-    <StatusAlert show={show} severity="error" onClose={onClose}>
+    <StatusAlert
+      show={show}
+      severity="error"
+      onClose={onClose}
+      classes={classes}>
       <p>There was an error saving this location:</p>
       {error && <code>{JSON.stringify(error)}</code>}
     </StatusAlert>
@@ -66,47 +88,112 @@ const ErrorAlert = ({ show, error, onClose }) => {
 ErrorAlert.propTypes = {
   show: PropTypes.bool,
   error: PropTypes.object,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  classes: PropTypes.object
 }
 
-const AsyncMap = withScriptjs(
-  withGoogleMap(props => {
-    return (
-      <GoogleMap
-        google={props.google}
-        defaultZoom={props.zoom}
-        center={{
-          lat: props.mapPosition.lat,
-          lng: props.mapPosition.lng
-        }}>
-        <Autocomplete
-          style={{
-            width: '100%',
-            height: '40px',
-            paddingLeft: '16px',
-            marginTop: '2px'
-          }}
-          onPlaceSelected={props.onPlaceSelected}
-          types={['address']}
-          componentRestrictions={{ country: 'ca' }}
-        />
-        {/* Marker */}
-        <Marker
-          google={props.google}
-          name={'Selected location'}
-          draggable={true}
-          onDragEnd={props.onMarkerDragEnd}
-          position={{
-            lat: props.markerPosition.lat,
-            lng: props.markerPosition.lng
-          }}
-        />
-        <Marker />
-        {/* For Auto complete Search Box */}
-      </GoogleMap>
+const InteractiveMap = props => {
+  const {
+    loaded,
+    google,
+    mapRef,
+    center,
+    zoom,
+    classes,
+    onMarkerDragEnd,
+    markerPosition,
+    onPlaceSelected
+  } = props
+
+  let infowindow = null
+
+  const handleMapClick = (e, map) => {
+    const feature = e.feature
+    // Clicking a ward feature on the map.
+    if (feature.getGeometry().getType() === 'MultiPolygon') {
+      // Clicking on a ward mulitpolygon feature on the map.
+      map.data.revertStyle()
+      map.data.overrideStyle(feature, MAP_STYLE_WARD_ACTIVE)
+      const content = `Ward ${feature.getProperty(
+        'AREA_S_CD'
+      )}: ${feature.getProperty('AREA_NAME')}`
+      if (infowindow) {
+        infowindow.close()
+      }
+      infowindow = new google.maps.InfoWindow({
+        content: content,
+        position: e.latLng
+      })
+      infowindow.open(map)
+    }
+  }
+
+  const onMapReady = (mapProps, map) => {
+    map.setOptions({
+      styles: MAP_STYLE_BASE,
+      zoomControlOptions: {
+        position: google.maps.ControlPosition.TOP_RIGHT
+      }
+    })
+    map.data.loadGeoJson(
+      'https://raw.githubusercontent.com/code-for-canada/start-map/master/public/geojson/wards.json',
+      { idPropertyName: 'AREA_ID' }
     )
-  })
-)
+    map.data.setStyle(MAP_STYLE_WARD_DEFAULT)
+    map.data.addListener('click', e => handleMapClick(e, map))
+  }
+
+  if (!loaded || !google) {
+    return <div className="loading" />
+  }
+
+  return (
+    <>
+      <div className={classes.mapContainer}>
+        <Map
+          ref={mapRef}
+          google={google}
+          initialCenter={center}
+          center={center}
+          zoom={zoom}
+          onReady={(mapProps, map) => onMapReady(mapProps, map)}
+          containerStyle={{ height: '100%' }}>
+          <Marker
+            position={markerPosition}
+            draggable={true}
+            onDragend={onMarkerDragEnd}
+          />
+        </Map>
+      </div>
+      <Autocomplete
+        style={{
+          width: '100%',
+          height: '40px',
+          paddingLeft: '16px'
+        }}
+        onPlaceSelected={onPlaceSelected}
+        types={['address']}
+        componentRestrictions={{ country: 'ca' }}
+      />
+    </>
+  )
+}
+
+InteractiveMap.propTypes = {
+  loaded: PropTypes.bool,
+  google: PropTypes.object,
+  mapRef: PropTypes.object,
+  center: PropTypes.object,
+  markerPosition: PropTypes.object,
+  zoom: PropTypes.number,
+  classes: PropTypes.object,
+  onMarkerDragEnd: PropTypes.func,
+  onPlaceSelected: PropTypes.func
+}
+
+const LocationMap = GoogleApiWrapper(props => ({
+  apiKey: props.googleApiKey
+}))(withStyles(styles)(InteractiveMap))
 
 class LocationForm extends Component {
   constructor(props) {
@@ -122,6 +209,7 @@ class LocationForm extends Component {
       ward: '',
       propertyDescription: '',
       comments: '',
+      status: 'new',
       mapPosition: {
         lat: this.props.center.lat,
         lng: this.props.center.lng
@@ -131,36 +219,34 @@ class LocationForm extends Component {
         lng: this.props.center.lng
       }
     }
+    this.mapRef = createRef()
   }
 
-  /**
-   * Get the current address from the default map position and set those values in the state
-   */
-  componentDidMount() {
-    Geocode.fromLatLng(
-      this.state.mapPosition.lat,
-      this.state.mapPosition.lng
-    ).then(
-      response => {
-        const address = response.results[0].formatted_address
-        const addressArray = response.results[0].address_components
-        const city = this.getCity(addressArray)
-        const area = this.getArea(addressArray)
-        const state = this.getState(addressArray)
-
-        console.log('city', city, area, state)
-
-        this.setState({
-          address: address || '',
-          area: area || '',
-          city: city || '',
-          state: state || ''
-        })
-      },
-      error => {
-        console.error(error)
-      }
-    )
+  componentDidUpdate(prevProps) {
+    if (prevProps.location !== this.props.location) {
+      const {
+        coordinates,
+        address,
+        status,
+        // eslint-disable-next-line camelcase
+        property_description = '',
+        ward = '',
+        intersection = '',
+        comments = ''
+      } = this.props.location
+      const [lat, lng] = coordinates.split(',').map(l => Number(l.trim()))
+      this.setState({
+        ...this.state,
+        address: address,
+        mapPosition: { lat, lng },
+        markerPosition: { lat, lng },
+        propertyDescription: property_description,
+        ward: ward,
+        status: status,
+        intersection: intersection,
+        comments: comments
+      })
+    }
   }
 
   /**
@@ -248,9 +334,12 @@ class LocationForm extends Component {
    *
    * @param event
    */
-  onMarkerDragEnd = event => {
-    const newLat = event.latLng.lat()
-    const newLng = event.latLng.lng()
+  onMarkerDragEnd = (marker, map, coordinates) => {
+    console.log(marker)
+    console.log(coordinates)
+    const { latLng } = coordinates
+    const newLat = latLng.lat()
+    const newLng = latLng.lng()
 
     Geocode.fromLatLng(newLat, newLng).then(
       response => {
@@ -312,7 +401,7 @@ class LocationForm extends Component {
     })
   }
 
-  createLocation = async e => {
+  onSubmit = async e => {
     e.preventDefault()
 
     const locationData = {
@@ -326,49 +415,41 @@ class LocationForm extends Component {
       }
     }
 
-    const { getAccessTokenSilently } = this.props.auth0
-    const token = await getAccessTokenSilently({
-      audience: 'https://dashboard.streetartoronto.ca/'
-    })
-
-    const opts = {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify(locationData)
+    if (this.props.location) {
+      locationData.id = this.props.location.id
     }
-    const data = await createResource({ resource: 'location', opts })
 
-    if (data.error) {
+    const result = await this.props.handleSubmit(locationData)
+
+    if (result.error) {
       return this.setState({
         showErrorAlert: true,
-        error: data.error
+        error: result.error
       })
     }
 
+    console.log({ result })
+
     this.setState({
       showSuccessAlert: true,
-      recordId: data.recordId
+      recordId: result.record.id
     })
   }
 
   render() {
     const { classes } = this.props
     return (
-      <div className={classes.container}>
-        <AsyncMap
-          googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}&libraries=places`}
-          loadingElement={<div style={{ height: `100%` }} />}
-          containerElement={<div style={{ height: this.props.height }} />}
-          mapElement={<div style={{ height: `100%` }} />}
+      <Card className={classes.container}>
+        <LocationMap
           zoom={this.props.zoom}
-          mapPosition={this.state.mapPosition}
+          center={this.state.mapPosition}
           markerPosition={this.state.markerPosition}
           onPlaceSelected={this.onPlaceSelected}
           onMarkerDragEnd={this.onMarkerDragEnd}
+          mapRef={this.mapRef}
+          googleApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
         />
-        <form onSubmit={this.createLocation} className={classes.form}>
+        <form onSubmit={this.onSubmit} className={classes.form}>
           <TextField
             label="Latitude"
             value={this.state.markerPosition.lat}
@@ -379,7 +460,7 @@ class LocationForm extends Component {
             fullWidth={true}
             variant="outlined"
             margin="dense"
-            readOnly="readOnly"
+            readOnly={true}
           />
 
           <TextField
@@ -392,7 +473,7 @@ class LocationForm extends Component {
             fullWidth={true}
             variant="outlined"
             margin="dense"
-            readOnly="readOnly"
+            readOnly={true}
           />
 
           <TextField
@@ -456,26 +537,54 @@ class LocationForm extends Component {
             margin="dense"
           />
 
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className={classes.button}>
-            Create location
-          </Button>
+          <FormControl variant="outlined" margin="dense">
+            <InputLabel htmlFor="status" variant="outlined" margin="dense">
+              Status
+            </InputLabel>
+            <Select
+              native
+              value={this.state.status}
+              onChange={this.onChange}
+              name="status"
+              variant="outlined"
+              margin="dense"
+              inputProps={{
+                name: 'status',
+                id: 'status'
+              }}>
+              <option value={'new'}>New</option>
+              <option value={'under review'}>Under review</option>
+              <option value={'approved'}>Approved</option>
+              <option value={'rejected'}>Rejected</option>
+              <option value={'needs repair'}>Needs repair</option>
+              <option value={'has artwork'}>Has artwork</option>
+            </Select>
+          </FormControl>
+
+          <div>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.button}>
+              Save location
+            </Button>
+          </div>
         </form>
         <SuccessAlert
+          classes={{ root: classes.alert }}
           show={this.state.showSuccessAlert}
           address={this.state.address}
           recordId={this.state.recordId}
           onClose={() => this.setState({ showSuccessAlert: false })}
         />
         <ErrorAlert
+          classes={{ root: classes.alert }}
           show={this.state.showErrorAlert}
           error={this.state.error}
           onClose={() => this.setState({ showErrorAlert: false })}
         />
-      </div>
+      </Card>
     )
   }
 }
@@ -488,11 +597,15 @@ LocationForm.propTypes = {
   zoom: PropTypes.number,
   height: PropTypes.string,
   auth0: PropTypes.object,
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  location: PropTypes.object,
+  handleSubmit: PropTypes.func
 }
 
 LocationForm.defaultProps = {
-  center: DEFAULT_MAP_CENTER
+  center: DEFAULT_MAP_CENTER,
+  height: '400px',
+  zoom: 14
 }
 
-export default withAuth0(withStyles(styles)(LocationForm))
+export default withStyles(styles)(LocationForm)

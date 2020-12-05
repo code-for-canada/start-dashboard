@@ -7,7 +7,8 @@ const StatusAlert = ({
   severity = 'success',
   message,
   onClose,
-  children
+  children,
+  classes
 }) => {
   if (!show) {
     return null
@@ -15,9 +16,9 @@ const StatusAlert = ({
 
   return (
     <Alert
+      classes={classes}
       severity={severity}
       variant="filled"
-      className="mb-2"
       onClose={onClose}>
       {message ? <p className="mb-0">{message}</p> : children}
     </Alert>
@@ -29,7 +30,8 @@ StatusAlert.propTypes = {
   message: PropTypes.string,
   severity: PropTypes.string,
   children: PropTypes.node,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  classes: PropTypes.object
 }
 
 export default StatusAlert
