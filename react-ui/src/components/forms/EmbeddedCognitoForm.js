@@ -38,7 +38,7 @@ const EmbeddedCognitoForm = ({ formId, showForm, opts, afterSubmit }) => {
     return <p>{errorMessage}</p>
   }
 
-  return <div className="cognito mt-4 mb-1" />
+  return <div className="cognito" />
 }
 
 EmbeddedCognitoForm.propTypes = {

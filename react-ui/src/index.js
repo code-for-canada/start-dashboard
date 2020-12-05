@@ -3,14 +3,21 @@ import 'react-app-polyfill/stable'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './app'
 import { BrowserRouter as Router } from 'react-router-dom'
-import Auth0ProviderWithHistory from './auth0-provider-with-history'
+import { ThemeProvider } from '@material-ui/core/styles'
+import CssBaseline from '@material-ui/core/CssBaseline'
+
+import App from 'app'
+import Auth0ProviderWithHistory from 'components/Auth0ProviderWithHistory'
+import theme from 'utils/theme'
 
 ReactDOM.render(
   <Router>
     <Auth0ProviderWithHistory>
-      <App />
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </Auth0ProviderWithHistory>
   </Router>,
   document.getElementById('root')

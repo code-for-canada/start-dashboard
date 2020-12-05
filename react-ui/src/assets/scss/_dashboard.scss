@@ -1,71 +1,16 @@
-html, body {
+html, body, #root {
   font-family: $primary-font;
+  color: $black;
+  height: 100%;
 }
 
-main {
-  flex: 1 1 auto;
+code {
+  font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
 }
 
-
-.panel {
-  transition: all 0.3s ease;
-
-  &.outlined {
-    border: 1px solid #cccccc;
-  }
-
-  .header {
-    background-color: $white;
-    border: 1px solid #cccccc;
-    margin-bottom: 5px;
-
-    h2 {
-      font-size: 1.25rem;
-    }
-  }
-
-  .body {
-    transition: all 0.3s ease;
-    height: 500px;
-  }
-
-  &.open {
-    .body {
-      height: 500px;
-    }
-  }
-
-  &.closed {
-    .body {
-      height: 0;
-      overflow: hidden;
-    }
-
-  }
-
-  &.small {
-    .body {
-      width: 50%;
-      overflow: hidden;
-    }
-
-  }
-
-  &.large {
-    .body {
-      width: 100%;
-      overflow: hidden;
-    }
-
-  }
-
-  .iframe-container {
-    height: inherit;
-
-    iframe {
-      height: inherit;
-    }
-  }
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  margin-bottom: 0.5em;
 }
 
 .cognito {
@@ -76,20 +21,4 @@ main {
   }
 }
 
-.profile-url {
-  .url {
-    display: flex;
-    align-items: flex-start;
-
-    code {
-      flex: 1 1 auto;
-      align-self: center;
-      word-break: break-word;
-    }
-
-    button {
-
-    }
-  }
-}
 
