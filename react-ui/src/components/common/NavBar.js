@@ -5,7 +5,7 @@ import { AppBar, Toolbar, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { useAuth0 } from '@auth0/auth0-react'
-import useCommonStyles from 'customHooks/useCommonStyles'
+import useUtilityClasses from 'customHooks/useUtilityClasses'
 import LogoutButton from 'components/common/LogoutButton'
 import LoginButton from 'components/common/LoginButton'
 
@@ -49,7 +49,7 @@ AuthNav.propTypes = {
 const NavBar = ({ useAuthHook = useAuth0 }) => {
   const { isAuthenticated, user, logout, loginWithRedirect } = useAuthHook()
   const classes = useStyles()
-  const commonClasses = useCommonStyles()
+  const utilClasses = useUtilityClasses()
   const userName = user
     ? user['https://streetartoronto.ca/first_name'] || user.nickname
     : 'Guest'
@@ -57,7 +57,7 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
   return (
     <AppBar
       position="static"
-      className={`${commonClasses.shadow} ${commonClasses.bgWhite}`}>
+      className={`${utilClasses.shadow} ${utilClasses.bgWhite}`}>
       <Toolbar variant="dense">
         <Grid container justify="space-between">
           <Grid item className={classes.menuSection}>

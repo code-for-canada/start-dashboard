@@ -9,12 +9,16 @@ import Loading from 'components/common/Loading'
 import StatusAlert from 'components/common/StatusAlert'
 import AccountUpdateForm from 'components/forms/AccountUpdateForm'
 import AccountDeleteForm from 'components/forms/AccountDeleteForm'
+import useUtilityClasses from 'customHooks/useUtilityClasses'
+import useRoles from 'customHooks/useRoles'
 
 const Account = () => {
   const { user, getAccessTokenSilently, logout } = useAuth0()
+  const { isArtist } = useRoles()
   const [formData, setFormData] = useState({})
   const [loading, setLoading] = useState(false)
   const [alert, setAlert] = useState({})
+  const utilClasses = useUtilityClasses()
 
   useEffect(() => {
     if (user) {
@@ -94,7 +98,7 @@ const Account = () => {
         severity: 'success'
       })
 
-      const returnTo = `${window.location.origin}`
+      const returnTo = `${window.location.origin}/account/deleted`
       logout({ returnTo })
     } catch (err) {
       console.log({ err })
@@ -108,9 +112,10 @@ const Account = () => {
 
   return (
     <DefaultLayout>
-      <Container style={{ marginTop: '40px', marginBottom: '40px' }}>
+      {loading && <Loading />}
+      <Container className={utilClasses.container}>
         <Grid container justify="center">
-          <Grid item md={6}>
+          <Grid item xs={12} md={6}>
             <StatusAlert
               show={Boolean(alert.message)}
               message={alert.message}
@@ -120,37 +125,28 @@ const Account = () => {
         </Grid>
 
         <Grid container justify="center">
-          <Grid item md={6}>
-            <Block style={{ position: 'relative' }}>
+          <Grid item xs={12} md={6}>
+            <Block>
               <BlockTitle title="My Account" />
               <AccountUpdateForm
                 onSubmit={handleSubmit}
                 formData={formData}
                 setFormData={setFormData}
               />
-              {loading && (
-                <div className="loading-backdrop">
-                  <Loading />
-                </div>
-              )}
             </Block>
           </Grid>
         </Grid>
 
         <Grid container justify="center">
-          <Grid item md={6}>
-            <Block style={{ position: 'relative' }}>
+          <Grid item xs={12} md={6}>
+            <Block>
               <BlockTitle title="Danger Zone" />
               <AccountDeleteForm
                 onSubmit={handleDelete}
                 email={user.email}
                 setAlert={setAlert}
+                isArtist={isArtist}
               />
-              {loading && (
-                <div className="loading-backdrop">
-                  <Loading />
-                </div>
-              )}
             </Block>
           </Grid>
         </Grid>

@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import { Block, BlockTitle } from 'components/common/Block'
+import useUtilityClasses from 'customHooks/useUtilityClasses'
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -14,9 +15,11 @@ const useStyles = makeStyles(theme => ({
 
 const ProfileSaved = () => {
   const classes = useStyles()
+  const utilClasses = useUtilityClasses()
+
   return (
     <DefaultLayout>
-      <Container maxWidth="xl">
+      <Container className={utilClasses.container}>
         <Grid container justify="center">
           <Grid item md={6}>
             <Block>

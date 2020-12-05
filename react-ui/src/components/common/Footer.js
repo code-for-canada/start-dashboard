@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import useCommonStyles from 'customHooks/useCommonStyles'
+import useUtilityClasses from 'customHooks/useUtilityClasses'
 
 const useStyles = makeStyles(theme => ({
   footer: {
@@ -12,9 +12,9 @@ const useStyles = makeStyles(theme => ({
 
 const Footer = () => {
   const classes = useStyles()
-  const commonClasses = useCommonStyles()
+  const utilClasses = useUtilityClasses()
   return (
-    <footer className={`${classes.footer} ${commonClasses.shadow}`}>
+    <footer className={`${classes.footer} ${utilClasses.shadow}`}>
       <p className="m-0">© Street Art Toronto 2020</p>
     </footer>
   )

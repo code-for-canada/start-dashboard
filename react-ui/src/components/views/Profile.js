@@ -3,41 +3,51 @@ import { useParams } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
 import Loading from 'components/common/Loading'
-import useRole from 'customHooks/useRole'
+import useRoles from 'customHooks/useRoles'
 import ProfileView from 'components/views/ProfileView'
 import ProfileEdit from 'components/views/ProfileEdit'
-import { getArtistByEmail } from 'utils/apiHelper'
+import ProfileNew from 'components/views/ProfileNew'
+import { getArtist } from 'utils/apiHelper'
 
 const Profile = () => {
   const { user, getAccessTokenSilently } = useAuth0()
   const [artist, setArtist] = useState(null)
   const [isLoading, setLoading] = useState(true)
   const { action = 'view' } = useParams()
-  const { isLoadingRole, isStaff } = useRole()
+  const { isLoadingRoles, isStaff } = useRoles()
 
   // fetch the artist profile for the authed user
   useEffect(() => {
     const abortController = new AbortController()
-    const getArtist = async () => {
+    const getArtistProfile = async () => {
       try {
         const token = await getAccessTokenSilently({
           audience: 'https://dashboard.streetartoronto.ca/'
         })
+
         const opts = {
           signal: abortController.signal,
           headers: {
             Authorization: `Bearer ${token}`
           }
         }
-        const data = await getArtistByEmail({ email: user.email, opts })
+
+        const profileId = user['https://streetartoronto.ca/artist_profile_id']
+
+        if (!profileId) {
+          console.log('This account does not have a profile.')
+          return setLoading(false)
+        }
+
+        const data = await getArtist({ opts })
 
         if (data.error) {
           console.log(data.error)
           return setLoading(false)
         }
 
-        if (data.records.length > 0) {
-          const artistRecord = data.records[0]
+        if (data.record) {
+          const artistRecord = data.record
           setArtist({ ...artistRecord.fields, id: artistRecord.id })
         }
         setLoading(false)
@@ -51,19 +61,23 @@ const Profile = () => {
       }
     }
 
-    getArtist()
+    getArtistProfile()
 
     return () => {
       abortController.abort()
     }
   }, [user, getAccessTokenSilently])
 
-  if (isLoading || isLoadingRole) {
+  if (isLoading || isLoadingRoles) {
     return <Loading />
   }
 
   if (action === 'edit') {
     return <ProfileEdit user={user} artist={artist} isStaff={isStaff} />
+  }
+
+  if (action === 'new') {
+    return <ProfileNew user={user} artist={artist} isStaff={isStaff} />
   }
 
   return <ProfileView artist={artist} isStaff={isStaff} />

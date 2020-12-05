@@ -36,6 +36,12 @@ const getArtistByEmail = async ({ email, opts }) => {
   return result
 }
 
+const getArtist = async ({ opts }) => {
+  const url = `${ENDPOINTS.artist}`
+  const result = await getResource({ url, opts })
+  return result
+}
+
 const updateResource = async ({ resource, url, data, opts }) => {
   try {
     const apiEndpoint = url || ENDPOINTS[resource]
@@ -68,6 +74,7 @@ const deleteResource = async ({ resource, url, data, opts }) => {
 export {
   getResource,
   getArtistByEmail,
+  getArtist,
   createResource,
   updateResource,
   deleteResource
