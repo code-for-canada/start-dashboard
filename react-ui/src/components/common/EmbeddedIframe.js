@@ -4,11 +4,11 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   iframeContainer: {
-    height: 'inherit'
+    height: 'inherit',
+    marginBottom: theme.spacing(2),
   },
   iframe: props => ({
-    background: 'transparent',
-    marginBottom: theme.spacing(2),
+    backgroundColor: theme.palette.background.default,
     ...props.style
   })
 }))
