@@ -29,7 +29,6 @@ const styles = {
   },
   form: {
     padding: '1rem',
-    paddingTop: '4rem'
   },
   button: {
     marginTop: '1rem'
@@ -41,6 +40,9 @@ const styles = {
   mapContainer: {
     position: 'relative',
     height: '400px'
+  },
+  subheading: {
+    marginTop: '1rem'
   }
 }
 
@@ -165,16 +167,22 @@ const InteractiveMap = props => {
           />
         </Map>
       </div>
-      <Autocomplete
-        style={{
-          width: '100%',
-          height: '40px',
-          paddingLeft: '16px'
-        }}
-        onPlaceSelected={onPlaceSelected}
-        types={['address']}
-        componentRestrictions={{ country: 'ca' }}
-      />
+      <div className={classes.form}>
+        <Autocomplete
+          style={{
+            width: '100%',
+            height: '40px',
+            paddingLeft: '16px',
+            border: '1px solid #343a40',
+            borderRadius: '4px',
+            fontFamily: `'Helvetica', 'Roboto', 'Arial', sans-serif`,
+            fontSize: '1rem',
+          }}
+          onPlaceSelected={onPlaceSelected}
+          types={['address']}
+          componentRestrictions={{ country: 'ca' }}
+        />
+      </div>
     </>
   )
 }
@@ -209,6 +217,10 @@ class LocationForm extends Component {
       ward: '',
       propertyDescription: '',
       comments: '',
+      internalNotes: '',
+      height: '',
+      width: '',
+      sqft: '',
       status: 'new',
       mapPosition: {
         lat: this.props.center.lat,
@@ -232,7 +244,12 @@ class LocationForm extends Component {
         property_description = '',
         ward = '',
         intersection = '',
-        comments = ''
+        comments = '',
+        internal_notes = '',
+        height = '',
+        width = '',
+        sqft = '',
+        area = ''
       } = this.props.location
       const [lat, lng] = coordinates.split(',').map(l => Number(l.trim()))
       this.setState({
@@ -244,7 +261,11 @@ class LocationForm extends Component {
         ward: ward,
         status: status,
         intersection: intersection,
-        comments: comments
+        comments: comments,
+        internalNotes: internal_notes,
+        height: height,
+        width: width,
+        sqft: sqft
       })
     }
   }
@@ -406,12 +427,18 @@ class LocationForm extends Component {
 
     const locationData = {
       fields: {
-        address: this.state.address,
         coordinates: `${this.state.markerPosition.lat}, ${this.state.markerPosition.lng}`,
+        address: this.state.address,
         ward: this.state.ward,
+        area: this.state.area,
         intersection: this.state.intersection,
         property_description: this.state.propertyDescription,
-        comments: this.state.comments
+        comments: this.state.comments,
+        internal_notes: this.state.internalNotes,
+        height: this.state.height,
+        width: this.state.width,
+        sqft: this.state.sqft,
+        status: this.state.status,
       }
     }
 
@@ -450,6 +477,7 @@ class LocationForm extends Component {
           googleApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
         />
         <form onSubmit={this.onSubmit} className={classes.form}>
+          <h2>Public Information</h2>
           <TextField
             label="Latitude"
             value={this.state.markerPosition.lat}
@@ -488,7 +516,7 @@ class LocationForm extends Component {
           />
 
           <TextField
-            label="Area"
+            label="Neighbourhood"
             value={this.state.area}
             onChange={this.onChange}
             name="area"
@@ -537,8 +565,55 @@ class LocationForm extends Component {
             margin="dense"
           />
 
+          <h2 className={classes.subheading}>Internal Information</h2>
+
+          <TextField
+            label="Internal notes"
+            value={this.state.internalNotes}
+            onChange={this.onChange}
+            name="internalNotes"
+            fullWidth={true}
+            variant="outlined"
+            margin="dense"
+            multiline={true}
+            rows={4}
+          />
+
+          <TextField
+            label="Height (in feet)"
+            value={this.state.height}
+            onChange={this.onChange}
+            name="height"
+            fullWidth={true}
+            variant="outlined"
+            margin="dense"
+            type="number"
+          />
+
+          <TextField
+            label="Width (in feet)"
+            value={this.state.width}
+            onChange={this.onChange}
+            name="width"
+            fullWidth={true}
+            variant="outlined"
+            margin="dense"
+            type="number"
+          />
+
+          <TextField
+            label="Square feet"
+            value={this.state.sqft}
+            onChange={this.onChange}
+            name="sqft"
+            fullWidth={true}
+            variant="outlined"
+            margin="dense"
+            type="number"
+          />
+
           <FormControl variant="outlined" margin="dense">
-            <InputLabel htmlFor="status" variant="outlined" margin="dense">
+            <InputLabel htmlFor="status" variant="outlined" margin="dense" shrink={true}>
               Status
             </InputLabel>
             <Select
@@ -553,6 +628,7 @@ class LocationForm extends Component {
                 id: 'status'
               }}>
               <option value={'new'}>New</option>
+              <option value={'requested'}>Requested</option>
               <option value={'under review'}>Under review</option>
               <option value={'approved'}>Approved</option>
               <option value={'rejected'}>Rejected</option>
