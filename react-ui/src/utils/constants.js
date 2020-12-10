@@ -217,7 +217,8 @@ export const USER_GUIDE_DOC =
   'https://docs.google.com/document/d/1yjuWqRLIfkh997wF9z5egVKRfQrU7slyf63GyhdsNhI/edit'
 
 export const COGNITO_FORMS_IDS = {
-  artistProfile: '11'
+  artistProfile: '11',
+  artwork: '13'
 }
 
 export const EXTERNAL_LINKS = {
