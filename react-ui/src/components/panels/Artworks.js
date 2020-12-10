@@ -2,6 +2,7 @@ import React from 'react'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
 import { Button } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { EXTERNAL_LINKS } from 'utils/constants'
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -41,14 +42,13 @@ const Artworks = props => {
         </Button>
 
         <Button
-          disabled
           color="primary"
           variant="contained"
           component="a"
-          href="/profile/new"
+          href={EXTERNAL_LINKS.artworksTable}
           target="_blank"
           rel="noopener noreferrer">
-          Update artwork status
+          Edit in Airtable
         </Button>
       </div>
     </div>

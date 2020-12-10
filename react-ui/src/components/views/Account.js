@@ -127,7 +127,7 @@ const Account = () => {
         <Grid container justify="center">
           <Grid item xs={12} md={6}>
             <Block>
-              <BlockTitle title="My Account" />
+              <BlockTitle title="My account" />
               <AccountUpdateForm
                 onSubmit={handleSubmit}
                 formData={formData}
@@ -140,7 +140,7 @@ const Account = () => {
         <Grid container justify="center">
           <Grid item xs={12} md={6}>
             <Block>
-              <BlockTitle title="Danger Zone" />
+              <BlockTitle title="Delete my account" />
               <AccountDeleteForm
                 onSubmit={handleDelete}
                 email={user.email}

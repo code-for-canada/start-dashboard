@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core'
 import {
   DEFAULT_MAP_CENTER,
-  AIRTABLE_LINKS,
+  EXTERNAL_LINKS,
   MAP_STYLE_BASE,
   MAP_STYLE_WARD_DEFAULT,
   MAP_STYLE_WARD_ACTIVE
@@ -58,7 +58,7 @@ const SuccessAlert = ({ show, recordId, address, onClose, classes }) => {
       <a
         target="_blank"
         rel="noreferrer noopener"
-        href={`${AIRTABLE_LINKS.locationsTable}${recordId}`}>
+        href={`${EXTERNAL_LINKS.locationsTable}${recordId}`}>
         Edit on Airtable
       </a>
     </StatusAlert>

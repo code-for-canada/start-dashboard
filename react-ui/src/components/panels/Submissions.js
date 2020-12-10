@@ -1,8 +1,11 @@
 import React from 'react'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
 import { Button } from '@material-ui/core'
+import { EXTERNAL_LINKS } from 'utils/constants'
+import useUtilityClasses from 'customHooks/useUtilityClasses'
 
 const Submissions = props => {
+  const utilClasses = useUtilityClasses()
   return (
     <div>
       <h3>2020 Submissions by Status</h3>
@@ -23,11 +26,23 @@ const Submissions = props => {
         <Button
           color="primary"
           variant="contained"
+          className={utilClasses.horizListSpacing}
           component="a"
           href="https://streetartto.submittable.com/submissions"
           target="_blank"
           rel="noopener noreferrer">
-          Go to Submittable
+          Edit on Submittable
+        </Button>
+
+        <Button
+          color="primary"
+          variant="contained"
+          className={utilClasses.horizListSpacing}
+          component="a"
+          href={EXTERNAL_LINKS.submissionsTable}
+          target="_blank"
+          rel="noopener noreferrer">
+          Edit in Airtable
         </Button>
       </div>
     </div>
