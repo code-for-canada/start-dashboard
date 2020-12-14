@@ -8,7 +8,7 @@ import DefaultLayout from 'components/layouts/DefaultLayout'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
 import Unauthorized from 'components/views/Unauthorized'
-import { COGNITO_FORMS_IDS } from 'utils/constants'
+import useRoles from 'customHooks/useRoles'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -17,15 +17,16 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const ArtworkNew = ({ user, isStaff }) => {
+const ArtworkNew = props => {
   const classes = useStyles()
+  const { isLoadingRoles, isStaff } = useRoles()
 
-  if (!isStaff) {
+  if (!isLoadingRoles && !isStaff) {
     return <Unauthorized />
   }
 
   return (
-    <DefaultLayout>
+    <DefaultLayout loading={isLoadingRoles}>
       <EmbeddedIframe
         src="https://airtable.com/embed/shrMvrXih5f3TAIbN?backgroundColor=red"
         title="Add a new artwork"

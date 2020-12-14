@@ -30,14 +30,11 @@ const Artworks = props => {
 
       <div>
         <Button
-          disabled
           className={classes.button}
           color="primary"
           variant="contained"
           component="a"
-          href="/profile/new"
-          target="_blank"
-          rel="noopener noreferrer">
+          href="/artworks/new">
           Add new artwork
         </Button>
 

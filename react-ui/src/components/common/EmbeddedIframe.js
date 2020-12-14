@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   iframeContainer: {
-    height: 'inherit',
+    height: '100%',
     marginBottom: theme.spacing(2),
   },
   iframe: props => ({

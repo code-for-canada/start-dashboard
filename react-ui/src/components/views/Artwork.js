@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Redirect } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
 import Loading from 'components/common/Loading'
@@ -78,11 +78,7 @@ const Artwork = () => {
     return <ArtworkEdit user={user} artwork={artwork} setArtwork={setArtwork} isStaff={isStaff} />
   }
 
-  if (action === 'new') {
-    return <ArtworkNew user={user} isStaff={isStaff} />
-  }
-
-  return <ArtworkView artwork={artwork} isStaff={isStaff} />
+  return <Redirect to='/dashboard/staff' />
 }
 
 export default Artwork
