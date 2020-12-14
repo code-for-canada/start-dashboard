@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(theme => ({
   iframeContainer: {
     height: '100%',
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(2)
   },
   iframe: props => ({
     backgroundColor: theme.palette.background.default,
@@ -58,7 +58,8 @@ EmbeddedIframe.propTypes = {
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   style: PropTypes.object,
-  className: PropTypes.string
+  className: PropTypes.string,
+  alwaysEnableScroll: PropTypes.bool
 }
 
 export default EmbeddedIframe

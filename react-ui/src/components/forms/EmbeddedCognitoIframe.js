@@ -1,31 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 
-const EmbeddedCognitoIframe = ({ src }) => {
-  const [cognitoLoaded, setCognitoLoaded] = useState(false)
-  const [error, setError] = useState(null)
-
+const EmbeddedCognitoIframe = ({ src, title }) => {
   // load the embed script
   useEffect(() => {
-    const script = document.createElement('script');
+    const script = document.createElement('script')
 
-    script.src = "https://www.cognitoforms.com/scripts/embed.js";
+    script.src = 'https://www.cognitoforms.com/scripts/embed.js'
 
-    document.body.appendChild(script);
+    document.body.appendChild(script)
 
     return () => {
-      document.body.removeChild(script);
+      document.body.removeChild(script)
     }
-  }, []);
+  }, [])
 
   return (
     <iframe
       src={src}
+      title={title}
       style={{
         position: 'relative',
-        width: '1px ',
-        minWidth: '100%',
-        width: '100%'
+        minWidth: '100%'
       }}
       frameBorder="0"
       scrolling="yes"
@@ -34,12 +30,11 @@ const EmbeddedCognitoIframe = ({ src }) => {
       width="100%"
     />
   )
-
-
 }
 
 EmbeddedCognitoIframe.propTypes = {
-  src: PropTypes.string.isRequired
+  src: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired
 }
 
 export default EmbeddedCognitoIframe

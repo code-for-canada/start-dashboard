@@ -28,7 +28,7 @@ const styles = {
     marginBottom: '2rem'
   },
   form: {
-    padding: '1rem',
+    padding: '1rem'
   },
   button: {
     marginTop: '1rem'
@@ -176,7 +176,7 @@ const InteractiveMap = props => {
             border: '1px solid #343a40',
             borderRadius: '4px',
             fontFamily: `'Helvetica', 'Roboto', 'Arial', sans-serif`,
-            fontSize: '1rem',
+            fontSize: '1rem'
           }}
           onPlaceSelected={onPlaceSelected}
           types={['address']}
@@ -242,10 +242,11 @@ class LocationForm extends Component {
         status,
         // eslint-disable-next-line camelcase
         property_description = '',
+        // eslint-disable-next-line camelcase
+        internal_notes = '',
         ward = '',
         intersection = '',
         comments = '',
-        internal_notes = '',
         height = '',
         width = '',
         sqft = '',
@@ -260,6 +261,7 @@ class LocationForm extends Component {
         propertyDescription: property_description,
         ward: ward,
         status: status,
+        area: area,
         intersection: intersection,
         comments: comments,
         internalNotes: internal_notes,
@@ -438,7 +440,7 @@ class LocationForm extends Component {
         height: this.state.height,
         width: this.state.width,
         sqft: this.state.sqft,
-        status: this.state.status,
+        status: this.state.status
       }
     }
 
@@ -613,7 +615,11 @@ class LocationForm extends Component {
           />
 
           <FormControl variant="outlined" margin="dense">
-            <InputLabel htmlFor="status" variant="outlined" margin="dense" shrink={true}>
+            <InputLabel
+              htmlFor="status"
+              variant="outlined"
+              margin="dense"
+              shrink={true}>
               Status
             </InputLabel>
             <Select

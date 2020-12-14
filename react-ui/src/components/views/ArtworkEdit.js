@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useLocation, useHistory, Redirect, Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useAuth0 } from '@auth0/auth0-react'
@@ -8,7 +8,6 @@ import { useAuth0 } from '@auth0/auth0-react'
 import useRoles from 'customHooks/useRoles'
 import { getResource } from 'utils/apiHelper'
 import DefaultLayout from 'components/layouts/DefaultLayout'
-import ArtworkUpdateForm from 'components/forms/ArtworkUpdateForm'
 import Unauthorized from 'components/views/Unauthorized'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import EmbeddedCognitoIframe from 'components/forms/EmbeddedCognitoIframe'
@@ -30,8 +29,6 @@ const ArtworkEdit = () => {
   const [artwork, setArtwork] = useState(null)
   const [isOwnWork, setIsOwnWork] = useState(false)
   const [isLoading, setLoading] = useState(true)
-  const location = useLocation()
-  const history = useHistory()
   const classes = useStyles()
 
   // check if this is artwork belongs to the user
@@ -41,9 +38,7 @@ const ArtworkEdit = () => {
     const profileId = user['https://streetartoronto.ca/artist_profile_id']
     const isOwner = profileId && artwork.artist_profile?.includes(profileId)
     setIsOwnWork(isOwner)
-
   }, [user, artwork])
-
 
   useEffect(() => {
     const abortController = new AbortController()
@@ -87,7 +82,7 @@ const ArtworkEdit = () => {
         }
       }
     }
-    console.log({id})
+    console.log({ id })
     fetchArtwork()
 
     return () => {
@@ -106,30 +101,29 @@ const ArtworkEdit = () => {
   }
 
   return (
-    <DefaultLayout loading={ isLoading || isLoadingRoles }>
+    <DefaultLayout loading={isLoading || isLoadingRoles}>
       <Container maxWidth="md">
         <div className={classes.container}>
           <Block>
             <BlockTitle title={`Edit "${artwork.title}"`} />
             <p>
-              Use this form to update the public view of your artwork on the StART Map.
-              All the changes made here will be reviewed by the StART team before they
-              are published, so it may take a few days before your changes are public.
+              Use this form to update the public view of your artwork on the
+              StART Map. All the changes made here will be reviewed by the StART
+              team before they are published, so it may take a few days before
+              your changes are public.
             </p>
-            <EmbeddedCognitoForm
-              formId={COGNITO_FORMS_IDS.artwork}
-            />
+            <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artwork} />
           </Block>
-          {
-            isStaff && artwork &&
+          {isStaff && artwork && (
             <Block>
               <BlockTitle title="Internal fields" />
               <p>These are the fields that only the StART team can edit.</p>
               <EmbeddedCognitoIframe
                 src={`https://www.cognitoforms.com/f/vQtvojkwk0qKXX6uRXdPYA?id=14${artwork.internal_edit_hash}`}
+                title="Edit artwork internal fields"
               />
             </Block>
-          }
+          )}
         </div>
       </Container>
     </DefaultLayout>
