@@ -218,7 +218,8 @@ export const USER_GUIDE_DOC =
 
 export const COGNITO_FORMS_IDS = {
   artistProfile: '11',
-  artwork: '13'
+  artwork: '13',
+  partnershipProgramFinalReport: '15'
 }
 
 export const EXTERNAL_LINKS = {

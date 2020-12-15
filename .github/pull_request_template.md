@@ -1,5 +1,3 @@
-<issue body>
-
 # To Do
 
 - [ ] Tests for new components
