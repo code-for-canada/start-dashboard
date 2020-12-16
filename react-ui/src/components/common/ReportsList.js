@@ -29,7 +29,9 @@ const ReportsList = ({ artist }) => {
           return console.log(data.error)
         }
 
-        const artistReports = data.items.filter(r => artist?.reports?.includes(r.id))
+        const artistReports = data.items.filter(r =>
+          artist?.reports?.includes(r.id)
+        )
 
         setReports(artistReports)
       } catch (err) {
@@ -55,9 +57,7 @@ const ReportsList = ({ artist }) => {
         <ul className={classes.list}>
           {reports.map(report => (
             <li key={report.id} className="mb-2">
-              <a href={report.form_url}>
-                {report.name}
-              </a>
+              <a href={report.form_url}>{report.name}</a>
             </li>
           ))}
         </ul>

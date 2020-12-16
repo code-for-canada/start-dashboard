@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { useParams, useLocation, Link } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
 import useRoles from 'customHooks/useRoles'
@@ -35,7 +35,7 @@ const Report = () => {
     const fetchReport = async () => {
       try {
         const opts = {
-          signal: abortController.signal,
+          signal: abortController.signal
         }
 
         if (!slug) {
@@ -80,13 +80,13 @@ const Report = () => {
         entry: {
           InternalInformation: {
             Auth0AccountId: user.sub,
-            AirtableArtistId: user['https://streetartoronto.ca/artist_profile_id'],
+            AirtableArtistId:
+              user['https://streetartoronto.ca/artist_profile_id'],
             AirtableReportId: report.id
           }
         }
       })
     }
-
   }, [user, report])
 
   if (hash && !isStaff) {
@@ -99,10 +99,10 @@ const Report = () => {
         <Container maxWidth="md">
           <StatusAlert
             show={Boolean(errMsg)}
-            severity='error'
+            severity="error"
             message={errMsg}
             onClose={() => setError(null)}
-            classes={{root: classes.container}}
+            classes={{ root: classes.container }}
           />
         </Container>
       </DefaultLayout>
@@ -114,12 +114,12 @@ const Report = () => {
       <Container maxWidth="md">
         <div className={classes.container}>
           <Block>
-            {report && opts &&
+            {report && opts && (
               <EmbeddedCognitoForm
                 formId={report.cognito_form_id}
                 opts={opts}
               />
-            }
+            )}
           </Block>
         </div>
       </Container>

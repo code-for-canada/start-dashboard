@@ -17,8 +17,8 @@ const PageMissing = () => {
   return (
     <DefaultLayout>
       <Container maxWidth="xl">
-        <p className={classes.container}>Oops! There's nothing here.</p>
-        <Link to='/'>Back to the Dashboard</Link>
+        <p className={classes.container}>Oops! There&apos;s nothing here.</p>
+        <Link to="/">Back to the Dashboard</Link>
       </Container>
     </DefaultLayout>
   )

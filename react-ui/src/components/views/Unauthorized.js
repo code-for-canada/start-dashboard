@@ -16,7 +16,9 @@ const Unauthorized = () => {
   return (
     <DefaultLayout>
       <Container maxWidth="xl">
-        <p className={classes.container}>You are not authorized to see this page.</p>
+        <p className={classes.container}>
+          You are not authorized to see this page.
+        </p>
       </Container>
     </DefaultLayout>
   )
