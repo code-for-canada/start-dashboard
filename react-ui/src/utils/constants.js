@@ -226,6 +226,7 @@ export const EXTERNAL_LINKS = {
   locationsTable: 'https://airtable.com/tbleiRmVudM7u9BDE/viwEgRCnV41UaOmIk/',
   artworksTable: 'https://airtable.com/tbl5ApSEOzPpe4fwp/viw2swQLeJ9xwU82F/',
   artistsTable: 'https://airtable.com/tblJMc6wMTi8Awqv2/viwAi9hF74zMe2Eic/',
+  reportsTable: 'https://airtable.com/tblpb1NGLAMTCLy4f/viwZaDvrNYkz11wmy/',
   artistsEntries:
     'https://www.cognitoforms.com/forms/startartistprofile/entries',
   submissionsTable: 'https://airtable.com/tblcX15UBd7NvgZNz/viwM8QlTmpKoDFJkE/',

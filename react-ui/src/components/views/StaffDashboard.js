@@ -9,6 +9,7 @@ import ShortcutMenu from 'components/common/ShortcutMenu'
 import usePanelState from 'customHooks/usePanelState'
 import { DASHBOARD_SHORTCUTS, USER_GUIDE_DOC } from 'utils/constants'
 import Submissions from 'components/panels/Submissions'
+import Reports from 'components/panels/Reports'
 import Artists from 'components/panels/Artists'
 import Artworks from 'components/panels/Artworks'
 import Charts from 'components/panels/Charts'
@@ -67,6 +68,27 @@ export const PANELS_DATA = [
       {
         title: 'How to search and filter artists',
         link: `${USER_GUIDE_DOC}#heading=h.jushirtzch5f`
+      }
+    ]
+  },
+  {
+    id: 'reports',
+    title: 'Reports',
+    isVisible: true,
+    isSmall: false,
+    content: Reports,
+    guides: [
+      {
+        title: 'How to create a new report form',
+        link: `${USER_GUIDE_DOC}`
+      },
+      {
+        title: 'How to invite artists to complete a report',
+        link: `${USER_GUIDE_DOC}`
+      },
+      {
+        title: 'How to view completed reports',
+        link: `${USER_GUIDE_DOC}`
       }
     ]
   },

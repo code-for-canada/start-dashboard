@@ -114,7 +114,7 @@ const Report = () => {
       <Container maxWidth="md">
         <div className={classes.container}>
           <Block>
-            {report &&
+            {report && opts &&
               <EmbeddedCognitoForm
                 formId={report.cognito_form_id}
                 opts={opts}
