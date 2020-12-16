@@ -68,6 +68,7 @@ if (!isDev && cluster.isMaster) {
   const handleAccount = require('./api/account')
   const handleEmailTemplates = require('./api/emails')
   const handleArtworks = require('./api/artworks')
+  const handleReports = require('./api/reports')
 
   // Log requests with dev template
   app.use(morgan('dev'))
@@ -82,6 +83,7 @@ if (!isDev && cluster.isMaster) {
   app.all('/api/location', checkJwt, checkEmailVerified, handleLocations)
   app.all('/api/artist', checkJwt, checkEmailVerified, handleArtist)
   app.all('/api/forms', handleForms)
+  app.all('/api/reports', handleReports)
   app.all('/api/account', checkJwt, checkEmailVerified, handleAccount)
   app.all(
     '/api/email-templates',

@@ -34,7 +34,7 @@ const Artworks = props => {
           color="primary"
           variant="contained"
           component="a"
-          href="/artworks/new">
+          href="/artwork/new">
           Add new artwork
         </Button>
 
