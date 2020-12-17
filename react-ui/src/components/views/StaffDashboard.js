@@ -80,15 +80,15 @@ export const PANELS_DATA = [
     guides: [
       {
         title: 'How to create a new report form',
-        link: `${USER_GUIDE_DOC}`
+        link: `${USER_GUIDE_DOC}#heading=h.17iz5l7ssxit`
       },
       {
         title: 'How to invite artists to complete a report',
-        link: `${USER_GUIDE_DOC}`
+        link: `${USER_GUIDE_DOC}#heading=h.a6wg42wd3guu`
       },
       {
         title: 'How to view completed reports',
-        link: `${USER_GUIDE_DOC}`
+        link: `${USER_GUIDE_DOC}#heading=h.xyofh7kh29`
       }
     ]
   },

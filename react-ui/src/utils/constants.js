@@ -231,7 +231,8 @@ export const EXTERNAL_LINKS = {
     'https://www.cognitoforms.com/forms/startartistprofile/entries',
   submissionsTable: 'https://airtable.com/tblcX15UBd7NvgZNz/viwM8QlTmpKoDFJkE/',
   chartsFullScreen:
-    'https://airtable.com/tbl5ApSEOzPpe4fwp/viw2swQLeJ9xwU82F?blocks=bipaTGUTVtapZ6Pgq&bip=full'
+    'https://airtable.com/tbl5ApSEOzPpe4fwp/viw2swQLeJ9xwU82F?blocks=bipaTGUTVtapZ6Pgq&bip=full',
+  cognitoForms: 'https://www.cognitoforms.com/forms/'
 }
 
 export const DASHBOARD_VIEW_ORDER = [
