@@ -19,7 +19,7 @@ export const PANELS_DATA = [
   {
     id: 'submissions',
     title: 'Submissions',
-    isVisible: true,
+    isVisible: false,
     isSmall: false,
     content: Submissions,
     guides: [
@@ -32,7 +32,7 @@ export const PANELS_DATA = [
   {
     id: 'artworks',
     title: 'Artworks',
-    isVisible: true,
+    isVisible: false,
     isSmall: false,
     content: Artworks,
     guides: [
@@ -53,7 +53,7 @@ export const PANELS_DATA = [
   {
     id: 'artists',
     title: 'Artists',
-    isVisible: true,
+    isVisible: false,
     isSmall: false,
     content: Artists,
     guides: [
@@ -74,7 +74,7 @@ export const PANELS_DATA = [
   {
     id: 'reports',
     title: 'Reports',
-    isVisible: true,
+    isVisible: false,
     isSmall: false,
     content: Reports,
     guides: [
@@ -95,7 +95,7 @@ export const PANELS_DATA = [
   {
     id: 'charts',
     title: 'Charts',
-    isVisible: true,
+    isVisible: false,
     isSmall: false,
     content: Charts,
     guides: [
@@ -112,7 +112,7 @@ export const PANELS_DATA = [
   {
     id: 'locations',
     title: 'Locations',
-    isVisible: true,
+    isVisible: false,
     isSmall: false,
     content: Locations,
     guides: [

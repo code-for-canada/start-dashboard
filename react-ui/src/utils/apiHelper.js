@@ -3,7 +3,8 @@ const ENDPOINTS = {
   artist: '/api/artist',
   location: '/api/location',
   account: '/api/account',
-  reports: '/api/reports'
+  reports: '/api/reports',
+  artworks: '/api/artworks'
 }
 
 const getResource = async ({ resource, url, opts }) => {
