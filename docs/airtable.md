@@ -98,5 +98,11 @@ You can find this script in the Emails dashboard in the Apps panel. It's trigger
 
 
 
+## Known issues
+- limited permission settings for different roles
+- no form view for updating records
+- no way to embed blocks that include scripts or custom blocks
+- when you embed a block the viewer has access to the full table data
+
 
 
