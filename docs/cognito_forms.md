@@ -13,4 +13,5 @@ The data from CognitoForms is imported to Airtable via Zapier. However we should
 
 
 ### Known issues:
-- we can't import multiple select values from Airtable into Cognito Forms through Zapier, only from Cognito Forms to Airtable.
+- We can't import multiple select values from Airtable into Cognito Forms through Zapier, only from Cognito Forms to Airtable.
+- We can only have one embedded form per page using the javascript embed. If we want to embed multiple forms on a page, it has to be using the iframe embed, which offers less customization.
