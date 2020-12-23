@@ -77,7 +77,9 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
               <AuthNav
                 isAuthenticated={isAuthenticated}
                 handleLogin={loginWithRedirect}
-                handleLogout={logout}
+                handleLogout={() =>
+                  logout({ returnTo: window.location.origin })
+                }
               />
             </div>
           </Grid>

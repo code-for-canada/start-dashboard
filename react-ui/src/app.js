@@ -13,6 +13,7 @@ import LocationNew from 'components/views/LocationNew'
 import LocationEdit from 'components/views/LocationEdit'
 import Profile from 'components/views/Profile'
 import ProfileSaved from 'components/views/ProfileSaved'
+import ProfileNew from 'components/views/ProfileNew'
 import Account from 'components/views/Account'
 import AccountSaved from 'components/views/AccountSaved'
 import AccountDeleted from 'components/views/AccountDeleted'
@@ -52,6 +53,8 @@ const App = () => {
       <PrivateRoute path="/location/edit/:id" component={LocationEdit} />
       <PrivateRoute path="/profile" exact component={Profile} />
       <PrivateRoute path="/profile/success" exact component={ProfileSaved} />
+      <PrivateRoute path="/profile/new/" exact component={ProfileNew} />
+      <PrivateRoute path="/profile/new/:account" exact component={ProfileNew} />
       <PrivateRoute path="/profile/:action" component={Profile} />
       <Route exact path="/account/success" component={AccountSaved} />
       <Route exact path="/account/deleted" component={AccountDeleted} />

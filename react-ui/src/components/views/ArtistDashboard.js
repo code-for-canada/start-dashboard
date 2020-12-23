@@ -105,6 +105,7 @@ WelcomeMessage.propTypes = {
 }
 
 const ArtistProfile = ({ artist, user }) => {
+  const [profilePending, setProfilePending] = useState(false)
   const profileHash = useLocation().hash
   const hasProfile = artist
   const isOwnProfile = artist?.view_url.includes(profileHash)
@@ -112,6 +113,28 @@ const ArtistProfile = ({ artist, user }) => {
   const editProfileId = artist?.edit_url.split('#')[1]
   const editProfileHash = editProfileId ? `#${editProfileId}` : ''
   const classes = useStyles()
+
+  useEffect(() => {
+    const isPending = window.localStorage.getItem('artist-profile-pending')
+
+    if (isPending && !hasProfile) {
+      return setProfilePending(true)
+    }
+
+    if (isPending && hasProfile) {
+      window.localStorage.removeItem('artist-profile-pending')
+      return setProfilePending(false)
+    }
+  }, [hasProfile])
+
+  if (profilePending) {
+    return (
+      <React.Fragment>
+        <BlockTitle title="Your StART Artist Profile" />
+        <p>Your profile is being processed. Please try refreshing the page.</p>
+      </React.Fragment>
+    )
+  }
 
   if (hasProfile) {
     return (
@@ -154,7 +177,7 @@ const ArtistProfile = ({ artist, user }) => {
         <Button
           className={classes.button}
           component={Link}
-          to={`/profile/edit${editProfileHash}`}
+          to={`/profile/new/${user.sub}`}
           variant="contained"
           color="primary">
           Create your profile
@@ -325,8 +348,8 @@ const ArtistDashboard = () => {
           </Block>
         </Grid>
         <Grid item xs={12} md={6}>
-          <ArtworksList artist={artist} />
-          <ReportsList artist={artist} />
+          {artist && <ArtworksList artist={artist} />}
+          {artist && <ReportsList artist={artist} />}
 
           <Block>
             <BlockTitle title="Current opportunities" />

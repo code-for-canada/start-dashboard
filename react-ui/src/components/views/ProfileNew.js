@@ -1,13 +1,14 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useHistory, useParams } from 'react-router-dom'
 import { Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+import { useAuth0 } from '@auth0/auth0-react'
 
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import Unauthorized from 'components/views/Unauthorized'
 import { COGNITO_FORMS_IDS } from 'utils/constants'
+import useRoles from 'customHooks/useRoles'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -16,60 +17,78 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const ProfileNew = ({ user, artist, isStaff }) => {
+const ProfileNew = () => {
+  const { user } = useAuth0()
+  const { isLoadingRoles, isStaff } = useRoles()
+  const { account } = useParams()
+  const [opts, setOpts] = useState()
+  const [hasProfile, setHasProfile] = useState(false)
   const history = useHistory()
   const classes = useStyles()
-  let opts = {}
 
   const afterSubmit = (event, entry) => {
     event.preventDefault()
+    window.localStorage.setItem('artist-profile-pending', true)
     history.push('/profile/success')
   }
 
-  if (!artist && !isStaff) {
-    const firstName = user['https://streetartoronto.ca/first_name']
-    const lastName = user['https://streetartoronto.ca/last_name']
+  useEffect(() => {
+    if (user) {
+      if (account) {
+        const firstName = user['https://streetartoronto.ca/first_name']
+        const lastName = user['https://streetartoronto.ca/last_name']
 
-    opts = {
-      entry: {
-        PersonalInformation: {
-          EmailAddress: user.email,
-          Name: {
-            First: firstName,
-            Last: lastName
+        setOpts({
+          entry: {
+            PersonalInformation: {
+              EmailAddress: user.email,
+              Name: {
+                First: firstName,
+                Last: lastName
+              }
+            },
+            InternalInformation: {
+              AirtableAccountId: user.sub
+            }
           }
-        },
-        InternalInformation: {
-          AirtableAccountId: user.sub
-        }
+        })
+      } else {
+        setOpts({})
       }
     }
+  }, [account, user])
+
+  useEffect(() => {
+    const profileId = user['https://streetartoronto.ca/artist_profile_id']
+    if (profileId) {
+      setHasProfile(true)
+    }
+  }, [user])
+
+  if (hasProfile && !isStaff) {
+    return <Unauthorized />
   }
 
-  if (artist && !isStaff) {
+  if (!account && !isStaff) {
     return <Unauthorized />
   }
 
   return (
-    <DefaultLayout>
+    <DefaultLayout isLoading={isLoadingRoles || !opts}>
       <Container maxWidth="md">
         <div className={classes.container}>
           <h1>Create a StART Profile</h1>
-          <EmbeddedCognitoForm
-            formId={COGNITO_FORMS_IDS.artistProfile}
-            opts={opts}
-            afterSubmit={afterSubmit}
-          />
+          {opts && (
+            <EmbeddedCognitoForm
+              formId={COGNITO_FORMS_IDS.artistProfile}
+              opts={opts}
+              afterSubmit={afterSubmit}
+            />
+          )}
         </div>
       </Container>
     </DefaultLayout>
   )
-}
-
-ProfileNew.propTypes = {
-  user: PropTypes.object,
-  artist: PropTypes.object,
-  isStaff: PropTypes.bool
 }
 
 export default ProfileNew
