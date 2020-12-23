@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { useHistory, useParams } from 'react-router-dom'
 import { Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
@@ -65,7 +64,6 @@ const ProfileNew = () => {
     }
   }, [user])
 
-
   if (hasProfile && !isStaff) {
     return <Unauthorized />
   }
@@ -79,24 +77,17 @@ const ProfileNew = () => {
       <Container maxWidth="md">
         <div className={classes.container}>
           <h1>Create a StART Profile</h1>
-          {
-            opts &&
+          {opts && (
             <EmbeddedCognitoForm
               formId={COGNITO_FORMS_IDS.artistProfile}
               opts={opts}
               afterSubmit={afterSubmit}
             />
-          }
+          )}
         </div>
       </Container>
     </DefaultLayout>
   )
-}
-
-ProfileNew.propTypes = {
-  user: PropTypes.object,
-  artist: PropTypes.object,
-  isStaff: PropTypes.bool
 }
 
 export default ProfileNew
