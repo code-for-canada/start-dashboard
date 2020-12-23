@@ -28,6 +28,7 @@ const ProfileNew = () => {
 
   const afterSubmit = (event, entry) => {
     event.preventDefault()
+    window.localStorage.setItem('artist-profile-pending', true)
     history.push('/profile/success')
   }
 
