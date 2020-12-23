@@ -9,6 +9,7 @@ import ShortcutMenu from 'components/common/ShortcutMenu'
 import usePanelState from 'customHooks/usePanelState'
 import { DASHBOARD_SHORTCUTS, USER_GUIDE_DOC } from 'utils/constants'
 import Submissions from 'components/panels/Submissions'
+import Reports from 'components/panels/Reports'
 import Artists from 'components/panels/Artists'
 import Artworks from 'components/panels/Artworks'
 import Charts from 'components/panels/Charts'
@@ -18,7 +19,7 @@ export const PANELS_DATA = [
   {
     id: 'submissions',
     title: 'Submissions',
-    isVisible: true,
+    isVisible: false,
     isSmall: false,
     content: Submissions,
     guides: [
@@ -31,7 +32,7 @@ export const PANELS_DATA = [
   {
     id: 'artworks',
     title: 'Artworks',
-    isVisible: true,
+    isVisible: false,
     isSmall: false,
     content: Artworks,
     guides: [
@@ -52,7 +53,7 @@ export const PANELS_DATA = [
   {
     id: 'artists',
     title: 'Artists',
-    isVisible: true,
+    isVisible: false,
     isSmall: false,
     content: Artists,
     guides: [
@@ -71,9 +72,30 @@ export const PANELS_DATA = [
     ]
   },
   {
+    id: 'reports',
+    title: 'Reports',
+    isVisible: false,
+    isSmall: false,
+    content: Reports,
+    guides: [
+      {
+        title: 'How to create a new report form',
+        link: `${USER_GUIDE_DOC}#heading=h.17iz5l7ssxit`
+      },
+      {
+        title: 'How to invite artists to complete a report',
+        link: `${USER_GUIDE_DOC}#heading=h.a6wg42wd3guu`
+      },
+      {
+        title: 'How to view completed reports',
+        link: `${USER_GUIDE_DOC}#heading=h.xyofh7kh29`
+      }
+    ]
+  },
+  {
     id: 'charts',
     title: 'Charts',
-    isVisible: true,
+    isVisible: false,
     isSmall: false,
     content: Charts,
     guides: [
@@ -90,7 +112,7 @@ export const PANELS_DATA = [
   {
     id: 'locations',
     title: 'Locations',
-    isVisible: true,
+    isVisible: false,
     isSmall: false,
     content: Locations,
     guides: [

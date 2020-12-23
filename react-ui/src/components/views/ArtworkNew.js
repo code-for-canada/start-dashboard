@@ -1,31 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useHistory } from 'react-router-dom'
-import { Container } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles'
 
 import DefaultLayout from 'components/layouts/DefaultLayout'
-import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
 import Unauthorized from 'components/views/Unauthorized'
-import { COGNITO_FORMS_IDS } from 'utils/constants'
+import useRoles from 'customHooks/useRoles'
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2)
-  }
-}))
+const ArtworkNew = props => {
+  const { isLoadingRoles, isStaff } = useRoles()
 
-const ArtworkNew = ({ user, isStaff }) => {
-  const classes = useStyles()
-
-  if (!isStaff) {
+  if (!isLoadingRoles && !isStaff) {
     return <Unauthorized />
   }
 
   return (
-    <DefaultLayout>
+    <DefaultLayout loading={isLoadingRoles}>
       <EmbeddedIframe
         src="https://airtable.com/embed/shrMvrXih5f3TAIbN?backgroundColor=red"
         title="Add a new artwork"

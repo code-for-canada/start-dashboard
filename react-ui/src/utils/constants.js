@@ -218,16 +218,21 @@ export const USER_GUIDE_DOC =
 
 export const COGNITO_FORMS_IDS = {
   artistProfile: '11',
-  artwork: '13'
+  artwork: '13',
+  partnershipProgramFinalReport: '15'
 }
 
 export const EXTERNAL_LINKS = {
   locationsTable: 'https://airtable.com/tbleiRmVudM7u9BDE/viwEgRCnV41UaOmIk/',
   artworksTable: 'https://airtable.com/tbl5ApSEOzPpe4fwp/viw2swQLeJ9xwU82F/',
   artistsTable: 'https://airtable.com/tblJMc6wMTi8Awqv2/viwAi9hF74zMe2Eic/',
-  artistsEntries: 'https://www.cognitoforms.com/forms/startartistprofile/entries',
+  reportsTable: 'https://airtable.com/tblpb1NGLAMTCLy4f/viwZaDvrNYkz11wmy/',
+  artistsEntries:
+    'https://www.cognitoforms.com/forms/startartistprofile/entries',
   submissionsTable: 'https://airtable.com/tblcX15UBd7NvgZNz/viwM8QlTmpKoDFJkE/',
-  chartsFullScreen: 'https://airtable.com/tbl5ApSEOzPpe4fwp/viw2swQLeJ9xwU82F?blocks=bipaTGUTVtapZ6Pgq&bip=full'
+  chartsFullScreen:
+    'https://airtable.com/tbl5ApSEOzPpe4fwp/viw2swQLeJ9xwU82F?blocks=bipaTGUTVtapZ6Pgq&bip=full',
+  cognitoForms: 'https://www.cognitoforms.com/forms/'
 }
 
 export const DASHBOARD_VIEW_ORDER = [

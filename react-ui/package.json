@@ -51,6 +51,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "cp .sample.env .env",
     "build": "react-scripts build",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",

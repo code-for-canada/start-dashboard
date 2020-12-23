@@ -10,21 +10,21 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Artworks = props => {
+const Reports = props => {
   const classes = useStyles()
   return (
     <div>
-      <h3>Artworks by Status</h3>
+      <h3>Report Forms</h3>
       <EmbeddedIframe
         src={
-          'https://airtable.com/embed/shrTlL5928ssPbMeP?backgroundColor=red&viewControls=on'
+          'https://airtable.com/embed/shrA0F6dW6YZwmamP?backgroundColor=red&viewControls=on'
         }
       />
 
-      <h3>All Artworks</h3>
+      <h3>Report Responses</h3>
       <EmbeddedIframe
         src={
-          'https://airtable.com/embed/shrdDGqIxvtiIjFzZ?backgroundColor=red&viewControls=on'
+          'https://airtable.com/embed/shrNWLDASXGtpK7I4?backgroundColor=red&viewControls=on'
         }
       />
 
@@ -34,22 +34,25 @@ const Artworks = props => {
           color="primary"
           variant="contained"
           component="a"
-          href="/artwork/new">
-          Add new artwork
-        </Button>
-
-        <Button
-          color="primary"
-          variant="contained"
-          component="a"
-          href={EXTERNAL_LINKS.artworksTable}
+          href={EXTERNAL_LINKS.reportsTable}
           target="_blank"
           rel="noopener noreferrer">
           Edit in Airtable
+        </Button>
+
+        <Button
+          className={classes.button}
+          color="primary"
+          variant="contained"
+          component="a"
+          href={EXTERNAL_LINKS.cognitoForms}
+          target="_blank"
+          rel="noopener noreferrer">
+          Edit in Cognito Forms
         </Button>
       </div>
     </div>
   )
 }
 
-export default Artworks
+export default Reports

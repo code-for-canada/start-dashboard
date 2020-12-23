@@ -9,6 +9,8 @@ import { COGNITO_FORMS_IDS } from 'utils/constants'
 import { Block, BlockTitle } from 'components/common/Block'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import Loading from 'components/common/Loading'
+import ReportsList from 'components/common/ReportsList'
+import ArtworksList from 'components/common/ArtworksList'
 import { getArtist, getResource } from 'utils/apiHelper'
 
 const useStyles = makeStyles(theme => ({
@@ -323,6 +325,9 @@ const ArtistDashboard = () => {
           </Block>
         </Grid>
         <Grid item xs={12} md={6}>
+          <ArtworksList artist={artist} />
+          <ReportsList artist={artist} />
+
           <Block>
             <BlockTitle title="Current opportunities" />
             <FormsList />

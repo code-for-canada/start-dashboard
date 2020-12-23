@@ -2,7 +2,9 @@ const ENDPOINTS = {
   forms: '/api/forms',
   artist: '/api/artist',
   location: '/api/location',
-  account: '/api/account'
+  account: '/api/account',
+  reports: '/api/reports',
+  artworks: '/api/artworks'
 }
 
 const getResource = async ({ resource, url, opts }) => {

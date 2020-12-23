@@ -34,7 +34,7 @@ const Artists = props => {
           href={EXTERNAL_LINKS.artistsEntries}
           target="_blank"
           rel="noopener noreferrer">
-          Edit in CognitoForms
+          Edit in Cognito Forms
         </Button>
       </div>
     </div>

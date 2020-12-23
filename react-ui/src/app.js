@@ -16,8 +16,11 @@ import ProfileSaved from 'components/views/ProfileSaved'
 import Account from 'components/views/Account'
 import AccountSaved from 'components/views/AccountSaved'
 import AccountDeleted from 'components/views/AccountDeleted'
-import Artwork from 'components/views/Artwork'
+import ArtworkNew from 'components/views/ArtworkNew'
+import ArtworkEdit from 'components/views/ArtworkEdit'
+import Report from 'components/views/Report'
 import Unauthorized from 'components/views/Unauthorized'
+import PageMissing from 'components/views/PageMissing'
 
 import 'assets/scss/main.scss'
 
@@ -53,9 +56,11 @@ const App = () => {
       <Route exact path="/account/success" component={AccountSaved} />
       <Route exact path="/account/deleted" component={AccountDeleted} />
       <PrivateRoute path="/account" component={Account} />
-      <PrivateRoute path="/artworks/new" exact component={Artwork} />
-      <PrivateRoute path="/artworks/:action/:id" component={Artwork} />
+      <PrivateRoute path="/artwork/new" component={ArtworkNew} />
+      <PrivateRoute path="/artwork/edit/:id" component={ArtworkEdit} />
+      <PrivateRoute path="/report/:slug" component={Report} />
       <Route path="/unauthorized" component={Unauthorized} />
+      <Route path="/404" component={PageMissing} />
     </Switch>
   )
 }
