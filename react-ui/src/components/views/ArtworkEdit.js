@@ -82,7 +82,7 @@ const ArtworkEdit = () => {
         }
       }
     }
-    console.log({ id })
+
     fetchArtwork()
 
     return () => {

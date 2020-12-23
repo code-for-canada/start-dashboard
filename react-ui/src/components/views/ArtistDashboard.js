@@ -154,7 +154,7 @@ const ArtistProfile = ({ artist, user }) => {
         <Button
           className={classes.button}
           component={Link}
-          to={`/profile/edit${editProfileHash}`}
+          to={`/profile/new/${user.sub}`}
           variant="contained"
           color="primary">
           Create your profile
@@ -325,8 +325,8 @@ const ArtistDashboard = () => {
           </Block>
         </Grid>
         <Grid item xs={12} md={6}>
-          <ArtworksList artist={artist} />
-          <ReportsList artist={artist} />
+          {artist && <ArtworksList artist={artist} />}
+          {artist && <ReportsList artist={artist} />}
 
           <Block>
             <BlockTitle title="Current opportunities" />

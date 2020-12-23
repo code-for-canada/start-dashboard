@@ -6,7 +6,6 @@ import Loading from 'components/common/Loading'
 import useRoles from 'customHooks/useRoles'
 import ProfileView from 'components/views/ProfileView'
 import ProfileEdit from 'components/views/ProfileEdit'
-import ProfileNew from 'components/views/ProfileNew'
 import { getArtist } from 'utils/apiHelper'
 
 const Profile = () => {
@@ -74,10 +73,6 @@ const Profile = () => {
 
   if (action === 'edit') {
     return <ProfileEdit user={user} artist={artist} isStaff={isStaff} />
-  }
-
-  if (action === 'new') {
-    return <ProfileNew user={user} artist={artist} isStaff={isStaff} />
   }
 
   return <ProfileView artist={artist} isStaff={isStaff} />
