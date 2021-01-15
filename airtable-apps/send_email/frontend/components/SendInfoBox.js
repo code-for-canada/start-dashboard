@@ -36,7 +36,7 @@ const SendInfoBox = ({ tableData = [], templateVars = [], templateEditLink = '#'
         v.isColMissing
           ? <Box display="flex">
               <Icon name="warning" size={16} fillColor="IndianRed" marginX={2} />
-              <Text fontWeight={600} marginRight={1}>{v.name}</Text>
+              <Text style={{ textShadow: '-0.04ex 0 #000, 0.04ex 0 #000' }} marginRight={1}>{v.name}</Text>
               <Text textColor="gray">(missing column)</Text>
             </Box>
           : <Box display="flex">
