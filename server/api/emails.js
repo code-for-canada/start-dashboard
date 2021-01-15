@@ -2,15 +2,15 @@ const mailjet = require('./utils/Mailjet')
 const { methodNotImplemented, checkScopes } = require('./common')
 
 const getTemplates = (req, res) => {
-  const request = mailjet.get('template', { version: 'v3' }).request()
+  const request = mailjet.get('template', { version: 'v3' }).request({ limit: 100 })
 
   request
     .then(result => {
       return res.status(200).send({ templates: result.body })
     })
     .catch(err => {
-      console.log(err)
-      return res.status(500).send({ error: err })
+      console.log({err})
+      return res.status(500).send({ error: err.message })
     })
 }
 

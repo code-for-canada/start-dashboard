@@ -38,7 +38,6 @@ function SendTemplateEmail() {
 
   const [selectedTable, setSelectedTable] = useState(base.getTableByIdIfExists(cursor.activeTableId))
   const [selectedView, setSelectedView] = useState(null)
-  const [templates, setTemplates] = useState([])
   const [selectedTemplate, setSelectedTemplate] = useState(DEFAULT_TEMPLATE_PICKER_OPTION.value)
   const [alert, setAlert] = useState(null)
   const [isShowingSettings, setIsShowingSettings] = useState(!Boolean(globalConfig.get('auth0ClientSecret')));

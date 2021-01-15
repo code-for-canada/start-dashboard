@@ -8,7 +8,7 @@ This lets Airtable users create a mailing list from any table, save it as a view
 
 Switch to test app:
 ```bash
-setup:blocks:test
+npm run setup:blocks:test
 ```
 Start the local server
 ```bash
@@ -49,13 +49,13 @@ Go to `chrome://flags/#allow-insecure-localhost` and enable the feature.
 
 ## Deployment
 
-Switch to production app:
+Switch to production app (from app directory)
 ```bash
-setup:blocks:prod
+npm run setup:prod
 ```
 Release the block
 ```bash
-block release
+npm run release
 ```
 Update the app configuration on Airtable with the correct production settings.
 

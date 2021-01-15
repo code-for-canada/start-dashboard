@@ -250,7 +250,7 @@ export const DASHBOARD_SHORTCUTS = {
         'https://docs.google.com/document/d/1UTIEjy1KRCjGA6yQ7SQBBm5yi-QKoFJyaIfMVR7XzhI/edit'
     },
     {
-      title: 'User Guides',
+      title: 'How-to Guides',
       link:
         'https://docs.google.com/document/d/1yjuWqRLIfkh997wF9z5egVKRfQrU7slyf63GyhdsNhI/edit'
     },

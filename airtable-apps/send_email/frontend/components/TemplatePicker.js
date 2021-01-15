@@ -26,9 +26,10 @@ const TemplatePicker = ({
       })
       const data = await res.json()
 
-      if (res.statusCode !== 200) {
-        setAlert(data.error)
+      if (data.error) {
+        return setAlert(data.error)
       }
+
       const tmpls = data.templates.Data
       setTemplates(tmpls)
     }

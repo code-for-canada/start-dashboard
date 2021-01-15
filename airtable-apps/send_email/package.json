@@ -14,6 +14,7 @@
         "start": "block run",
         "setup:prod": "cd .block && cp prod.remote.json remote.json",
         "setup:test": "cd .block && cp test.remote.json remote.json",
-        "lint": "eslint frontend"
+        "lint": "eslint frontend",
+        "release": "block release"
     }
 }
