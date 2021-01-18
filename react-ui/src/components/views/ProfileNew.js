@@ -9,6 +9,7 @@ import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import Unauthorized from 'components/views/Unauthorized'
 import { COGNITO_FORMS_IDS } from 'utils/constants'
 import useRoles from 'customHooks/useRoles'
+import { Block, BlockTitle } from 'components/common/Block'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -77,13 +78,15 @@ const ProfileNew = () => {
     <DefaultLayout isLoading={isLoadingRoles || !opts}>
       <Container maxWidth="md">
         <div className={classes.container}>
-          <h1>Create a StART Profile</h1>
           {opts && (
-            <EmbeddedCognitoForm
-              formId={COGNITO_FORMS_IDS.artistProfile}
-              opts={opts}
-              afterSubmit={afterSubmit}
-            />
+            <Block>
+              <BlockTitle title="Create a StART Profile" />
+              <EmbeddedCognitoForm
+                formId={COGNITO_FORMS_IDS.artistProfile}
+                opts={opts}
+                afterSubmit={afterSubmit}
+              />
+            </Block>
           )}
         </div>
       </Container>

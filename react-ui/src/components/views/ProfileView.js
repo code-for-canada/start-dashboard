@@ -8,6 +8,7 @@ import DefaultLayout from 'components/layouts/DefaultLayout'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import { COGNITO_FORMS_IDS } from 'utils/constants'
 import Unauthorized from 'components/views/Unauthorized'
+import { Block, BlockTitle } from 'components/common/Block'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -52,19 +53,20 @@ const ProfileView = ({ artist, isStaff }) => {
       <DefaultLayout>
         <Container maxWidth="md">
           <div className={classes.container}>
-            <h1>
-              {isOwnProfile ? 'Your StART Profile' : `StART Artist Profile`}
-            </h1>
-            <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artistProfile} />
-            {isOwnProfile && (
-              <Button
-                variant="contained"
-                color="primary"
-                component={Link}
-                to={'/profile/edit'}>
-                Edit your profile
-              </Button>
-            )}
+
+            <Block>
+              <BlockTitle title={isOwnProfile ? 'Your StART Profile' : `StART Artist Profile`} />
+              <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artistProfile} />
+              {isOwnProfile && (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  component={Link}
+                  to={'/profile/edit'}>
+                  Edit your profile
+                </Button>
+              )}
+            </Block>
           </div>
         </Container>
       </DefaultLayout>

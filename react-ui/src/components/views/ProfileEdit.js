@@ -8,6 +8,7 @@ import DefaultLayout from 'components/layouts/DefaultLayout'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import Unauthorized from 'components/views/Unauthorized'
 import { COGNITO_FORMS_IDS } from 'utils/constants'
+import { Block, BlockTitle } from 'components/common/Block'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -74,16 +75,18 @@ const ProfileEdit = ({ user, artist, isStaff }) => {
       <DefaultLayout>
         <Container maxWidth="md">
           <div className={classes.container}>
-            <h1>Edit Your StART Profile</h1>
-            <p>
-              {`To update your name or email address, go to `}
-              <Link to="/account">My account.</Link>
-            </p>
-            <EmbeddedCognitoForm
-              formId={COGNITO_FORMS_IDS.artistProfile}
-              opts={opts}
-              afterSubmit={afterSubmit}
-            />
+            <Block>
+              <BlockTitle title="Edit Your StART Profile" />
+              <p>
+                {`To update your name or email address, go to `}
+                <Link to="/account">My account.</Link>
+              </p>
+              <EmbeddedCognitoForm
+                formId={COGNITO_FORMS_IDS.artistProfile}
+                opts={opts}
+                afterSubmit={afterSubmit}
+              />
+            </Block>
           </div>
         </Container>
       </DefaultLayout>
