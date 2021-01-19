@@ -35,14 +35,22 @@ const ArtworksList = ({ artist }) => {
           }
         }
 
-        const url = `/api/artworks?artist=${artist.email}`
-        const data = await getResource({ url, opts })
+        Promise.all(artist.artworks.map(id => {
+            const url = `/api/artworks?id=${id}`
+            return getResource({ url, opts })
+          })).then(values => {
+          console.log({values})
+          const arts = values.map(data => {
+            const { error, artwork } = data
+            if (error) {
+              return console.log(error)
+            }
+            return artwork
+          }).filter(i => i) // filter out undefineds
 
-        if (data.error) {
-          return console.log(data.error)
-        }
+          setArtworks(arts)
+        })
 
-        setArtworks(data.items)
       } catch (err) {
         if (abortController.signal.aborted) {
           console.log('Request to fetch artworks was aborted')
@@ -60,6 +68,8 @@ const ArtworksList = ({ artist }) => {
       abortController.abort()
     }
   }, [artist, getAccessTokenSilently, isAuthenticated])
+
+  console.log({artworks})
 
   if (artworks.length > 0) {
     return (

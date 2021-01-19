@@ -37,6 +37,7 @@ const checkJwt = jwt({
 
 const checkEmailVerified = async (req, res, next) => {
   const userData = await getUserData(req)
+  console.log({userData})
   if (userData.email_verified) {
     return next()
   }
@@ -98,7 +99,7 @@ if (!isDev && cluster.isMaster) {
     checkJwt,
     handleEmailTemplates
   )
-  app.all('/api/artworks', checkJwt, checkEmailVerified, handleArtworks)
+  app.all('/api/artworks', checkJwt, handleArtworks)
 
   // Only in production is the server the main entry point,
   // so only then serve built static files from filesystem.
