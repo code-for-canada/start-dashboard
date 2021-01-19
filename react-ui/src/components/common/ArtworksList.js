@@ -69,8 +69,6 @@ const ArtworksList = ({ artist }) => {
     }
   }, [artist, getAccessTokenSilently, isAuthenticated])
 
-  console.log({artworks})
-
   if (artworks.length > 0) {
     return (
       <Block>
