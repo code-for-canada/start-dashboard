@@ -1,6 +1,8 @@
 const getRandomImage = async () => {
-  const defaultImg =
-    'https://dl.airtable.com/.attachments/bf85b19d45989b61b38d0499a0c9ab3d/bcb3bc8b/UNADJUSTEDRAW_thumb_f416.jpg'
+  const defaultImg = {
+    url: 'https://dl.airtable.com/.attachmentThumbnails/3c2130dfdc69808dea60fdbb53e85877/22a905bd',
+    artist: 'Moises Frank, Rob Matejka, Bareket Kezwer, Mique Michelle'
+  }
 
   try {
     const res = await fetch(
@@ -12,7 +14,10 @@ const getRandomImage = async () => {
       data.features[Math.floor(Math.random() * data.features.length)]
 
     if (feature.properties.media && feature.properties.media.length > 0) {
-      return feature.properties.media[0].url
+      return {
+        url: feature.properties.media[0].url,
+        artist: feature.properties.artist
+      }
     } else {
       throw new Error('no media url')
     }

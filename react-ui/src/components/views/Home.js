@@ -25,6 +25,17 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     height: '100%'
   },
+  imageCredit: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    background: '#343a40',
+    color: theme.palette.background.paper,
+  },
   content: {
     height: '100%',
     width: '100%',
@@ -46,13 +57,17 @@ const useStyles = makeStyles(theme => ({
 
 const Home = () => {
   const [image, setImage] = useState()
+  const [artist, setArtist] = useState('Unknown')
   const { loginWithRedirect } = useAuth0()
   const classes = useStyles()
 
   useEffect(() => {
     const getImage = async () => {
-      const image = await getRandomImage()
-      setImage(image)
+      const { url, artist } = await getRandomImage()
+      setImage(url)
+      if (artist) {
+        setArtist(artist)
+      }
     }
     if (!image) {
       getImage()
@@ -90,6 +105,7 @@ const Home = () => {
           </Grid>
         </Grid>
       </Container>
+      <div className={classes.imageCredit}>{`Art by: ${artist}`}</div>
     </div>
   )
 }

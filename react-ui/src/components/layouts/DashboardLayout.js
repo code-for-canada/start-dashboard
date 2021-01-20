@@ -52,10 +52,15 @@ const imageStyle = {
 const DashboardLayout = ({ children }) => {
   const { user } = useAuth0()
   const [image, setImage] = useState()
+  const [artist, setArtist] = useState('Unknown')
+
   useEffect(() => {
     const getImage = async () => {
-      const image = await getRandomImage()
-      setImage(image)
+      const { url, artist } = await getRandomImage()
+      setImage(url)
+      if (artist) {
+        setArtist(artist)
+      }
     }
     if (!user.email_verified && !image) {
       getImage()
@@ -76,6 +81,7 @@ const DashboardLayout = ({ children }) => {
                 <img src={image} alt="" style={imageStyle} />
               </Grid>
             </Grid>
+            <div className={classes.imageCredit}>{`Art by: ${artist}`}</div>
           </Container>
         ) : (
           <Container maxWidth="lg">{children}</Container>
