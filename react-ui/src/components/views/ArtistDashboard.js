@@ -68,19 +68,26 @@ ProfileURL.propTypes = {
 
 const WelcomeMessage = ({ artist }) => {
   if (artist) {
+    const editProfileId = artist?.edit_url.split('#')[1]
+    const editProfileHash = editProfileId ? `#${editProfileId}` : ''
     return (
       <React.Fragment>
         <BlockTitle title="Welcome to StART Digital!" />
-        <p>
+        <p>This is the online home of Street Art Toronto.</p>
+        <p className="mb-3">
           Please make sure to keep your profile up to date. This is how we
-          contact you about your current projects, ongoing applications, or
-          future opportunities we think you would be interested in.
+          expand our awareness of street art creatives who are interested
+          and available to participate in StART projects. Your profile will
+          assist Advisory Panel members when considering artists and other
+          participants for StART Projects.
         </p>
-        <p>
-          If you&apos;re applying for one of our programs, we may ask you for
-          the link to your Artist Profile. You can copy it here.
-        </p>
-        <ProfileURL url={artist.view_url} />
+        <Button
+          component={Link}
+          to={`/profile/edit${editProfileHash}`}
+          variant="contained"
+          color="primary">
+          Edit your profile
+        </Button>
       </React.Fragment>
     )
   }
@@ -90,11 +97,8 @@ const WelcomeMessage = ({ artist }) => {
       <BlockTitle title="Welcome to StART Digital!" />
       <p>This is the online home of Street Art Toronto.</p>
       <p>
-        Now that you&apos;ve registered, you have access to the Artist
-        Dashboard. You can create your Artist Profile and apply to current
-        opportunities. If you are joining in a different capacity, you will need
-        someone from the StART team to give you the appropriate permissions on
-        this platform.
+        Now that you&apos;ve registered, you can create your Artist Profile and
+        apply to current opportunities.
       </p>
     </React.Fragment>
   )
@@ -170,7 +174,9 @@ const ArtistProfile = ({ artist, user }) => {
           information that shows up on our public map
         </li>
         <li>
-          We may contact you about upcoming opportunities that fit your profile.
+          This is how we expand our awareness of street art creatives who are interested
+          and available to participate in StART projects. We may contact you about
+          upcoming opportunities that fit your profile.
         </li>
       </ul>
       {isEmailVerified ? (

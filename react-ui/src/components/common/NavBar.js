@@ -67,9 +67,9 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
           </Grid>
 
           <Grid item className={classes.menuSection}>
-            <NavLink to="/map" className={classes.nav}>
+            <a href="https://streetartoronto.ca" target="_blank" rel="noopener noreferrer" className={classes.nav}>
               StART map
-            </NavLink>
+            </a>
             <NavLink to="/account" className={classes.nav}>
               My account
             </NavLink>
