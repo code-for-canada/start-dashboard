@@ -44,6 +44,13 @@ const checkEmailVerified = async (req, res, next) => {
   res.status(401).send({ error: 'Your email address is not verified' })
 }
 
+const forceSsl = function (req, res, next) {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect(301, ['https://', req.get('Host'), req.url].join(''));
+  }
+  return next();
+};
+
 // Multi-process to utilize all CPU cores.
 if (!isDev && cluster.isMaster) {
   console.error(`Node cluster master ${process.pid} is running`)
@@ -99,6 +106,9 @@ if (!isDev && cluster.isMaster) {
   // (In development, React files are served by webpack-dev-server
   // from memory, which also proxies the API. See: `src/setupProxy.js` )
   if (process.env.NODE_ENV === 'production') {
+    // redirect from http to https
+    app.use(forceSsl)
+
     // Serve any static files
     app.use(express.static(path.resolve(__dirname, '../react-ui/build')))
 
