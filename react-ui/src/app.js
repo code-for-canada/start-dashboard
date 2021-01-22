@@ -63,7 +63,10 @@ const App = () => {
       <PrivateRoute path="/artwork/new" component={ArtworkNew} />
       <PrivateRoute path="/artwork/edit/:id" component={ArtworkEdit} />
       <PrivateRoute path="/report/:slug" component={Report} />
-      <PrivateRoute path="/progress-update/:artworkId" component={ProgressUpdate} />
+      <PrivateRoute
+        path="/progress-update/:artworkId"
+        component={ProgressUpdate}
+      />
       <Route path="/unauthorized" component={Unauthorized} />
       <Route path="/404" component={PageMissing} />
     </Switch>

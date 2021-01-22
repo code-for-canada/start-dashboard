@@ -29,7 +29,11 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export const ArtworkUnderReview = ({ artwork, isStaff, handlePublishArtwork }) => {
+export const ArtworkUnderReview = ({
+  artwork,
+  isStaff,
+  handlePublishArtwork
+}) => {
   const classes = useStyles()
   return (
     <div className={classes.alert}>
@@ -54,20 +58,23 @@ export const ArtworkUnderReview = ({ artwork, isStaff, handlePublishArtwork }) =
                 color="inherit"
                 size="small"
                 variant="outlined"
-                onClick={handlePublishArtwork}
-              >
+                onClick={handlePublishArtwork}>
                 Publish now
               </Button>
             </>
           ) : null
-        }
-      >
+        }>
         This artwork is under review.
       </StatusAlert>
     </div>
   )
 }
 
+ArtworkUnderReview.propTypes = {
+  artwork: PropTypes.object,
+  isStaff: PropTypes.bool,
+  handlePublishArtwork: PropTypes.func
+}
 
 const ArtworkEdit = () => {
   const { user, getAccessTokenSilently, isAuthenticated } = useAuth0()
@@ -171,7 +178,8 @@ const ArtworkEdit = () => {
       setArtwork({ ...artwork, flagged_for_review: false })
       setNotification({
         severity: 'success',
-        message: 'This artwork is no longer under review and the changes will appear on the StART Map.'
+        message:
+          'This artwork is no longer under review and the changes will appear on the StART Map.'
       })
     } catch (err) {
       console.log(err)
@@ -194,9 +202,17 @@ const ArtworkEdit = () => {
     <DefaultLayout loading={isLoading || isLoadingRoles}>
       <Container maxWidth="md">
         <div className={classes.container}>
-          <ArtworkUnderReview artwork={artwork} isStaff={isStaff} handlePublishArtwork={handlePublishArtwork} />
+          <ArtworkUnderReview
+            artwork={artwork}
+            isStaff={isStaff}
+            handlePublishArtwork={handlePublishArtwork}
+          />
           <div className={classes.alert}>
-            <StatusAlert severity={notification?.severity} message={notification?.message} show={Boolean(notification)} />
+            <StatusAlert
+              severity={notification?.severity}
+              message={notification?.message}
+              show={Boolean(notification)}
+            />
           </div>
           <Block>
             <BlockTitle title={`Edit "${artwork.title}"`} />

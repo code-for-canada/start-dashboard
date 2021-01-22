@@ -22,8 +22,7 @@ const StatusAlert = ({
       variant="filled"
       elevation={1}
       onClose={onClose}
-      {...rest}
-    >
+      {...rest}>
       {message ? <p className="mb-0">{message}</p> : children}
     </Alert>
   )

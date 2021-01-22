@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useParams } from 'react-router-dom'
-import { Container, Button } from '@material-ui/core'
+import { Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useAuth0 } from '@auth0/auth0-react'
 
 import useRoles from 'customHooks/useRoles'
-import { getResource, updateResource } from 'utils/apiHelper'
+import { getResource } from 'utils/apiHelper'
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import Unauthorized from 'components/views/Unauthorized'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
-import EmbeddedCognitoIframe from 'components/forms/EmbeddedCognitoIframe'
 import { Block, BlockTitle } from 'components/common/Block'
-import { COGNITO_FORMS_IDS, EXTERNAL_LINKS } from 'utils/constants'
+import { COGNITO_FORMS_IDS } from 'utils/constants'
 import Loading from 'components/common/Loading'
-import StatusAlert from 'components/common/StatusAlert'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -34,7 +32,6 @@ const ProgressUpdate = () => {
   const { artworkId } = useParams()
   const { isLoadingRoles, isStaff } = useRoles()
   const [artwork, setArtwork] = useState(null)
-  const [notification, setNotification] = useState(null)
   const [isOwnWork, setIsOwnWork] = useState(false)
   const [isLoading, setLoading] = useState(true)
   const [options, setOptions] = useState()
@@ -101,10 +98,6 @@ const ProgressUpdate = () => {
   }, [user, getAccessTokenSilently, artworkId, artwork])
 
   useEffect(() => {
-    const firstName = user['https://streetartoronto.ca/first_name']
-    const lastName = user['https://streetartoronto.ca/last_name']
-    const fullName = `${firstName} ${lastName}`
-
     if (artwork) {
       setOptions({
         entry: {
@@ -128,18 +121,14 @@ const ProgressUpdate = () => {
     <DefaultLayout loading={isLoading || isLoadingRoles}>
       <Container maxWidth="md">
         <div className={classes.container}>
-          <div className={classes.alert}>
-            <StatusAlert severity={notification?.severity} message={notification?.message} show={Boolean(notification)} />
-          </div>
           <Block>
             <BlockTitle title={`Progress Update for "${artwork.title}"`} />
-            {
-              options &&
+            {options && (
               <EmbeddedCognitoForm
                 formId={COGNITO_FORMS_IDS.progressUpdate}
                 opts={options}
               />
-            }
+            )}
           </Block>
         </div>
       </Container>
