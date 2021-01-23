@@ -1,6 +1,7 @@
 const getRandomImage = async () => {
   const defaultImg = {
-    url: 'https://dl.airtable.com/.attachmentThumbnails/3c2130dfdc69808dea60fdbb53e85877/22a905bd',
+    url:
+      'https://dl.airtable.com/.attachmentThumbnails/3c2130dfdc69808dea60fdbb53e85877/22a905bd',
     artist: 'Moises Frank, Rob Matejka, Bareket Kezwer, Mique Michelle'
   }
 

@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(2),
     background: '#343a40',
-    color: theme.palette.background.paper,
+    color: theme.palette.background.paper
   },
   content: {
     height: '100%',

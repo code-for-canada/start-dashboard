@@ -8,7 +8,7 @@ import {
   Hidden,
   Menu,
   MenuItem,
-  Button,
+  Button
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -64,13 +64,13 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
     ? user['https://streetartoronto.ca/first_name'] || user.nickname
     : 'Guest'
 
-  const handleOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const handleOpen = event => {
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
   return (
     <AppBar
@@ -86,7 +86,11 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
 
           <Hidden smDown>
             <Grid item className={classes.menuSection}>
-              <a href="https://streetartoronto.ca" target="_blank" rel="noopener noreferrer" className={classes.nav}>
+              <a
+                href="https://streetartoronto.ca"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={classes.nav}>
                 StART map
               </a>
               <NavLink to="/account" className={classes.nav}>
@@ -105,7 +109,10 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
           </Hidden>
 
           <Hidden mdUp>
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleOpen}>
+            <Button
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={handleOpen}>
               Menu
             </Button>
             <Menu
@@ -113,12 +120,18 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
               anchorEl={anchorEl}
               keepMounted
               open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem onClick={handleClose} component="a" href="https://streetartoronto.ca" target="_blank" rel="noopener noreferrer">
+              onClose={handleClose}>
+              <MenuItem
+                onClick={handleClose}
+                component="a"
+                href="https://streetartoronto.ca"
+                target="_blank"
+                rel="noopener noreferrer">
                 StART Map
               </MenuItem>
-              <MenuItem onClick={handleClose} component={NavLink} to="/account">My account</MenuItem>
+              <MenuItem onClick={handleClose} component={NavLink} to="/account">
+                My account
+              </MenuItem>
               <MenuItem onClick={handleClose}>
                 <AuthNav
                   isAuthenticated={isAuthenticated}
@@ -130,7 +143,6 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
               </MenuItem>
             </Menu>
           </Hidden>
-
         </Grid>
       </Toolbar>
     </AppBar>

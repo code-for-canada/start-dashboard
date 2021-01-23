@@ -53,9 +53,12 @@ const ProfileView = ({ artist, isStaff }) => {
       <DefaultLayout>
         <Container maxWidth="md">
           <div className={classes.container}>
-
             <Block>
-              <BlockTitle title={isOwnProfile ? 'Your StART Profile' : `StART Artist Profile`} />
+              <BlockTitle
+                title={
+                  isOwnProfile ? 'Your StART Profile' : `StART Artist Profile`
+                }
+              />
               <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artistProfile} />
               {isOwnProfile && (
                 <Button

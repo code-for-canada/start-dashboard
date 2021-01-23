@@ -50,9 +50,6 @@ const ReportsList = ({ artist }) => {
     }
   }, [artist])
 
-  console.log({reports})
-  console.log({artist})
-
   if (reports.length > 0) {
     return (
       <Block>
@@ -61,7 +58,9 @@ const ReportsList = ({ artist }) => {
           {reports.map(report => {
             const reportResponses = report.report_responses || []
             const artistResponses = artist.report_responses || []
-            const responded = artistResponses.find(aRepId => (reportResponses.find(rRepId => rRepId === aRepId)))
+            const responded = artistResponses.find(aRepId =>
+              reportResponses.find(rRepId => rRepId === aRepId)
+            )
 
             if (responded) {
               return (
@@ -73,7 +72,9 @@ const ReportsList = ({ artist }) => {
 
             return (
               <li key={report.id} className="mb-2">
-                <a href={report.form_url} disabled={responded}>{report.name}</a>
+                <a href={report.form_url} disabled={responded}>
+                  {report.name}
+                </a>
               </li>
             )
           })}

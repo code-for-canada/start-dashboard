@@ -76,10 +76,10 @@ const WelcomeMessage = ({ artist }) => {
         <p>This is the online home of Street Art Toronto.</p>
         <p className="mb-3">
           Please make sure to keep your profile up to date. This is how we
-          expand our awareness of street art creatives who are interested
-          and available to participate in StART projects. Your profile will
-          assist Advisory Panel members when considering artists and other
-          participants for StART Projects.
+          expand our awareness of street art creatives who are interested and
+          available to participate in StART projects. Your profile will assist
+          Advisory Panel members when considering artists and other participants
+          for StART Projects.
         </p>
         <Button
           component={Link}
@@ -174,9 +174,9 @@ const ArtistProfile = ({ artist, user }) => {
           information that shows up on our public map
         </li>
         <li>
-          This is how we expand our awareness of street art creatives who are interested
-          and available to participate in StART projects. We may contact you about
-          upcoming opportunities that fit your profile.
+          This is how we expand our awareness of street art creatives who are
+          interested and available to participate in StART projects. We may
+          contact you about upcoming opportunities that fit your profile.
         </li>
       </ul>
       {isEmailVerified ? (
@@ -279,9 +279,11 @@ const ArtistDashboard = () => {
     const abortController = new AbortController()
     const getArtistProfile = async () => {
       try {
+        console.log('getting access token silently')
         const token = await getAccessTokenSilently({
           audience: 'https://dashboard.streetartoronto.ca/'
         })
+
         const opts = {
           signal: abortController.signal,
           headers: {
@@ -318,7 +320,9 @@ const ArtistDashboard = () => {
       }
     }
 
-    getArtistProfile()
+    if (user) {
+      getArtistProfile()
+    }
 
     return () => {
       abortController.abort()
