@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const ArtworkEdit = () => {
-  const { user, getAccessTokenSilently } = useAuth0()
+  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0()
   const { id } = useParams()
   const { isLoadingRoles, isStaff } = useRoles()
   const [artwork, setArtwork] = useState(null)
@@ -83,12 +83,14 @@ const ArtworkEdit = () => {
       }
     }
 
-    fetchArtwork()
+    if (isAuthenticated) {
+      fetchArtwork()
+    }
 
     return () => {
       abortController.abort()
     }
-  }, [user, getAccessTokenSilently, id])
+  }, [user, getAccessTokenSilently, id, isAuthenticated])
 
   console.log({ artwork })
 

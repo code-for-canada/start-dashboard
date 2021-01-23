@@ -73,7 +73,10 @@ const Panel = ({
 
   return (
     <Grid item xs={12} md={isSmall ? 6 : 12} className={classes.panel}>
-      <Accordion expanded={isVisible} onChange={() => toggleVisibility(id)}>
+      <Accordion
+        expanded={isVisible}
+        onChange={() => toggleVisibility(id)}
+        TransitionProps={{ unmountOnExit: true }}>
         <AccordionSummary classes={{ content: classes.header }}>
           <h2 className={classes.title}>{title}</h2>
           <div className={classes.flex}>

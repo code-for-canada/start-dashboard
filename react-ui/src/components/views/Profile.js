@@ -9,7 +9,7 @@ import ProfileEdit from 'components/views/ProfileEdit'
 import { getArtist } from 'utils/apiHelper'
 
 const Profile = () => {
-  const { user, getAccessTokenSilently } = useAuth0()
+  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0()
   const [artist, setArtist] = useState(null)
   const [isLoading, setLoading] = useState(true)
   const { action = 'view' } = useParams()
@@ -60,12 +60,14 @@ const Profile = () => {
       }
     }
 
-    getArtistProfile()
+    if (isAuthenticated) {
+      getArtistProfile()
+    }
 
     return () => {
       abortController.abort()
     }
-  }, [user, getAccessTokenSilently])
+  }, [user, getAccessTokenSilently, isAuthenticated])
 
   if (isLoading || isLoadingRoles) {
     return <Loading />

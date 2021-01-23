@@ -20,6 +20,8 @@ const Auth0ProviderWithHistory = ({ children }) => {
       redirectUri={window.location.origin}
       useRefreshTokens={true}
       cacheLocation="localstorage"
+      audience="https://dashboard.streetartoronto.ca/"
+      scope="openid profile email offline_access"
       onRedirectCallback={onRedirectCallback}>
       {children}
     </Auth0Provider>

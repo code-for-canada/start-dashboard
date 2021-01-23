@@ -10,7 +10,7 @@ import { getResource, updateResource } from 'utils/apiHelper'
 import Unauthorized from 'components/views/Unauthorized'
 
 const LocationEdit = () => {
-  const { getAccessTokenSilently } = useAuth0()
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
   const [location, setLocation] = useState(null)
   const [isLoading, setLoading] = useState(true)
   const { isLoadingRoles, isStaff } = useRoles()
@@ -61,12 +61,14 @@ const LocationEdit = () => {
       }
     }
 
-    getLocationAsync()
+    if (isAuthenticated) {
+      getLocationAsync()
+    }
 
     return () => {
       abortController.abort()
     }
-  }, [id, getAccessTokenSilently])
+  }, [id, getAccessTokenSilently, isAuthenticated])
 
   const handleSubmit = async locationData => {
     const token = await getAccessTokenSilently({

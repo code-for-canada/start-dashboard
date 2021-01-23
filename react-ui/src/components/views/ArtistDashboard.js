@@ -267,7 +267,7 @@ const FormsList = () => {
 }
 
 const ArtistDashboard = () => {
-  const { user, getAccessTokenSilently } = useAuth0()
+  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0()
   const location = useLocation()
   const history = useHistory()
   const [artist, setArtist] = useState(null)
@@ -279,7 +279,6 @@ const ArtistDashboard = () => {
     const abortController = new AbortController()
     const getArtistProfile = async () => {
       try {
-        console.log('getting access token silently')
         const token = await getAccessTokenSilently({
           audience: 'https://dashboard.streetartoronto.ca/'
         })
@@ -320,14 +319,14 @@ const ArtistDashboard = () => {
       }
     }
 
-    if (user) {
+    if (isAuthenticated) {
       getArtistProfile()
     }
 
     return () => {
       abortController.abort()
     }
-  }, [user, getAccessTokenSilently])
+  }, [user, getAccessTokenSilently, isAuthenticated])
 
   // add profile hash if artist has profile
   useEffect(() => {

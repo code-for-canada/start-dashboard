@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 })
 
 const ArtworksList = ({ artist }) => {
-  const { getAccessTokenSilently } = useAuth0()
+  const { getAccessTokenSilently, isAuthenticated } = useAuth0()
   const [artworks, setArtworks] = useState([])
   const classes = useStyles()
 
@@ -52,12 +52,14 @@ const ArtworksList = ({ artist }) => {
       }
     }
 
-    getArtworks()
+    if (isAuthenticated) {
+      getArtworks()
+    }
 
     return () => {
       abortController.abort()
     }
-  }, [artist, getAccessTokenSilently])
+  }, [artist, getAccessTokenSilently, isAuthenticated])
 
   if (artworks.length > 0) {
     return (
