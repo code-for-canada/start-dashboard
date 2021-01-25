@@ -8,7 +8,8 @@ const StatusAlert = ({
   message,
   onClose,
   children,
-  classes
+  classes,
+  ...rest
 }) => {
   if (!show) {
     return null
@@ -19,7 +20,10 @@ const StatusAlert = ({
       classes={classes}
       severity={severity}
       variant="filled"
-      onClose={onClose}>
+      elevation={1}
+      onClose={onClose}
+      {...rest}
+    >
       {message ? <p className="mb-0">{message}</p> : children}
     </Alert>
   )

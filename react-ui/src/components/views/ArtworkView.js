@@ -8,6 +8,7 @@ import DefaultLayout from 'components/layouts/DefaultLayout'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import { COGNITO_FORMS_IDS } from 'utils/constants'
 import Unauthorized from 'components/views/Unauthorized'
+import { ArtworkUnderReview } from 'components/views/ArtworkEdit'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -47,11 +48,16 @@ const ArtworkView = ({ artist, isStaff }) => {
     }
   }, [artist, location])
 
+  console.log("hi from artist view")
+  console.log({isStaff})
+  console.log({isOwnProfile})
+
   if (isStaff || isOwnProfile) {
     return (
       <DefaultLayout>
         <Container maxWidth="md">
           <div className={classes.container}>
+            <ArtworkUnderReview artwork={artwork} isStaff={isStaff} />
             <h1>StART Artwork</h1>
             <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artwork} />
             {isOwnProfile && (
