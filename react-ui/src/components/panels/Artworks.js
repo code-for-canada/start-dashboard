@@ -14,13 +14,6 @@ const Artworks = props => {
   const classes = useStyles()
   return (
     <div>
-      <h3>Artworks by Status</h3>
-      <EmbeddedIframe
-        src={
-          'https://airtable.com/embed/shrTlL5928ssPbMeP?backgroundColor=red&viewControls=on'
-        }
-      />
-
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <h3>Flagged for Review</h3>
@@ -39,6 +32,13 @@ const Artworks = props => {
           />
         </Grid>
       </Grid>
+
+      <h3>Artworks by Status</h3>
+      <EmbeddedIframe
+        src={
+          'https://airtable.com/embed/shrTlL5928ssPbMeP?backgroundColor=red&viewControls=on'
+        }
+      />
 
       <h3>All Artworks</h3>
       <EmbeddedIframe

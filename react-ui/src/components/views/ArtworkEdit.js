@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useParams } from 'react-router-dom'
-import { Container, Button } from '@material-ui/core'
+import { Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useAuth0 } from '@auth0/auth0-react'
 
 import useRoles from 'customHooks/useRoles'
-import { getResource, updateResource } from 'utils/apiHelper'
+import { getResource } from 'utils/apiHelper'
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import Unauthorized from 'components/views/Unauthorized'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import EmbeddedCognitoIframe from 'components/forms/EmbeddedCognitoIframe'
 import { Block, BlockTitle } from 'components/common/Block'
-import { COGNITO_FORMS_IDS, EXTERNAL_LINKS } from 'utils/constants'
+import { COGNITO_FORMS_IDS } from 'utils/constants'
 import Loading from 'components/common/Loading'
 import StatusAlert from 'components/common/StatusAlert'
 
@@ -29,51 +29,21 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export const ArtworkUnderReview = ({
-  artwork,
-  isStaff,
-  handlePublishArtwork
-}) => {
+export const ArtworkUnderReview = ({ artwork }) => {
   const classes = useStyles()
   return (
     <div className={classes.alert}>
-      <StatusAlert
-        severity="info"
-        show={artwork?.flagged_for_review}
-        action={
-          isStaff ? (
-            <>
-              <Button
-                className={classes.button}
-                component="a"
-                color="inherit"
-                size="small"
-                href={`${EXTERNAL_LINKS.artworksTable}${artwork?.id}`}
-                target="_blank"
-                rel="noopener noreferrer">
-                Review on Airtable
-              </Button>
-              <Button
-                className={classes.button}
-                color="inherit"
-                size="small"
-                variant="outlined"
-                onClick={handlePublishArtwork}>
-                Publish now
-              </Button>
-            </>
-          ) : null
-        }>
-        This artwork is under review.
+      <StatusAlert severity="info" show={!!artwork?.artwork_updates}>
+        This artwork has changes pending review. You can continue editing; when
+        it is reviewed by StART Staff, they will only see the most recent
+        version.
       </StatusAlert>
     </div>
   )
 }
 
 ArtworkUnderReview.propTypes = {
-  artwork: PropTypes.object,
-  isStaff: PropTypes.bool,
-  handlePublishArtwork: PropTypes.func
+  artwork: PropTypes.object
 }
 
 const ArtworkEdit = () => {
@@ -81,7 +51,6 @@ const ArtworkEdit = () => {
   const { id } = useParams()
   const { isLoadingRoles, isStaff } = useRoles()
   const [artwork, setArtwork] = useState(null)
-  const [notification, setNotification] = useState(null)
   const [isOwnWork, setIsOwnWork] = useState(false)
   const [isLoading, setLoading] = useState(true)
   const classes = useStyles()
@@ -147,49 +116,6 @@ const ArtworkEdit = () => {
     }
   }, [user, getAccessTokenSilently, id, artwork, isAuthenticated])
 
-  const handlePublishArtwork = async () => {
-    try {
-      const token = await getAccessTokenSilently({
-        audience: 'https://dashboard.streetartoronto.ca/'
-      })
-
-      const opts = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          id: id,
-          fields: { flagged_for_review: false }
-        })
-      }
-
-      const resource = 'artworks'
-
-      const { error } = await updateResource({ resource, opts })
-
-      if (error) {
-        return setNotification({
-          severity: 'error',
-          message: error
-        })
-      }
-
-      setArtwork({ ...artwork, flagged_for_review: false })
-      setNotification({
-        severity: 'success',
-        message:
-          'This artwork is no longer under review and the changes will appear on the StART Map.'
-      })
-    } catch (err) {
-      console.log(err)
-      setNotification({
-        severity: 'error',
-        message: err.message
-      })
-    }
-  }
-
   if (isLoading || isLoadingRoles) {
     return <Loading />
   }
@@ -202,18 +128,7 @@ const ArtworkEdit = () => {
     <DefaultLayout loading={isLoading || isLoadingRoles}>
       <Container maxWidth="md">
         <div className={classes.container}>
-          <ArtworkUnderReview
-            artwork={artwork}
-            isStaff={isStaff}
-            handlePublishArtwork={handlePublishArtwork}
-          />
-          <div className={classes.alert}>
-            <StatusAlert
-              severity={notification?.severity}
-              message={notification?.message}
-              show={Boolean(notification)}
-            />
-          </div>
+          <ArtworkUnderReview artwork={artwork} />
           <Block>
             <BlockTitle title={`Edit "${artwork.title}"`} />
             <p>
@@ -222,14 +137,18 @@ const ArtworkEdit = () => {
               team before they are published, so it may take a few days before
               your changes are public.
             </p>
-            <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artwork} />
+            <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artwork_public} />
           </Block>
           {isStaff && artwork && (
             <Block>
               <BlockTitle title="Internal fields" />
-              <p>These are the fields that only the StART team can edit.</p>
+              <p>
+                These are the fields that only the StART team can edit. These
+                changes do not need to be reviewed or approved and will be
+                available on the public map immediately.
+              </p>
               <EmbeddedCognitoIframe
-                src={`https://www.cognitoforms.com/f/vQtvojkwk0qKXX6uRXdPYA?id=14${artwork.internal_edit_hash}`}
+                src={`https://www.cognitoforms.com/f/vQtvojkwk0qKXX6uRXdPYA?id=${COGNITO_FORMS_IDS.artwork_internal}${artwork.internal_edit_hash}`}
                 title="Edit artwork internal fields"
               />
             </Block>

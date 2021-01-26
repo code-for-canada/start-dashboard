@@ -21,6 +21,7 @@ import AccountSaved from 'components/views/AccountSaved'
 import AccountDeleted from 'components/views/AccountDeleted'
 import ArtworkNew from 'components/views/ArtworkNew'
 import ArtworkEdit from 'components/views/ArtworkEdit'
+import ArtworkReviewChanges from 'components/views/ArtworkReviewChanges'
 import Report from 'components/views/Report'
 import ProgressUpdate from 'components/views/ProgressUpdate'
 
@@ -62,6 +63,10 @@ const App = () => {
       <PrivateRoute path="/account" component={Account} />
       <PrivateRoute path="/artwork/new" component={ArtworkNew} />
       <PrivateRoute path="/artwork/edit/:id" component={ArtworkEdit} />
+      <PrivateRoute
+        path="/artwork/review/:id"
+        component={ArtworkReviewChanges}
+      />
       <PrivateRoute path="/report/:slug" component={Report} />
       <PrivateRoute
         path="/progress-update/:artworkId"

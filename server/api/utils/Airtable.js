@@ -8,6 +8,7 @@ const locationsTable = base('locations')
 const artistsTable = base('artist_profiles')
 const accountsTable = base('accounts')
 const artworksTable = base('artworks')
+const artworkUpdatesTable = base('artwork_updates')
 const reportsTable = base('reports')
 
-module.exports = { locationsTable, artistsTable, accountsTable, artworksTable, reportsTable }
+module.exports = { locationsTable, artistsTable, accountsTable, artworksTable, artworkUpdatesTable, reportsTable }
