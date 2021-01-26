@@ -24,7 +24,8 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(2)
   },
   button: {
-    marginLeft: theme.spacing(1)
+    marginLeft: theme.spacing(1),
+    preWrap: 'nowrap'
   },
   list: {
     paddingLeft: theme.spacing(3),
