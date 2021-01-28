@@ -9,6 +9,8 @@ When someone submits an application on Submittable, it gets imported into the `s
 When a new record is created in the `submissions` table on Airtable, find the program data and add it to the submission record.
 ### SUBMITTABLE > AIRTABLE - Update submission status from Submittable
 When the submission status is updated in Submittable, update the status in Airtable.
+### SUBMITTABLE > AIRTABLE - import new staff members
+Import staff accounts to Airtable when a new one is added.
 
 ## Artist Profiles (CognitoForms)
 
