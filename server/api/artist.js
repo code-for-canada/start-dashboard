@@ -7,6 +7,7 @@ const getArtist = async (req, res) => {
   const userData = await getUserData(req)
 
   const id = userData['https://streetartoronto.ca/artist_profile_id']
+
   artistsTable.find(id, (err, record) => {
     if (err) {
       console.error(err)

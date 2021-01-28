@@ -1,16 +1,18 @@
 require('dotenv').config()
 const fetch = require('node-fetch')
-const { methodNotImplemented, checkScopes } = require('./common')
+const { methodNotImplemented, checkScopes, getUserData } = require('./common')
 const { SUBMITTABLE_SUBMISSIONS_ENDPOINT } = require('./utils/constants')
 
 const getSubmittableApplications = async (req, res) => {
   try {
-    const userId = req.query.userid
-    console.log("userId", userId)
+    const page = req.query.page
+    const userData = await getUserData(req)
+    const userId = userData['https://streetartoronto.ca/submittable_staff_id']
+
     const encodedToken = Buffer.from(
       process.env.SUBMITTABLE_ACCESS_TOKEN
     ).toString('base64')
-    const url = `${SUBMITTABLE_SUBMISSIONS_ENDPOINT}&assignedTo=${userId}&status=inprogress`
+    const url = `${SUBMITTABLE_SUBMISSIONS_ENDPOINT}&assignedTo=${userId}&status=inprogress&archived=0&sort=submitted&dir=desc&page=${page}`
     const response = await fetch(url, {
       headers: {
         Authorization: `Basic ${encodedToken}`

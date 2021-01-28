@@ -41,6 +41,10 @@ function addRoleFromAirtable(user, context, callback) {
       context.idToken['https://streetartoronto.ca/artist_profile_id'] = record.artist_profile_id;
     }
     
+    if (record.submittable_staff_id) {
+      context.idToken['https://streetartoronto.ca/submittable_staff_id'] = record.submittable_staff_id;
+    }
+    
     management.getUserRoles(
       { id: user.user_id }, 
       (err, data) => {
@@ -120,6 +124,7 @@ function addRoleFromAirtable(user, context, callback) {
       const last_name = record.get('last_name');
       const airtable_id = record.get('id');
       const artist_profile_list = record.get('artist_profile');
+      const submittable_staff_id = record.get('submittable_staff_id');
       
       console.log(record);
 
@@ -131,6 +136,7 @@ function addRoleFromAirtable(user, context, callback) {
         program_names: program_names,
         airtable_id: airtable_id,
         artist_profile_id: artist_profile_list ? artist_profile_list[0] : null,
+        submittable_staff_id: submittable_staff_id ? submittable_staff_id[0] : null,
       });
     });
   }
