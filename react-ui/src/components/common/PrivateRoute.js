@@ -8,9 +8,13 @@ import Loading from 'components/common/Loading'
 /* eslint-disable react/display-name */
 
 const PrivateRoute = ({ component, validateEmail = true, ...args }) => {
-  const { user } = useAuth0()
+  const { user, isLoading } = useAuth0()
 
-  if (validateEmail && !user.email_verified) {
+  if (isLoading) {
+    return <Loading />
+  }
+
+  if (validateEmail && !user?.email_verified) {
     return <Redirect to="/dashboard" />
   }
 
