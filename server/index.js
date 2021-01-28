@@ -36,10 +36,14 @@ const checkJwt = jwt({
 })
 
 const checkEmailVerified = async (req, res, next) => {
-  const userData = await getUserData(req)
-  console.log({userData})
-  if (userData.email_verified) {
+  const { user, error } = await getUserData(req)
+
+  if (user && user.email_verified) {
     return next()
+  }
+
+  if (error) {
+    return res.status(401).send({ error })
   }
 
   res.status(401).send({ error: 'Your email address is not verified' })

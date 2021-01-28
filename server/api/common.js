@@ -29,9 +29,12 @@ const getUserData = async req => {
       { headers: { Authorization: req.headers.authorization } }
     )
 
+    if (userRes.status !== 200) {
+      return { error: `Unable to retrieve user data from Auth0: ${userRes.statusText}` }
+    }
+
     const userinfo = await userRes.json()
-    console.log({ userinfo })
-    return userinfo
+    return { user: userinfo }
   } catch (err) {
     return { error: err.message }
   }

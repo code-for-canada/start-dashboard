@@ -6,8 +6,13 @@ const { SUBMITTABLE_SUBMISSIONS_ENDPOINT } = require('./utils/constants')
 const getSubmittableApplications = async (req, res) => {
   try {
     const page = req.query.page
-    const userData = await getUserData(req)
-    const userId = userData['https://streetartoronto.ca/submittable_staff_id']
+    const { user, error } = await getUserData(req)
+
+    if (error) {
+      return res.status(500).send({ error })
+    }
+
+    const userId = user['https://streetartoronto.ca/submittable_staff_id']
 
     const encodedToken = Buffer.from(
       process.env.SUBMITTABLE_ACCESS_TOKEN

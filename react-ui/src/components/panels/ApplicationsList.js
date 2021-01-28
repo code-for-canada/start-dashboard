@@ -11,6 +11,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import Loading from 'components/common/Loading'
 import { getResource } from 'utils/apiHelper'
 import { Button } from '@material-ui/core'
+import StatusAlert from 'components/common/StatusAlert'
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -20,11 +21,16 @@ const useStyles = makeStyles(theme => ({
     marginBottom: theme.spacing(4)
   },
   cell: {
-    maxWidth: '360px'
+    maxWidth: '360px',
+    verticalAlign: 'baseline'
   },
   loadingContainer: {
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4)
+  },
+  link: {
+    fontSize: '0.9em',
+    marginRight: theme.spacing(1)
   }
 }))
 
@@ -33,6 +39,7 @@ const ApplicationsList = () => {
   const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(0)
   const [totalPages, setTotalPages] = useState(1)
+  const [errorMessage, setErrorMessage] = useState()
   const { user, getAccessTokenSilently, isAuthenticated } = useAuth0()
   const classes = useStyles()
 
@@ -63,6 +70,8 @@ const ApplicationsList = () => {
 
         if (data.error) {
           setLoading(false)
+          setApplications([])
+          setErrorMessage('Error fetching applications from Submittable. Please try again later.')
           return console.log(data.error)
         }
 
@@ -71,10 +80,12 @@ const ApplicationsList = () => {
         }
       } catch (err) {
         setLoading(false)
+        setApplications([])
         if (abortController.signal.aborted) {
           console.log('Request to fetch Submittable applications was aborted')
         } else {
-          console.log('Error fetching Submittable applications', err)
+          console.log('Error fetching applications from Submittable', err)
+          setErrorMessage('Error fetching applications from Submittable. Please try again later.')
         }
       }
     }
@@ -94,6 +105,10 @@ const ApplicationsList = () => {
         <Loading />
       </div>
     )
+  }
+
+  if (errorMessage) {
+    return <StatusAlert message={errorMessage} severity="error" show={true} />
   }
 
   if (applications.length > 0) {
@@ -124,7 +139,7 @@ const ApplicationsList = () => {
                 <TableHead>
                   <TableRow>
                     <TableCell>Title</TableCell>
-                    <TableCell>Applicant</TableCell>
+                    <TableCell>Application</TableCell>
                     <TableCell>Labels</TableCell>
                     <TableCell>Status</TableCell>
                     <TableCell>Reviewed</TableCell>
@@ -145,11 +160,33 @@ const ApplicationsList = () => {
                           {a.title}
                         </TableCell>
                         <TableCell className={classes.cell}>
-                          <a
-                            href={a.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            title="Open the application in Submittable">{`${a.submitter.first_name} ${a.submitter.last_name}`}</a>
+                          <div>{`${a.submitter.first_name} ${a.submitter.last_name}`}</div>
+                          <div>
+                            <a
+                              className={classes.link}
+                              href={a.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="Open the application in Submittable">
+                              Open
+                            </a>
+                            <a
+                              className={classes.link}
+                              href={`https://streetartto.submittable.com/api/org/submissions/${a.submission_id}/pdf`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="Download application as PDF">
+                              Download application
+                            </a>
+                            <a
+                              className={classes.link}
+                              href={`https://streetartto.submittable.com/api/org/submissions/${a.submission_id}/download`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="Download the application files">
+                              Download files
+                            </a>
+                          </div>
                         </TableCell>
                         <TableCell className={classes.cell}>
                           {a.labels.items.map(l => l.label_text).join(', ')}
