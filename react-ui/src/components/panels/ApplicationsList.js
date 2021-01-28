@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper'
 import { useAuth0 } from '@auth0/auth0-react'
 import Loading from 'components/common/Loading'
 import { getResource } from 'utils/apiHelper'
+import { Button } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   table: {
@@ -17,6 +18,9 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     position: 'relative',
     marginBottom: theme.spacing(4)
+  },
+  cell: {
+    maxWidth: '360px'
   },
   loadingContainer: {
     paddingTop: theme.spacing(4),
@@ -134,21 +138,26 @@ const ApplicationsList = () => {
                     )
                     return (
                       <TableRow key={a.submission_id}>
-                        <TableCell component="th" scope="row">
+                        <TableCell
+                          component="th"
+                          scope="row"
+                          className={classes.cell}>
                           {a.title}
                         </TableCell>
-                        <TableCell>
+                        <TableCell className={classes.cell}>
                           <a
                             href={a.link}
                             target="_blank"
                             rel="noopener noreferrer"
                             title="Open the application in Submittable">{`${a.submitter.first_name} ${a.submitter.last_name}`}</a>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className={classes.cell}>
                           {a.labels.items.map(l => l.label_text).join(', ')}
                         </TableCell>
-                        <TableCell>{a.status}</TableCell>
-                        <TableCell>
+                        <TableCell className={classes.cell}>
+                          {a.status}
+                        </TableCell>
+                        <TableCell className={classes.cell}>
                           {reviewed ? (
                             <a
                               href={`https://streetartto.submittable.com/api/org/submissions/${a.submission_id}/reviews/download/rtf`}
@@ -159,7 +168,9 @@ const ApplicationsList = () => {
                             'No'
                           )}
                         </TableCell>
-                        <TableCell>{a.reviews.average}</TableCell>
+                        <TableCell className={classes.cell}>
+                          {a.reviews.average}
+                        </TableCell>
                       </TableRow>
                     )
                   })}
@@ -168,6 +179,17 @@ const ApplicationsList = () => {
             </TableContainer>
           </div>
         ))}
+        <div>
+          <Button
+            color="primary"
+            variant="contained"
+            component="a"
+            href="https://streetartto.submittable.com/submissions"
+            target="_blank"
+            rel="noopener noreferrer">
+            Edit in Submittable
+          </Button>
+        </div>
       </div>
     )
   }
