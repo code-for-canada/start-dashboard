@@ -217,24 +217,39 @@ export const USER_GUIDE_DOC =
   'https://docs.google.com/document/d/1yjuWqRLIfkh997wF9z5egVKRfQrU7slyf63GyhdsNhI/edit'
 
 export const COGNITO_FORMS_IDS = {
-  artistProfile: '11',
-  artwork_public: '13',
-  artwork_internal: '14',
-  partnershipProgramFinalReport: '15',
-  progressUpdate: '17'
+  artistProfile: process.env.REACT_APP_ARTIST_PROFILE_FORM_ID,
+  public_artwork: process.env.REACT_APP_PUBLIC_ARTWORK_FORM_ID,
+  internal_artwork: process.env.REACT_APP_INTERNAL_ARTWORK_FORM_ID,
 }
 
 export const EXTERNAL_LINKS = {
-  locationsTable: 'https://airtable.com/tbleiRmVudM7u9BDE/viwEgRCnV41UaOmIk/',
-  artworksTable: 'https://airtable.com/tbl5ApSEOzPpe4fwp/viw2swQLeJ9xwU82F/',
-  artistsTable: 'https://airtable.com/tblJMc6wMTi8Awqv2/viwAi9hF74zMe2Eic/',
-  reportsTable: 'https://airtable.com/tblpb1NGLAMTCLy4f/viwZaDvrNYkz11wmy/',
-  artistsEntries:
-    'https://www.cognitoforms.com/forms/startartistprofile/entries',
-  submissionsTable: 'https://airtable.com/tblcX15UBd7NvgZNz/viwM8QlTmpKoDFJkE/',
-  chartsFullScreen:
-    'https://airtable.com/tbl5ApSEOzPpe4fwp/viw2swQLeJ9xwU82F?blocks=bipaTGUTVtapZ6Pgq&bip=full',
-  cognitoForms: 'https://www.cognitoforms.com/forms/'
+  locationsTable: process.env.REACT_APP_LOCATIONS_TABLE_URL,
+  artworksTable: process.env.REACT_APP_ARTWORKS_TABLE_URL,
+  artistsTable: process.env.REACT_APP_ARTISTS_TABLE_URL,
+  reportsTable: process.env.REACT_APP_REPORTS_TABLE_URL,
+  artistsEntries: process.env.REACT_APP_ARTIST_PROFILE_ENTRIES_URL,
+  submissionsTable: process.env.REACT_APP_SUBMISSIONS_TABLE_URL,
+  chartsFullScreen: process.env.REACT_APP_CHARTS_FULLSCREEN_URL,
+  cognitoForms: process.env.REACT_APP_COGNITO_FORMS_URL,
+  submittable: process.env.REACT_APP_SUBMITTABLE_URL,
+}
+
+export const IFRAME_URLS = {
+  allArtists: process.env.REACT_APP_ALL_ARTISTS_IFRAME,
+  artworksByStatus: process.env.REACT_APP_ARTWORKS_BY_STATUS_IFRAME,
+  allArtworks: process.env.REACT_APP_ALL_ARTWORKS_IFRAME,
+  submissionsByStatus: process.env.REACT_APP_SUBMISSIONS_BY_STATUS_IFRAME,
+  newSubmissions: process.env.REACT_APP_NEW_SUBMISSIONS_IFRAME,
+  locationsMap: process.env.REACT_APP_LOCATIONS_MAP_IFRAME,
+  allLocations: process.env.REACT_APP_ALL_LOCATIONS_IFRAME,
+  allReports: process.env.REACT_APP_ALL_REPORTS_IFRAME,
+  reportResponses: process.env.REACT_APP_REPORT_RESPONSES,
+  artworksByProgramChat: process.env.REACT_APP_ARTWORKS_BY_PROGRAM_CHART,
+  artworksByYearChart: process.env.REACT_APP_ARTWORKS_BY_YEAR_CHART,
+  artworksByWardChart: process.env.REACT_APP_ARTWORKS_BY_WARD_CHART,
+  submissionsByProgramChart: process.env.REACT_APP_SUBMISSIONS_BY_PROGRAM_CHART,
+  submissionsByLabelChart: process.env.REACT_APP_SUBMISSIONS_BY_LABEL_CHART,
+  artistsByPronounChart: process.env.REACT_APP_ARTISTS_BY_PRONOUN_CHART,
 }
 
 export const DASHBOARD_VIEW_ORDER = [

@@ -8,6 +8,7 @@
   "scripts": {
     "auth0:setup": "cp -n a0deploy-cli.sample.config.json a0deploy-cli.config.json || echo --- Config file already exists. Skipped copy...",
     "auth0:export": "a0deploy export -c a0deploy-cli.config.json -f yaml -o auth0-export",
+    "auth0:import": "a0deploy import -c a0deploy-cli.config.json -i auth0-export/tenant.yaml",
     "setup:hosts": "sudo -- sh -c \"echo '127.0.0.1 start-dashboard' >> /etc/hosts\"",
     "setup:cert": "mkdir -p dev && openssl req -nodes -new -x509 -keyout dev/server.key -out dev/server.cert -subj '/CN=start-dashboard'",
     "setup:env": "cp -n sample.env .env || echo .env file already exists. Skipping...",

@@ -1,7 +1,7 @@
 import React from 'react'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
 import { Button } from '@material-ui/core'
-import { EXTERNAL_LINKS } from 'utils/constants'
+import { EXTERNAL_LINKS, IFRAME_URLS } from 'utils/constants'
 import useUtilityClasses from 'customHooks/useUtilityClasses'
 
 const Artists = props => {
@@ -10,9 +10,7 @@ const Artists = props => {
     <div>
       <h3>All Artists</h3>
       <EmbeddedIframe
-        src={
-          'https://airtable.com/embed/shra4E5FrOJS6fzWO?backgroundColor=red&viewControls=on'
-        }
+        src={IFRAME_URLS.allArtists}
       />
 
       <div>

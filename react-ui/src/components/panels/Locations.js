@@ -1,23 +1,17 @@
 import React from 'react'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
 import { Button } from '@material-ui/core'
-import { EXTERNAL_LINKS } from 'utils/constants'
+import { EXTERNAL_LINKS, IFRAME_URLS } from 'utils/constants'
 import useUtilityClasses from 'customHooks/useUtilityClasses'
 
 const Locations = props => {
   const utilClasses = useUtilityClasses()
   return (
     <div>
-      <EmbeddedIframe
-        src={'https://airtable.com/embed/shrq9Y4H4zVkBhjgx?backgroundColor=red'}
-      />
+      <EmbeddedIframe src={IFRAME_URLS.locationsMap} />
 
       <h3>All locations</h3>
-      <EmbeddedIframe
-        src={
-          'https://airtable.com/embed/shrKy239MuejuvGhM?backgroundColor=red&viewControls=on'
-        }
-      />
+      <EmbeddedIframe src={IFRAME_URLS.allLocations} />
 
       <div>
         <Button
