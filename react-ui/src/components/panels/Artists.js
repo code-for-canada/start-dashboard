@@ -29,7 +29,7 @@ const Artists = props => {
           variant="contained"
           className={utilClasses.horizListSpacing}
           component="a"
-          href={EXTERNAL_LINKS.artistsEntries}
+          href={EXTERNAL_LINKS.artistProfileEntries}
           target="_blank"
           rel="noopener noreferrer">
           Edit in Cognito Forms

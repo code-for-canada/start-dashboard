@@ -17,10 +17,10 @@ import {
   DEFAULT_MAP_CENTER,
   MAP_STYLE_BASE,
   MAP_STYLE_WARD_DEFAULT,
-  MAP_STYLE_WARD_ACTIVE
+  MAP_STYLE_WARD_ACTIVE,
+  EXTERNAL_LINKS
 } from 'utils/constants'
 import { Map, Marker, GoogleApiWrapper } from '@nomadiclabs/google-maps-react'
-import { EXTERNAL_LINKS } from 'utils/constants'
 
 const styles = {
   container: {
