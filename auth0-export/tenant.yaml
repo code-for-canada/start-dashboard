@@ -27,7 +27,7 @@ pages:
 resourceServers:
   - name: StART Dashboard API
     identifier: 'https://dashboard.streetartoronto.ca/'
-    allow_offline_access: false
+    allow_offline_access: true
     enforce_policies: true
     scopes:
       - value: 'is:artist'
@@ -181,6 +181,12 @@ clients:
       - 'https://start-dashboard-staging.herokuapp.com/account/success'
       - 'https://start-dashboard:3000/account/deleted'
       - 'https://start-dashboard-staging.herokuapp.com/account/deleted'
+      - 'https://dashboard.streetartoronto.ca/'
+      - 'https://dashboard.streetartoronto.ca/account/success'
+      - 'https://dashboard.streetartoronto.ca/account/deleted'
+      - 'https://dashboard.streetartoronto.com/'
+      - 'https://dashboard.streetartoronto.com/account/success'
+      - 'https://dashboard.streetartoronto.com/account/deleted'
     app_type: spa
     callbacks:
       - 'https://localhost:3000'
@@ -192,6 +198,8 @@ clients:
       - 'https://start-dashbo-*.herokuapp.com'
       - 'https://start-dashboard:3000'
       - 'https://start-dashboard:3000/*'
+      - 'https://dashboard.streetartoronto.ca/'
+      - 'https://dashboard.streetartoronto.com/'
     client_aliases: []
     cross_origin_auth: false
     custom_login_page_on: true
@@ -213,8 +221,13 @@ clients:
         enabled: false
     oidc_conformant: true
     refresh_token:
-      rotation_type: non-rotating
-      expiration_type: non-expiring
+      expiration_type: expiring
+      idle_token_lifetime: 1296000
+      infinite_idle_token_lifetime: false
+      infinite_token_lifetime: false
+      leeway: 3
+      token_lifetime: 2592000
+      rotation_type: rotating
     sso_disabled: false
     token_endpoint_auth_method: none
     web_origins:
@@ -225,6 +238,8 @@ clients:
       - 'https://start-dashboard.herokuapp.com'
       - 'https://start-dashbo-*.herokuapp.com'
       - 'https://start-dashboard:3000'
+      - 'https://dashboard.streetartoronto.ca'
+      - 'https://dashboard.streetartoronto.com'
   - name: auth0-deploy-cli-extension
     cross_origin_auth: false
     custom_login_page_on: true

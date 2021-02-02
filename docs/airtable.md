@@ -68,6 +68,11 @@
   - `email`, `first_name`, and `last_name` are updated through an Airtable automation when the corresponding fields in the `accounts` table are updated
   - Linked to `artworks`, `artists`, and `accounts`
 
+- Submittable staff
+  - Records are imported from Submittable via Zapier
+  - Linked to `accounts`
+  - Used to fetch applications from Submittable for the account filtering on user id
+
 
 ## Apps (formerly known as Blocks)
 

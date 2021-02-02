@@ -25,7 +25,7 @@ const checkJwt = jwt({
   secret: jwksRsa.expressJwtSecret({
     cache: true,
     rateLimit: true,
-    jwksRequestsPerMinute: 5,
+    jwksRequestsPerMinute: 10,
     jwksUri: `https://start-dashboard.us.auth0.com/.well-known/jwks.json`
   }),
 
@@ -36,10 +36,14 @@ const checkJwt = jwt({
 })
 
 const checkEmailVerified = async (req, res, next) => {
-  const userData = await getUserData(req)
-  console.log({userData})
-  if (userData.email_verified) {
+  const { user, error } = await getUserData(req)
+
+  if (user && user.email_verified) {
     return next()
+  }
+
+  if (error) {
+    return res.status(401).send({ error })
   }
 
   res.status(401).send({ error: 'Your email address is not verified' })
@@ -73,6 +77,7 @@ if (!isDev && cluster.isMaster) {
   const handleLocations = require('./api/location')
   const handleArtist = require('./api/artist')
   const handleForms = require('./api/forms')
+  const handleApplications = require('./api/applications')
   const handleAccount = require('./api/account')
   const handleEmailTemplates = require('./api/emails')
   const handleArtworks = require('./api/artworks')
@@ -93,6 +98,7 @@ if (!isDev && cluster.isMaster) {
   app.all('/api/location', checkJwt, checkEmailVerified, handleLocations)
   app.all('/api/artist', checkJwt, checkEmailVerified, handleArtist)
   app.all('/api/forms', handleForms)
+  app.all('/api/applications', checkJwt, checkEmailVerified, handleApplications)
   app.all('/api/reports', handleReports)
   app.all('/api/account', checkJwt, checkEmailVerified, handleAccount)
   app.all(
