@@ -3,11 +3,11 @@ function addRoleFromAirtable(user, context, callback) {
   const ManagementClient = require('auth0@2.17.0').ManagementClient;
   const ManagementTokenProvider = require('auth0@2.17.0').ManagementTokenProvider;
   
-  const AUTH0_ROLE_IDS = {
-    'StART Staff': 'rol_h2aH436QWStWk7Oj',
-    'Advisory Committee': 'rol_auFaVd6qf3rkVake',
-    'Curator': 'rol_IrDonW0nV3VCYizi',
-    'Artist': 'rol_sjT5Nx0xNb3fRyvu'
+	const AUTH0_ROLE_IDS = {
+    'StART Staff': configuration.START_STAFF_ROLE_ID,
+    'Advisory Committee': configuration.ADVISORY_COMMITTEE_ROLE_ID,
+    'Curator': configuration.CURATOR_ROLE_ID,
+    'Artist': configuration.ARTIST_ROLE_ID,
   };
   
   const management = new ManagementClient({

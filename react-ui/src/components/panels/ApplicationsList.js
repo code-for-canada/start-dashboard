@@ -37,8 +37,6 @@ const useStyles = makeStyles(theme => ({
 const ApplicationsList = () => {
   const [applications, setApplications] = useState([])
   const [loading, setLoading] = useState(false)
-  const [currentPage, setCurrentPage] = useState(0)
-  const [totalPages, setTotalPages] = useState(1)
   const [errorMessage, setErrorMessage] = useState()
   const { user, getAccessTokenSilently, isAuthenticated } = useAuth0()
   const classes = useStyles()
@@ -58,30 +56,21 @@ const ApplicationsList = () => {
             Authorization: `Bearer ${token}`
           }
         }
-        const url = `/api/applications?page=${currentPage + 1}`
-        const data = await getResource({ url, opts })
+        const url = `/api/applications`
+        const { items, error } = await getResource({ url, opts })
 
-        setCurrentPage(data.current_page)
-        setTotalPages(data.total_pages)
-
-        if (data.current_page === data.total_pages) {
-          setLoading(false)
-        }
-
-        if (data.error) {
-          setLoading(false)
+        if (error) {
           setApplications([])
           setErrorMessage(
             'Error fetching applications from Submittable. Please try again later.'
           )
-          return console.log(data.error)
+          return console.log(error)
         }
 
-        if (data?.items?.length > 0) {
-          setApplications(applications.concat(data.items))
+        if (items.length > 0) {
+          setApplications(items)
         }
       } catch (err) {
-        setLoading(false)
         setApplications([])
         if (abortController.signal.aborted) {
           console.log('Request to fetch Submittable applications was aborted')
@@ -91,24 +80,19 @@ const ApplicationsList = () => {
             'Error fetching applications from Submittable. Please try again later.'
           )
         }
+      } finally {
+        setLoading(false)
       }
     }
 
-    if (isAuthenticated && currentPage < totalPages) {
+    if (isAuthenticated) {
       getApplications()
     }
 
     return () => {
       abortController.abort()
     }
-  }, [
-    user,
-    getAccessTokenSilently,
-    isAuthenticated,
-    currentPage,
-    totalPages,
-    applications
-  ])
+  }, [user, getAccessTokenSilently, isAuthenticated])
 
   if (loading) {
     return (
