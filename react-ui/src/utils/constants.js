@@ -220,15 +220,14 @@ const STAGING_COGNITO_FORMS_IDS = {
   artistProfile: '20',
   artworkPublic: '22',
   artworkInternal: '18',
-  progressUpdate: '19',
-
+  progressUpdate: '19'
 }
 
 const PRODUCTION_COGNITO_FORMS_IDS = {
   artistProfile: '11',
   artworkPublic: '13',
   artworkInternal: '14',
-  progressUpdate: '17',
+  progressUpdate: '17'
 }
 
 const STAGING_EXTERNAL_LINKS = {

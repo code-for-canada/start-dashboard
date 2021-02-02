@@ -71,7 +71,9 @@ const ApplicationsList = () => {
         if (data.error) {
           setLoading(false)
           setApplications([])
-          setErrorMessage('Error fetching applications from Submittable. Please try again later.')
+          setErrorMessage(
+            'Error fetching applications from Submittable. Please try again later.'
+          )
           return console.log(data.error)
         }
 
@@ -85,7 +87,9 @@ const ApplicationsList = () => {
           console.log('Request to fetch Submittable applications was aborted')
         } else {
           console.log('Error fetching applications from Submittable', err)
-          setErrorMessage('Error fetching applications from Submittable. Please try again later.')
+          setErrorMessage(
+            'Error fetching applications from Submittable. Please try again later.'
+          )
         }
       }
     }
@@ -97,7 +101,14 @@ const ApplicationsList = () => {
     return () => {
       abortController.abort()
     }
-  }, [user, getAccessTokenSilently, isAuthenticated, currentPage, totalPages, applications])
+  }, [
+    user,
+    getAccessTokenSilently,
+    isAuthenticated,
+    currentPage,
+    totalPages,
+    applications
+  ])
 
   if (loading) {
     return (
