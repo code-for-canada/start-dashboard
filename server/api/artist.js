@@ -6,14 +6,6 @@ const getArtist = async (req, res) => {
   const permissions = req.user.permissions
   const userData = await getUserData(req)
 
-  if (permissions.includes('is:artist')) {
-    if (!userData.email_verified) {
-      return res.status(403).send({
-        error: 'Your email address is not verified.'
-      })
-    }
-  }
-
   const id = userData['https://streetartoronto.ca/artist_profile_id']
   artistsTable.find(id, (err, record) => {
     if (err) {

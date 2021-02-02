@@ -10,11 +10,9 @@ import { getResource } from 'utils/apiHelper'
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import Unauthorized from 'components/views/Unauthorized'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
-import EmbeddedCognitoIframe from 'components/forms/EmbeddedCognitoIframe'
 import { Block, BlockTitle } from 'components/common/Block'
 import { COGNITO_FORMS_IDS } from 'utils/constants'
 import Loading from 'components/common/Loading'
-import StatusAlert from 'components/common/StatusAlert'
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -29,30 +27,14 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export const ArtworkUnderReview = ({ artwork }) => {
-  const classes = useStyles()
-  return (
-    <div className={classes.alert}>
-      <StatusAlert severity="info" show={!!artwork?.artwork_updates}>
-        This artwork has changes pending review. You can continue editing; when
-        it is reviewed by StART Staff, they will only see the most recent
-        version.
-      </StatusAlert>
-    </div>
-  )
-}
-
-ArtworkUnderReview.propTypes = {
-  artwork: PropTypes.object
-}
-
-const ArtworkEdit = () => {
-  const { user, getAccessTokenSilently, isAuthenticated } = useAuth0()
-  const { id } = useParams()
+const ProgressUpdate = () => {
+  const { user, getAccessTokenSilently } = useAuth0()
+  const { artworkId } = useParams()
   const { isLoadingRoles, isStaff } = useRoles()
   const [artwork, setArtwork] = useState(null)
   const [isOwnWork, setIsOwnWork] = useState(false)
   const [isLoading, setLoading] = useState(true)
+  const [options, setOptions] = useState()
   const classes = useStyles()
 
   // check if this is artwork belongs to the user
@@ -79,12 +61,12 @@ const ArtworkEdit = () => {
           }
         }
 
-        if (!id) {
+        if (!artworkId) {
           console.log('No artwork ID provided')
           return setLoading(false)
         }
 
-        const url = `/api/artworks?id=${id}`
+        const url = `/api/artworks?id=${artworkId}`
 
         const { error, artwork } = await getResource({ url, opts })
 
@@ -106,15 +88,26 @@ const ArtworkEdit = () => {
         }
       }
     }
-
-    if (!artwork && isAuthenticated) {
+    if (!artwork) {
       fetchArtwork()
     }
 
     return () => {
       abortController.abort()
     }
-  }, [user, getAccessTokenSilently, id, artwork, isAuthenticated])
+  }, [user, getAccessTokenSilently, artworkId, artwork])
+
+  useEffect(() => {
+    if (artwork) {
+      setOptions({
+        entry: {
+          ArtworkTitle: `${artwork.title}`,
+          Location: `${artwork.address}`,
+          ArtworkAirtableID: artwork.id
+        }
+      })
+    }
+  }, [artwork, user])
 
   if (isLoading || isLoadingRoles) {
     return <Loading />
@@ -128,41 +121,25 @@ const ArtworkEdit = () => {
     <DefaultLayout loading={isLoading || isLoadingRoles}>
       <Container maxWidth="md">
         <div className={classes.container}>
-          <ArtworkUnderReview artwork={artwork} />
           <Block>
-            <BlockTitle title={`Edit "${artwork.title}"`} />
-            <p>
-              Use this form to update the public view of your artwork on the
-              StART Map. All the changes made here will be reviewed by the StART
-              team before they are published, so it may take a few days before
-              your changes are public.
-            </p>
-            <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artwork_public} />
-          </Block>
-          {isStaff && artwork && (
-            <Block>
-              <BlockTitle title="Internal fields" />
-              <p>
-                These are the fields that only the StART team can edit. These
-                changes do not need to be reviewed or approved and will be
-                available on the public map immediately.
-              </p>
-              <EmbeddedCognitoIframe
-                src={`https://www.cognitoforms.com/f/vQtvojkwk0qKXX6uRXdPYA?id=${COGNITO_FORMS_IDS.artwork_internal}${artwork.internal_edit_hash}`}
-                title="Edit artwork internal fields"
+            <BlockTitle title={`Progress Update for "${artwork.title}"`} />
+            {options && (
+              <EmbeddedCognitoForm
+                formId={COGNITO_FORMS_IDS.progressUpdate}
+                opts={options}
               />
-            </Block>
-          )}
+            )}
+          </Block>
         </div>
       </Container>
     </DefaultLayout>
   )
 }
 
-ArtworkEdit.propTypes = {
+ProgressUpdate.propTypes = {
   user: PropTypes.object,
   artist: PropTypes.object,
   isStaff: PropTypes.bool
 }
 
-export default ArtworkEdit
+export default ProgressUpdate

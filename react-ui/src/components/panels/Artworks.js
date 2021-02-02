@@ -1,6 +1,6 @@
 import React from 'react'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
-import { Button } from '@material-ui/core'
+import { Button, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { EXTERNAL_LINKS } from 'utils/constants'
 
@@ -14,6 +14,25 @@ const Artworks = props => {
   const classes = useStyles()
   return (
     <div>
+      <Grid container spacing={4}>
+        <Grid item xs={12} md={6}>
+          <h3>Flagged for Review</h3>
+          <EmbeddedIframe
+            src={
+              'https://airtable.com/embed/shrD7vjyY21h6ywuI?backgroundColor=red&layout=card&viewControls=on'
+            }
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <h3>Progress Updates</h3>
+          <EmbeddedIframe
+            src={
+              'https://airtable.com/embed/shrhywybjaOqycbNz?backgroundColor=red&layout=card&viewControls=on'
+            }
+          />
+        </Grid>
+      </Grid>
+
       <h3>Artworks by Status</h3>
       <EmbeddedIframe
         src={

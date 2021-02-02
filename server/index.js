@@ -37,6 +37,7 @@ const checkJwt = jwt({
 
 const checkEmailVerified = async (req, res, next) => {
   const userData = await getUserData(req)
+  console.log({userData})
   if (userData.email_verified) {
     return next()
   }
@@ -75,7 +76,9 @@ if (!isDev && cluster.isMaster) {
   const handleAccount = require('./api/account')
   const handleEmailTemplates = require('./api/emails')
   const handleArtworks = require('./api/artworks')
+  const handleArtworkUpdates = require('./api/artworkUpdates')
   const handleReports = require('./api/reports')
+
 
   // Log requests with dev template
   app.use(morgan('dev'))
@@ -98,7 +101,8 @@ if (!isDev && cluster.isMaster) {
     checkJwt,
     handleEmailTemplates
   )
-  app.all('/api/artworks', checkJwt, checkEmailVerified, handleArtworks)
+  app.all('/api/artworks', checkJwt, handleArtworks)
+  app.all('/api/artwork-updates', checkJwt, handleArtworkUpdates)
 
   // Only in production is the server the main entry point,
   // so only then serve built static files from filesystem.

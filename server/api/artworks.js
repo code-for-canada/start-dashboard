@@ -21,9 +21,7 @@ const updateArtwork = (req, res) => {
       console.error(err)
       return res.status(500).send({ error: err.message })
     }
-    records.forEach(function (record) {
-      return res.status(200).send({ record })
-    })
+    return res.status(200).send({ records })
   })
 }
 
