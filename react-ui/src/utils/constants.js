@@ -217,15 +217,15 @@ const USER_GUIDE_DOC =
   'https://docs.google.com/document/d/1yjuWqRLIfkh997wF9z5egVKRfQrU7slyf63GyhdsNhI/edit'
 
 const STAGING_COGNITO_FORMS_IDS = {
-  artistProfile: 20,
-  public_artwork: 22,
-  internal_artwork: 18
+  artistProfile: '20',
+  public_artwork: '22',
+  internal_artwork: '18'
 }
 
 const PRODUCTION_COGNITO_FORMS_IDS = {
-  artistProfile: 11,
-  public_artwork: 13,
-  internal_artwork: 14
+  artistProfile: '11',
+  public_artwork: '13',
+  internal_artwork: '14'
 }
 
 const STAGING_EXTERNAL_LINKS = {
