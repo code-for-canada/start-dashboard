@@ -142,7 +142,7 @@ const ArtworkEdit = () => {
               team before they are published, so it may take a few days before
               your changes are public.
             </p>
-            <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.public_artwork} />
+            <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artworkPublic} />
           </Block>
           {isStaff && artwork && (
             <Block>
@@ -153,7 +153,7 @@ const ArtworkEdit = () => {
                 available on the public map immediately.
               </p>
               <EmbeddedCognitoIframe
-                src={`https://www.cognitoforms.com/f/vQtvojkwk0qKXX6uRXdPYA?id=${COGNITO_FORMS_IDS.internal_artwork}${artwork.internal_edit_hash}`}
+                src={`https://www.cognitoforms.com/f/vQtvojkwk0qKXX6uRXdPYA?id=${COGNITO_FORMS_IDS.artworkInternal}${artwork.internal_edit_hash}`}
                 title="Edit artwork internal fields"
               />
             </Block>
