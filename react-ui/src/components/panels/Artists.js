@@ -1,7 +1,7 @@
 import React from 'react'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
 import { Button } from '@material-ui/core'
-import { EXTERNAL_LINKS } from 'utils/constants'
+import { EXTERNAL_LINKS, IFRAME_URLS } from 'utils/constants'
 import useUtilityClasses from 'customHooks/useUtilityClasses'
 
 const Artists = props => {
@@ -9,11 +9,7 @@ const Artists = props => {
   return (
     <div>
       <h3>All Artists</h3>
-      <EmbeddedIframe
-        src={
-          'https://airtable.com/embed/shra4E5FrOJS6fzWO?backgroundColor=red&viewControls=on'
-        }
-      />
+      <EmbeddedIframe src={IFRAME_URLS.allArtists} />
 
       <div>
         <Button
@@ -31,7 +27,7 @@ const Artists = props => {
           variant="contained"
           className={utilClasses.horizListSpacing}
           component="a"
-          href={EXTERNAL_LINKS.artistsEntries}
+          href={EXTERNAL_LINKS.artistProfileEntries}
           target="_blank"
           rel="noopener noreferrer">
           Edit in Cognito Forms

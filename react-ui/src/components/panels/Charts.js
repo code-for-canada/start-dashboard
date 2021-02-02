@@ -1,7 +1,7 @@
 import React from 'react'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
 import { Grid, Button } from '@material-ui/core'
-import { EXTERNAL_LINKS } from 'utils/constants'
+import { EXTERNAL_LINKS, IFRAME_URLS } from 'utils/constants'
 import useUtilityClasses from 'customHooks/useUtilityClasses'
 
 const Charts = props => {
@@ -10,51 +10,27 @@ const Charts = props => {
     <div>
       <Grid container spacing={2}>
         <Grid item md={6}>
-          <EmbeddedIframe
-            src={
-              'https://airtable.com/embed/shr7aNlR2QTzsSqjM?backgroundColor=red'
-            }
-          />
+          <EmbeddedIframe src={IFRAME_URLS.artworksByProgramChat} />
         </Grid>
 
         <Grid item md={6}>
-          <EmbeddedIframe
-            src={
-              'https://airtable.com/embed/shrYSQzL3KjngY2xN?backgroundColor=red'
-            }
-          />
+          <EmbeddedIframe src={IFRAME_URLS.artworksByYearChart} />
         </Grid>
 
         <Grid item md={6}>
-          <EmbeddedIframe
-            src={
-              'https://airtable.com/embed/shrsz1PVXK5MIphFj?backgroundColor=red'
-            }
-          />
+          <EmbeddedIframe src={IFRAME_URLS.artworksByWardChart} />
         </Grid>
 
         <Grid item md={6}>
-          <EmbeddedIframe
-            src={
-              'https://airtable.com/embed/shrO9gQz4j3rKNvWL?backgroundColor=redd'
-            }
-          />
+          <EmbeddedIframe src={IFRAME_URLS.submissionsByProgramChart} />
         </Grid>
 
         <Grid item md={6}>
-          <EmbeddedIframe
-            src={
-              'https://airtable.com/embed/shrDMDeDT8pWNnC1i?backgroundColor=red'
-            }
-          />
+          <EmbeddedIframe src={IFRAME_URLS.submissionsByLabelChart} />
         </Grid>
 
         <Grid item md={6}>
-          <EmbeddedIframe
-            src={
-              'https://airtable.com/embed/shrmZGi0nx3NDCsQT?backgroundColor=red'
-            }
-          />
+          <EmbeddedIframe src={IFRAME_URLS.artistsByPronounChart} />
         </Grid>
       </Grid>
       <div>

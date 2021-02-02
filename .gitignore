@@ -702,8 +702,13 @@ MigrationBackup/
 
 # Project-specific files
 .env
+.production.env
+.staging.env
 react-ui/build
 .idea/
 **/*.cert
 **/*.key
 a0deploy-cli.config.json
+a0deploy-cli.production.config.json
+a0deploy-cli.staging.config.json
+

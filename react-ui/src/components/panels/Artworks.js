@@ -2,7 +2,7 @@ import React from 'react'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
 import { Button, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { EXTERNAL_LINKS } from 'utils/constants'
+import { EXTERNAL_LINKS, IFRAME_URLS } from 'utils/constants'
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -34,18 +34,10 @@ const Artworks = props => {
       </Grid>
 
       <h3>Artworks by Status</h3>
-      <EmbeddedIframe
-        src={
-          'https://airtable.com/embed/shrTlL5928ssPbMeP?backgroundColor=red&viewControls=on'
-        }
-      />
+      <EmbeddedIframe src={IFRAME_URLS.artworksByStatus} />
 
       <h3>All Artworks</h3>
-      <EmbeddedIframe
-        src={
-          'https://airtable.com/embed/shrdDGqIxvtiIjFzZ?backgroundColor=red&viewControls=on'
-        }
-      />
+      <EmbeddedIframe src={IFRAME_URLS.allArtworks} />
 
       <div>
         <Button

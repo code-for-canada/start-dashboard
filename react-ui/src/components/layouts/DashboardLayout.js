@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import NavBar from 'components/common/NavBar'
 import Footer from 'components/common/Footer'
+import Loading from 'components/common/Loading'
 import getRandomImage from 'utils/randomImage'
 
 const useStyles = makeStyles(theme => ({
@@ -50,7 +51,7 @@ const imageStyle = {
 }
 
 const DashboardLayout = ({ children }) => {
-  const { user } = useAuth0()
+  const { user, isLoading } = useAuth0()
   const [image, setImage] = useState()
   const [artist, setArtist] = useState('Unknown')
 
@@ -62,12 +63,16 @@ const DashboardLayout = ({ children }) => {
         setArtist(artist)
       }
     }
-    if (!user.email_verified && !image) {
+    if (!isLoading && !user.email_verified && !image) {
       getImage()
     }
-  }, [image, user])
+  }, [image, user, isLoading])
 
   const classes = useStyles()
+
+  if (isLoading) {
+    return <Loading />
+  }
 
   return (
     <div id="app" className={classes.app}>

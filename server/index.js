@@ -26,12 +26,12 @@ const checkJwt = jwt({
     cache: true,
     rateLimit: true,
     jwksRequestsPerMinute: 10,
-    jwksUri: `https://start-dashboard.us.auth0.com/.well-known/jwks.json`
+    jwksUri: `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`
   }),
 
   // Validate the audience and the issuer.
-  audience: 'https://dashboard.streetartoronto.ca/',
-  issuer: `https://start-dashboard.us.auth0.com/`,
+  audience: process.env.DASHBOARD_API_IDENTIFIER,
+  issuer: `https://${process.env.AUTH0_DOMAIN}/`,
   algorithms: ['RS256']
 })
 

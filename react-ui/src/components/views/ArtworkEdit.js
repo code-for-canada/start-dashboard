@@ -9,6 +9,7 @@ import useRoles from 'customHooks/useRoles'
 import { getResource } from 'utils/apiHelper'
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import Unauthorized from 'components/views/Unauthorized'
+import PageMissing from 'components/views/PageMissing'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import EmbeddedCognitoIframe from 'components/forms/EmbeddedCognitoIframe'
 import { Block, BlockTitle } from 'components/common/Block'
@@ -114,7 +115,7 @@ const ArtworkEdit = () => {
     return () => {
       abortController.abort()
     }
-  }, [user, getAccessTokenSilently, id, artwork, isAuthenticated])
+  }, [user, getAccessTokenSilently, id, isAuthenticated, artwork])
 
   if (isLoading || isLoadingRoles) {
     return <Loading />
@@ -122,6 +123,10 @@ const ArtworkEdit = () => {
 
   if (!isStaff && !isOwnWork) {
     return <Unauthorized />
+  }
+
+  if (!artwork) {
+    return <PageMissing />
   }
 
   return (
@@ -137,7 +142,7 @@ const ArtworkEdit = () => {
               team before they are published, so it may take a few days before
               your changes are public.
             </p>
-            <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artwork_public} />
+            <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artworkPublic} />
           </Block>
           {isStaff && artwork && (
             <Block>
@@ -148,7 +153,7 @@ const ArtworkEdit = () => {
                 available on the public map immediately.
               </p>
               <EmbeddedCognitoIframe
-                src={`https://www.cognitoforms.com/f/vQtvojkwk0qKXX6uRXdPYA?id=${COGNITO_FORMS_IDS.artwork_internal}${artwork.internal_edit_hash}`}
+                src={`https://www.cognitoforms.com/f/vQtvojkwk0qKXX6uRXdPYA?id=${COGNITO_FORMS_IDS.artworkInternal}${artwork.internal_edit_hash}`}
                 title="Edit artwork internal fields"
               />
             </Block>

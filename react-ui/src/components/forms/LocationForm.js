@@ -15,10 +15,10 @@ import {
 } from '@material-ui/core'
 import {
   DEFAULT_MAP_CENTER,
-  EXTERNAL_LINKS,
   MAP_STYLE_BASE,
   MAP_STYLE_WARD_DEFAULT,
-  MAP_STYLE_WARD_ACTIVE
+  MAP_STYLE_WARD_ACTIVE,
+  EXTERNAL_LINKS
 } from 'utils/constants'
 import { Map, Marker, GoogleApiWrapper } from '@nomadiclabs/google-maps-react'
 

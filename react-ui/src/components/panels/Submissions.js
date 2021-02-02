@@ -1,7 +1,7 @@
 import React from 'react'
 import EmbeddedIframe from 'components/common/EmbeddedIframe'
 import { Button } from '@material-ui/core'
-import { EXTERNAL_LINKS } from 'utils/constants'
+import { EXTERNAL_LINKS, IFRAME_URLS } from 'utils/constants'
 import useUtilityClasses from 'customHooks/useUtilityClasses'
 
 const Submissions = props => {
@@ -9,18 +9,10 @@ const Submissions = props => {
   return (
     <div>
       <h3>2020 Submissions by Status</h3>
-      <EmbeddedIframe
-        src={
-          'https://airtable.com/embed/shrqukWs4K0JgixB9?backgroundColor=red&viewControls=on'
-        }
-      />
+      <EmbeddedIframe src={IFRAME_URLS.submissionsByStatus} />
 
       <h3>New Submissions</h3>
-      <EmbeddedIframe
-        src={
-          'https://airtable.com/embed/shrbgSefEwH2I8pgM?backgroundColor=red&viewControls=on'
-        }
-      />
+      <EmbeddedIframe src={IFRAME_URLS.newSubmissions} />
 
       <div>
         <Button
@@ -28,7 +20,7 @@ const Submissions = props => {
           variant="contained"
           className={utilClasses.horizListSpacing}
           component="a"
-          href="https://streetartto.submittable.com/submissions"
+          href={EXTERNAL_LINKS.submittable}
           target="_blank"
           rel="noopener noreferrer">
           Edit on Submittable
