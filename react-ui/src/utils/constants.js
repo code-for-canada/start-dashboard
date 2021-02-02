@@ -219,13 +219,16 @@ const USER_GUIDE_DOC =
 const STAGING_COGNITO_FORMS_IDS = {
   artistProfile: '20',
   public_artwork: '22',
-  internal_artwork: '18'
+  internal_artwork: '18',
+  progressUpdate: '19',
+
 }
 
 const PRODUCTION_COGNITO_FORMS_IDS = {
   artistProfile: '11',
   public_artwork: '13',
-  internal_artwork: '14'
+  internal_artwork: '14',
+  progressUpdate: '17',
 }
 
 const STAGING_EXTERNAL_LINKS = {

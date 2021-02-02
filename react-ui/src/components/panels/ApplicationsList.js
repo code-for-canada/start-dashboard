@@ -97,7 +97,7 @@ const ApplicationsList = () => {
     return () => {
       abortController.abort()
     }
-  }, [user, getAccessTokenSilently, isAuthenticated, currentPage, totalPages])
+  }, [user, getAccessTokenSilently, isAuthenticated, currentPage, totalPages, applications])
 
   if (loading) {
     return (
