@@ -115,7 +115,7 @@ const ArtworkEdit = () => {
     return () => {
       abortController.abort()
     }
-  }, [user, getAccessTokenSilently, id, artwork, isAuthenticated])
+  }, [user, getAccessTokenSilently, id, isAuthenticated])
 
   if (isLoading || isLoadingRoles) {
     return <Loading />

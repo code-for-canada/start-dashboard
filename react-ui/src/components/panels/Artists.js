@@ -9,9 +9,7 @@ const Artists = props => {
   return (
     <div>
       <h3>All Artists</h3>
-      <EmbeddedIframe
-        src={IFRAME_URLS.allArtists}
-      />
+      <EmbeddedIframe src={IFRAME_URLS.allArtists} />
 
       <div>
         <Button
