@@ -253,7 +253,7 @@ const ArtworkEdit = () => {
                 have them resubmit the form.
               </li>
             </ul>
-            <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artwork_public} />
+            <EmbeddedCognitoForm formId={COGNITO_FORMS_IDS.artworkPublic} />
           </Block>
         </div>
       </Container>
