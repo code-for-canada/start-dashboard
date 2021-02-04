@@ -326,7 +326,6 @@ const ArtistDashboard = () => {
     }
   }, [user, getAccessTokenSilently, isAuthenticated, artist])
 
-
   // add profile hash if artist has profile
   useEffect(() => {
     const isShowingProfile = !!location.hash

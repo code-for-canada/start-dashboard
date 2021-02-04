@@ -93,9 +93,7 @@ const ProfileEdit = ({ user, artist, isStaff }) => {
             {isStaff && artist && (
               <Block>
                 <BlockTitle title="Internal Information" />
-                <p>
-                  These are the fields that only the StART team can edit.
-                </p>
+                <p>These are the fields that only the StART team can edit.</p>
                 <EmbeddedCognitoIframe
                   src={`https://www.cognitoforms.com/f/vQtvojkwk0qKXX6uRXdPYA?id=${COGNITO_FORMS_IDS.artistProfileInternal}${artist.internal_edit_hash}`}
                   title="Edit artist profile internal fields"
