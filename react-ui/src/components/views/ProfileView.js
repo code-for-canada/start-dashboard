@@ -34,7 +34,7 @@ const ProfileView = ({ artist, isStaff }) => {
 
     if (artist && !currentProfileHash) {
       if (!currentProfileHash) {
-        return history.replace(`${location.pathname}#${artist.view_hash}`)
+        return history.replace(`${location.pathname}${artist.view_hash}`)
       }
     }
   }, [artist, location, history, isStaff])

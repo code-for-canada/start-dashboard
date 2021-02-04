@@ -24,8 +24,6 @@ const ProfileEdit = ({ user, artist, isStaff }) => {
   const history = useHistory()
   const classes = useStyles()
 
-  console.log({ artist })
-
   // if the user is an artist and has a profile, load their profile
   // if no profile hash is present, load current user's profile
   useEffect(() => {
