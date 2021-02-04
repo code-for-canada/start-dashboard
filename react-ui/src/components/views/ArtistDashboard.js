@@ -68,8 +68,7 @@ ProfileURL.propTypes = {
 
 const WelcomeMessage = ({ artist }) => {
   if (artist) {
-    const editProfileId = artist?.edit_url.split('#')[1]
-    const editProfileHash = editProfileId ? `#${editProfileId}` : ''
+    const editProfileHash = artist?.edit_hash || ''
     return (
       <React.Fragment>
         <BlockTitle title="Welcome to StART Digital!" />
@@ -112,10 +111,9 @@ const ArtistProfile = ({ artist, user }) => {
   const [profilePending, setProfilePending] = useState(false)
   const profileHash = useLocation().hash
   const hasProfile = artist
-  const isOwnProfile = artist?.view_url.includes(profileHash)
+  const isOwnProfile = artist?.view_hash === profileHash
   const isEmailVerified = user && user.email_verified
-  const editProfileId = artist?.edit_url.split('#')[1]
-  const editProfileHash = editProfileId ? `#${editProfileId}` : ''
+  const editProfileHash = artist?.edit_hash || ''
   const classes = useStyles()
 
   useEffect(() => {
@@ -319,21 +317,20 @@ const ArtistDashboard = () => {
       }
     }
 
-    if (isAuthenticated) {
+    if (isAuthenticated && !artist) {
       getArtistProfile()
     }
 
     return () => {
       abortController.abort()
     }
-  }, [user, getAccessTokenSilently, isAuthenticated])
+  }, [user, getAccessTokenSilently, isAuthenticated, artist])
 
   // add profile hash if artist has profile
   useEffect(() => {
     const isShowingProfile = !!location.hash
     if (!isShowingProfile && artist) {
-      const profileHash = artist.view_url.split('#')[1]
-      history.replace(`/dashboard/artist#${profileHash}`)
+      history.replace(`/dashboard/artist${artist?.view_hash || ''}`)
     }
   }, [artist, location, history])
 

@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
+import EmbeddedCognitoIframe from 'components/forms/EmbeddedCognitoIframe'
 import Unauthorized from 'components/views/Unauthorized'
 import { COGNITO_FORMS_IDS } from 'utils/constants'
 import { Block, BlockTitle } from 'components/common/Block'
@@ -87,6 +88,16 @@ const ProfileEdit = ({ user, artist, isStaff }) => {
                 afterSubmit={afterSubmit}
               />
             </Block>
+            {isStaff && artist && (
+              <Block>
+                <BlockTitle title="Internal Information" />
+                <p>These are the fields that only the StART team can edit.</p>
+                <EmbeddedCognitoIframe
+                  src={`https://www.cognitoforms.com/f/vQtvojkwk0qKXX6uRXdPYA?id=${COGNITO_FORMS_IDS.artistProfileInternal}${artist.internal_edit_hash}`}
+                  title="Edit artist profile internal fields"
+                />
+              </Block>
+            )}
           </div>
         </Container>
       </DefaultLayout>
