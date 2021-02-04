@@ -14,8 +14,16 @@ import Artists from 'components/panels/Artists'
 import Artworks from 'components/panels/Artworks'
 import Charts from 'components/panels/Charts'
 import Locations from 'components/panels/Locations'
+import Projects from 'components/panels/Projects'
 
 export const PANELS_DATA = [
+  {
+    id: 'projects',
+    title: 'Projects',
+    isVisible: false,
+    isSmall: false,
+    content: Projects
+  },
   {
     id: 'submissions',
     title: 'Submissions',
