@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import DefaultLayout from 'components/layouts/DefaultLayout'
 import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
+import EmbeddedCognitoIframe from 'components/forms/EmbeddedCognitoIframe'
 import { COGNITO_FORMS_IDS } from 'utils/constants'
 import Unauthorized from 'components/views/Unauthorized'
 import { Block, BlockTitle } from 'components/common/Block'
@@ -32,9 +33,8 @@ const ProfileView = ({ artist, isStaff }) => {
     if (currentProfileHash && isStaff) return
 
     if (artist && !currentProfileHash) {
-      const viewProfileHash = artist.view_url.split('#')[1]
       if (!currentProfileHash) {
-        return history.replace(`${location.pathname}#${viewProfileHash}`)
+        return history.replace(`${location.pathname}#${artist.view_hash}`)
       }
     }
   }, [artist, location, history, isStaff])
@@ -43,7 +43,7 @@ const ProfileView = ({ artist, isStaff }) => {
     const currentProfileHash = location.hash
 
     if (artist && currentProfileHash) {
-      const isOwnProfile = artist.view_url.includes(currentProfileHash)
+      const isOwnProfile = artist.view_hash === currentProfileHash
       setIsOwnProfile(isOwnProfile)
     }
   }, [artist, location])
@@ -70,6 +70,18 @@ const ProfileView = ({ artist, isStaff }) => {
                 </Button>
               )}
             </Block>
+            {isStaff && artist && (
+              <Block>
+                <BlockTitle title="Internal Information" />
+                <p>
+                  These are the fields that only the StART team can edit.
+                </p>
+                <EmbeddedCognitoIframe
+                  src={`https://www.cognitoforms.com/f/vQtvojkwk0qKXX6uRXdPYA?id=${COGNITO_FORMS_IDS.artistProfileInternal}${artist.internal_view_hash}`}
+                  title="Edit artist profile internal fields"
+                />
+              </Block>
+            )}
           </div>
         </Container>
       </DefaultLayout>

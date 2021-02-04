@@ -18,7 +18,8 @@ const getArtist = async (req, res) => {
       console.error(err)
       return res.status(500).send({ error: err })
     }
-    return res.status(200).send({ record: record })
+    const { staff_notes, ...rest } = record
+    return res.status(200).send({ record: rest })
   })
 }
 
