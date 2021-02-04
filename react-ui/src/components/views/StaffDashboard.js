@@ -22,7 +22,7 @@ export const PANELS_DATA = [
     title: 'Projects',
     isVisible: false,
     isSmall: false,
-    content: Projects,
+    content: Projects
   },
   {
     id: 'submissions',

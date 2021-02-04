@@ -302,10 +302,14 @@ const STAGING_IFRAME_URLS = {
     'https://airtable.com/embed/shrT5Mxh53j2s4QRU?backgroundColor=red',
   artistsByPronounChart:
     'https://airtable.com/embed/shrzCmYBr4oLRoADq?backgroundColor=red',
-  projectKanban: 'https://airtable.com/embed/shrun267f6uTN8ZVP?backgroundColor=red&viewControls=on',
-  projectsByLeader: 'https://airtable.com/embed/shrovsu4iuu3nzSci?backgroundColor=red&viewControls=on',
-  projectCalendar: 'https://airtable.com/embed/shre99yRkm3de15FZ?backgroundColor=red&viewControls=on',
-  projectGanttChart: 'https://airtable.com/embed/shrxZuzprSAfKpNo7?backgroundColor=red'
+  projectKanban:
+    'https://airtable.com/embed/shrun267f6uTN8ZVP?backgroundColor=red&viewControls=on',
+  projectsByLeader:
+    'https://airtable.com/embed/shrovsu4iuu3nzSci?backgroundColor=red&viewControls=on',
+  projectCalendar:
+    'https://airtable.com/embed/shre99yRkm3de15FZ?backgroundColor=red&viewControls=on',
+  projectGanttChart:
+    'https://airtable.com/embed/shrxZuzprSAfKpNo7?backgroundColor=red'
 }
 
 const PRODUCTION_IFRAME_URLS = {
