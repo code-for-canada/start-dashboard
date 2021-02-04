@@ -250,7 +250,8 @@ const STAGING_EXTERNAL_LINKS = {
   cognitoForms: 'https://www.cognitoforms.com/forms/',
   submittable: 'https://streetartto.submittable.com/submissions',
   airtable: 'https://airtable.com/tblqfTnFExxBzVQfm/viwn70lM4HRJRLJLC/',
-  mailjet: 'https://app.mailjet.com/dashboard'
+  mailjet: 'https://app.mailjet.com/dashboard',
+  projectsTable: 'https://airtable.com/tblkc9qX7oysKNhPy/viwy1MGsno8xF4EDj'
 }
 
 const PRODUCTION_EXTERNAL_LINKS = {
@@ -300,7 +301,11 @@ const STAGING_IFRAME_URLS = {
   submissionsByLabelChart:
     'https://airtable.com/embed/shrT5Mxh53j2s4QRU?backgroundColor=red',
   artistsByPronounChart:
-    'https://airtable.com/embed/shrzCmYBr4oLRoADq?backgroundColor=red'
+    'https://airtable.com/embed/shrzCmYBr4oLRoADq?backgroundColor=red',
+  projectKanban: 'https://airtable.com/embed/shrun267f6uTN8ZVP?backgroundColor=red&viewControls=on',
+  projectsByLeader: 'https://airtable.com/embed/shrovsu4iuu3nzSci?backgroundColor=red&viewControls=on',
+  projectCalendar: 'https://airtable.com/embed/shre99yRkm3de15FZ?backgroundColor=red&viewControls=on',
+  projectGanttChart: 'https://airtable.com/embed/shrxZuzprSAfKpNo7?backgroundColor=red'
 }
 
 const PRODUCTION_IFRAME_URLS = {
