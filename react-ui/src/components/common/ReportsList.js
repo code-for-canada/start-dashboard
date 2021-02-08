@@ -30,7 +30,7 @@ const ReportsList = ({ artist }) => {
         }
 
         const artistReports = data.items.filter(r =>
-          artist?.reports?.includes(r.id)
+          artist.reports.includes(r.id)
         )
 
         setReports(artistReports)
@@ -43,7 +43,9 @@ const ReportsList = ({ artist }) => {
       }
     }
 
-    getReports()
+    if (artist.reports) {
+      getReports()
+    }
 
     return () => {
       abortController.abort()
