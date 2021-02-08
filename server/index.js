@@ -97,7 +97,7 @@ if (!isDev && cluster.isMaster) {
 
   app.all('/api/location', checkJwt, checkEmailVerified, handleLocations)
   app.all('/api/artist', checkJwt, checkEmailVerified, handleArtist)
-  app.all('/api/forms', handleForms)
+  app.all('/api/forms', cors(emailCors), handleForms)
   app.all('/api/applications', checkJwt, checkEmailVerified, handleApplications)
   app.all('/api/reports', handleReports)
   app.all('/api/account', checkJwt, checkEmailVerified, handleAccount)

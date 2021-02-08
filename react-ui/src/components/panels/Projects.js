@@ -15,13 +15,13 @@ const Projects = props => {
   return (
     <div>
       <h3>Progress Board</h3>
-      <EmbeddedIframe src={IFRAME_URLS.projectKanban} />
+      <EmbeddedIframe src={IFRAME_URLS.tasksKanban} />
+
+      <h3>Calendar</h3>
+      <EmbeddedIframe src={IFRAME_URLS.tasksCalendar} />
 
       <h3>Projects by Leader</h3>
       <EmbeddedIframe src={IFRAME_URLS.projectsByLeader} />
-
-      <h3>Calendar</h3>
-      <EmbeddedIframe src={IFRAME_URLS.projectCalendar} />
 
       <h3>Gantt Chart</h3>
       <EmbeddedIframe src={IFRAME_URLS.projectGanttChart} />

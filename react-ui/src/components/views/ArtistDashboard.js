@@ -201,7 +201,7 @@ ArtistProfile.propTypes = {
 }
 
 const FormsList = () => {
-  const [forms, setForms] = useState([])
+  const [forms, setForms] = useState()
   const classes = useStyles()
 
   useEffect(() => {
@@ -240,14 +240,16 @@ const FormsList = () => {
       }
     }
 
-    getForms()
+    if (!forms) {
+      getForms()
+    }
 
     return () => {
       abortController.abort()
     }
-  }, [])
+  }, [forms])
 
-  if (forms.length > 0) {
+  if (forms?.length > 0) {
     return (
       <ul className={classes.list}>
         {forms.map(form => (

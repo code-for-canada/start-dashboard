@@ -24,6 +24,7 @@ import ArtworkEdit from 'components/views/ArtworkEdit'
 import ArtworkReviewChanges from 'components/views/ArtworkReviewChanges'
 import Report from 'components/views/Report'
 import ProgressUpdate from 'components/views/ProgressUpdate'
+import VerifyEmail from 'components/views/VerifyEmail'
 
 import 'assets/scss/main.scss'
 
@@ -39,6 +40,7 @@ const App = () => {
       <Route exact path="/">
         {isAuthenticated ? <Redirect to="/dashboard" /> : <Home />}
       </Route>
+      <Route path="/verify-email" component={VerifyEmail} />
       <PrivateRoute
         path="/dashboard/:action"
         component={Dashboard}

@@ -101,7 +101,7 @@ const ArtworksList = ({ artist }) => {
       }
     }
 
-    if (isAuthenticated) {
+    if (isAuthenticated && artist.artworks) {
       getArtworks()
     }
 
