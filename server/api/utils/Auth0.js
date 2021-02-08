@@ -1,4 +1,6 @@
 const fetch = require('node-fetch')
+let rateLimitRemaining = 2
+let rateLimitReset = +new Date() / 1000
 
 const getManagementApiToken = async () => {
   const authParams = {
@@ -78,9 +80,36 @@ const sendVerificationEmail = async id => {
   return auth0res
 }
 
+const getUser = async token => {
+  const url = `https://${process.env.AUTH0_DOMAIN}/userinfo`
+  console.log(`Fetching user info from ${`https://${process.env.AUTH0_DOMAIN}/userinfo`}`)
+
+  const res = await fetch(
+    url,
+    { headers: { Authorization: token } }
+  )
+
+  rateLimitRemaining = parseInt(res.headers.get('x-ratelimit-remaining'))
+  rateLimitReset = parseInt(res.headers.get('x-ratelimit-reset'))
+
+  console.log({ rateLimitRemaining })
+  console.log({ rateLimitReset })
+
+  if (res.status === 429) {
+    console.log("You hit the Auth0 rate limit! It resets at unix time: ", rateLimitReset)
+    return { error: res.statusText, reset: rateLimitReset }
+  } else if (res.status !== 200) {
+    return { error: `Unable to retrieve user data from Auth0: ${res.statusText}` }
+  }
+
+  const userinfo = await res.json()
+  return { user: userinfo }
+}
+
 module.exports = {
   getManagementApiToken,
   updateUser,
   sendVerificationEmail,
-  deleteUser
+  deleteUser,
+  getUser,
 }

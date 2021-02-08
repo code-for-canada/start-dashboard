@@ -20,10 +20,10 @@ const fetchPaginatedApplications = async(userId, page) => {
 
 const getSubmittableApplications = async (req, res) => {
   try {
-    const { user, error } = await getUserData(req)
+    const { user, error, reset } = await getUserData(req)
 
     if (error) {
-      return res.status(500).send({ error })
+      return res.status(500).send({ error, reset })
     }
 
     const userId = user['https://streetartoronto.ca/submittable_staff_id']
