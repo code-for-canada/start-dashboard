@@ -13,7 +13,7 @@ const getUserData = require('./api/common').getUserData
 const isDev = process.env.NODE_ENV !== 'production'
 const PORT = process.env.PORT || 3000
 
-const emailCors = {
+const openCors = {
   origin: '*',
   optionsSuccessStatus: 200
 }
@@ -97,13 +97,13 @@ if (!isDev && cluster.isMaster) {
 
   app.all('/api/location', checkJwt, checkEmailVerified, handleLocations)
   app.all('/api/artist', checkJwt, checkEmailVerified, handleArtist)
-  app.all('/api/forms', cors(emailCors), handleForms)
+  app.all('/api/forms', cors(openCors), handleForms)
   app.all('/api/applications', checkJwt, checkEmailVerified, handleApplications)
   app.all('/api/reports', handleReports)
   app.all('/api/account', checkJwt, checkEmailVerified, handleAccount)
   app.all(
     '/api/email-templates',
-    cors(emailCors),
+    cors(openCors),
     checkJwt,
     handleEmailTemplates
   )

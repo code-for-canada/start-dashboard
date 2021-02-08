@@ -69,10 +69,8 @@ const Home = () => {
   const location = useLocation()
 
   useEffect(() => {
-    console.log(location)
     if (location.search) {
-      const params = new URLSearchParams(location.search);
-      console.log({params})
+      const params = new URLSearchParams(location.search)
       const message = params.get('message')
       if (message) {
         setMessage(message)
@@ -99,7 +97,11 @@ const Home = () => {
       style={{ backgroundImage: `url(${image})` }}
       data-aos="fade-in">
       <Container className={classes.container}>
-        <StatusAlert show={Boolean(message)} message={message} severity="info" />
+        <StatusAlert
+          show={Boolean(message)}
+          message={message}
+          severity="info"
+        />
         <Grid container>
           <Grid item xs={10} sm={8} md={6} lg={5}>
             <div className={classes.contentArea}>

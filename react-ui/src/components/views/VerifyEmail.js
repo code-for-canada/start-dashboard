@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { useAuth0 } from '@auth0/auth0-react'
 import { Alert } from '@material-ui/lab'
 import { Container, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { useParams } from 'react-router-dom'
 
-import Loading from 'components/common/Loading'
-import StatusAlert from 'components/common/StatusAlert'
 import getRandomImage from 'utils/randomImage'
 import DefaultLayout from 'components/layouts/DefaultLayout'
 
@@ -39,7 +35,6 @@ EmailVerificationAlert.propTypes = {
 }
 
 const VerifyEmail = ({ children }) => {
-  const { logout } = useAuth0()
   const [image, setImage] = useState()
   const [artist, setArtist] = useState('Unknown')
   const classes = useStyles()
@@ -56,7 +51,6 @@ const VerifyEmail = ({ children }) => {
       getImage()
     }
   }, [image])
-
 
   return (
     <DefaultLayout>

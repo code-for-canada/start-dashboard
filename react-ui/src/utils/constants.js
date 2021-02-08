@@ -310,8 +310,10 @@ const STAGING_IFRAME_URLS = {
     'https://airtable.com/embed/shre99yRkm3de15FZ?backgroundColor=red&viewControls=on',
   projectGanttChart:
     'https://airtable.com/embed/shrxZuzprSAfKpNo7?backgroundColor=red',
-  tasksKanban: 'https://airtable.com/embed/shrEWIfZMU6Ch5QET?backgroundColor=red&viewControls=on',
-  tasksCalendar: 'https://airtable.com/embed/shr9n0erPGFapZ1gE?backgroundColor=red&viewControls=on'
+  tasksKanban:
+    'https://airtable.com/embed/shrEWIfZMU6Ch5QET?backgroundColor=red&viewControls=on',
+  tasksCalendar:
+    'https://airtable.com/embed/shr9n0erPGFapZ1gE?backgroundColor=red&viewControls=on'
 }
 
 const PRODUCTION_IFRAME_URLS = {

@@ -43,7 +43,7 @@ const ReportsList = ({ artist }) => {
       }
     }
 
-    if (artist?.reports) {
+    if (artist.reports) {
       getReports()
     }
 
