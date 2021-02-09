@@ -8,7 +8,7 @@ const getArtist = async (req, res) => {
   const { user, error } = await getUserData(req)
 
   if (error) {
-     return res.status(500).send({ error })
+     return res.status(500).send({ error, reset })
   }
 
   const id = user['https://streetartoronto.ca/artist_profile_id']

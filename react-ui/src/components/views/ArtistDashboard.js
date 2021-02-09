@@ -11,6 +11,7 @@ import EmbeddedCognitoForm from 'components/forms/EmbeddedCognitoForm'
 import Loading from 'components/common/Loading'
 import ReportsList from 'components/common/ReportsList'
 import ArtworksList from 'components/common/ArtworksList'
+import StatusAlert from 'components/common/StatusAlert'
 import { getArtist, getResource } from 'utils/apiHelper'
 
 const useStyles = makeStyles(theme => ({
@@ -271,6 +272,7 @@ const ArtistDashboard = () => {
   const location = useLocation()
   const history = useHistory()
   const [artist, setArtist] = useState(null)
+  const [message, setMessage] = useState()
   const [isLoading, setLoading] = useState(true)
   const classes = useStyles()
 
@@ -278,6 +280,9 @@ const ArtistDashboard = () => {
   useEffect(() => {
     const abortController = new AbortController()
     const getArtistProfile = async () => {
+      console.log('Fetching artist profile')
+      setMessage(null)
+
       try {
         const token = await getAccessTokenSilently({
           audience: 'https://dashboard.streetartoronto.ca/'
@@ -300,7 +305,19 @@ const ArtistDashboard = () => {
         const data = await getArtist({ opts })
 
         if (data.error) {
-          console.log(data.error)
+          if (data.error === 'Too Many Requests') {
+            const unixTimestamp = Math.floor(+new Date() / 1000)
+            const delay = data.reset - unixTimestamp
+            const delayMs = delay * 1000
+            const resetTime = new Date(data.reset * 1000).toLocaleTimeString(
+              'en-US'
+            )
+            setMessage(
+              `This page made too many requests. Data will reload at ${resetTime}.`
+            )
+            setTimeout(getArtistProfile, delayMs)
+          }
+
           return setLoading(false)
         }
 
@@ -341,31 +358,39 @@ const ArtistDashboard = () => {
   }
 
   return (
-    <div className={classes.container}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Block>
-            <WelcomeMessage artist={artist} />
-          </Block>
+    <>
+      <StatusAlert
+        message={message}
+        show={Boolean(message)}
+        severity="warning"
+        className={classes.container}
+      />
+      <div className={classes.container}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Block>
+              <WelcomeMessage artist={artist} />
+            </Block>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <Block>
-            <ArtistProfile artist={artist} user={user} />
-          </Block>
-        </Grid>
-        <Grid item xs={12} md={6}>
-          {artist && <ArtworksList artist={artist} />}
-          {artist && <ReportsList artist={artist} />}
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <Block>
+              <ArtistProfile artist={artist} user={user} />
+            </Block>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            {artist && <ArtworksList artist={artist} />}
+            {artist && <ReportsList artist={artist} />}
 
-          <Block>
-            <BlockTitle title="Current opportunities" />
-            <FormsList />
-          </Block>
+            <Block>
+              <BlockTitle title="Current opportunities" />
+              <FormsList />
+            </Block>
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
+      </div>
+    </>
   )
 }
 
