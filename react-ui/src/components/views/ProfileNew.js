@@ -81,6 +81,25 @@ const ProfileNew = () => {
           {opts && (
             <Block>
               <BlockTitle title="Create a StART Profile" />
+              {isStaff && (
+                <>
+                  <p>
+                    If you are creating an artist profile on behalf on an
+                    artist, please note that only the name and email fields are
+                    required to create the profile.
+                  </p>
+                  <p>
+                    Once the profile is saved,{' '}
+                    <strong>the artist will receive an email</strong> informing
+                    them that they have a StART Artist Profile and prompting
+                    them to view and update it.
+                  </p>
+                  <p>
+                    You will be able to access the internal fields for StART
+                    Staff once the profile is created.
+                  </p>
+                </>
+              )}
               <EmbeddedCognitoForm
                 formId={COGNITO_FORMS_IDS.artistProfile}
                 opts={opts}
