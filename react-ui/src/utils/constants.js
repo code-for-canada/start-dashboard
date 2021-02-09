@@ -268,7 +268,8 @@ const PRODUCTION_EXTERNAL_LINKS = {
   submittable: 'https://streetartto.submittable.com/submissions',
   airtable:
     'https://airtable.com/tbl5ApSEOzPpe4fwp/viwozx55EaH51F1Su?blocks=hide',
-  mailjet: 'https://app.mailjet.com/dashboard'
+  mailjet: 'https://app.mailjet.com/dashboard',
+  projectsTable: 'https://airtable.com/tblhVfEz8ONPE1dce/viwmccmhULNDvg3BM'
 }
 
 const STAGING_IFRAME_URLS = {
@@ -346,7 +347,19 @@ const PRODUCTION_IFRAME_URLS = {
   submissionsByLabelChart:
     'https://airtable.com/embed/shrDMDeDT8pWNnC1i?backgroundColor=red',
   artistsByPronounChart:
-    'https://airtable.com/embed/shrmZGi0nx3NDCsQT?backgroundColor=red'
+    'https://airtable.com/embed/shrmZGi0nx3NDCsQT?backgroundColor=red',
+  projectKanban:
+    'https://airtable.com/embed/shrFSNTLbMYF7q25d?backgroundColor=red&viewControls=on',
+  projectsByLeader:
+    'https://airtable.com/embed/shrf1sKadqz5aT7SV?backgroundColor=red&viewControls=on',
+  projectCalendar:
+    'https://airtable.com/embed/shrt0EkwJ4GjLlXgj?backgroundColor=red&viewControls=on',
+  projectGanttChart:
+    'https://airtable.com/embed/shr7qVrUoBx7PYLpR?backgroundColor=red',
+  tasksKanban:
+    'https://airtable.com/embed/shreZUuRIxXLFiCOb?backgroundColor=red&viewControls=on',
+  tasksCalendar:
+    'https://airtable.com/embed/shrCwsOUqtneoZ9uS?backgroundColor=red&viewControls=on'
 }
 
 const DASHBOARD_VIEW_ORDER = [
