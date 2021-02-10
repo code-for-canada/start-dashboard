@@ -210,7 +210,7 @@ const ArtworkEdit = () => {
                     component="a"
                     color="inherit"
                     size="small"
-                    href={`${EXTERNAL_LINKS.artworksTable}${artwork?.id}`}
+                    href={`${EXTERNAL_LINKS.artworksTable}${id}`}
                     target="_blank"
                     rel="noopener noreferrer">
                     Edit on Airtable
