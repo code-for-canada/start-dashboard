@@ -273,14 +273,16 @@ const ArtistDashboard = () => {
   const history = useHistory()
   const [artist, setArtist] = useState(null)
   const [message, setMessage] = useState()
-  const [isLoading, setLoading] = useState(true)
+  const [isLoading, setLoading] = useState(false)
   const classes = useStyles()
 
   // fetch the artist profile for the authed user
   useEffect(() => {
     const abortController = new AbortController()
+
     const getArtistProfile = async () => {
       console.log('Fetching artist profile')
+      setLoading(true)
       setMessage(null)
 
       try {
@@ -336,7 +338,7 @@ const ArtistDashboard = () => {
       }
     }
 
-    if (isAuthenticated && !artist) {
+    if (isAuthenticated && !artist && !isLoading) {
       getArtistProfile()
     }
 

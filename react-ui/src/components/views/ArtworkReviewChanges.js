@@ -49,16 +49,6 @@ export const ArtworkUnderReview = ({
             <>
               <Button
                 className={classes.button}
-                component="a"
-                color="inherit"
-                size="small"
-                href={`${EXTERNAL_LINKS.artworksTable}${artwork?.id}`}
-                target="_blank"
-                rel="noopener noreferrer">
-                Review on Airtable
-              </Button>
-              <Button
-                className={classes.button}
                 color="inherit"
                 size="small"
                 variant="outlined"
@@ -180,7 +170,7 @@ const ArtworkEdit = () => {
       setNotification({
         severity: 'success',
         message:
-          'The changes have been approved and updated on the StART map. Any new media files will now available to be added to the "Featured media" for this artwork.'
+          'The changes have been approved and updated in Airtable. Any new media files will now be available to be added to the "Featured media" for this artwork.'
       })
     } catch (err) {
       console.log(err)

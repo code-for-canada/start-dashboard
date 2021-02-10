@@ -15,8 +15,16 @@ import Artworks from 'components/panels/Artworks'
 import Charts from 'components/panels/Charts'
 import Locations from 'components/panels/Locations'
 import Projects from 'components/panels/Projects'
+import Tasks from 'components/panels/Tasks'
 
 export const PANELS_DATA = [
+  {
+    id: 'tasks',
+    title: 'Tasks',
+    isVisible: false,
+    isSmall: false,
+    content: Tasks
+  },
   {
     id: 'projects',
     title: 'Projects',
@@ -51,6 +59,10 @@ export const PANELS_DATA = [
       {
         title: 'How to update an artwork’s information',
         link: `${USER_GUIDE_DOC}#heading=h.vrelgewywb8c`
+      },
+      {
+        title: 'How to review and approve changes to an artwork',
+        link: `${USER_GUIDE_DOC}#heading=h.fqknk88c6ih5`
       },
       {
         title: 'How to search and filter artworks',

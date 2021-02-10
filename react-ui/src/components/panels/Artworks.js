@@ -17,19 +17,11 @@ const Artworks = props => {
       <Grid container spacing={4}>
         <Grid item xs={12} md={6}>
           <h3>Flagged for Review</h3>
-          <EmbeddedIframe
-            src={
-              'https://airtable.com/embed/shrD7vjyY21h6ywuI?backgroundColor=red&layout=card&viewControls=on'
-            }
-          />
+          <EmbeddedIframe src={IFRAME_URLS.artworksPendingReview} />
         </Grid>
         <Grid item xs={12} md={6}>
           <h3>Progress Updates</h3>
-          <EmbeddedIframe
-            src={
-              'https://airtable.com/embed/shrhywybjaOqycbNz?backgroundColor=red&layout=card&viewControls=on'
-            }
-          />
+          <EmbeddedIframe src={IFRAME_URLS.progressUpdates} />
         </Grid>
       </Grid>
 

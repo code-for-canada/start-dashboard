@@ -10,16 +10,15 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Projects = props => {
+const Tasks = props => {
   const classes = useStyles()
   return (
     <div>
-      <h3>Projects by Leader</h3>
-      <EmbeddedIframe src={IFRAME_URLS.projectsByLeader} />
+      <h3>Progress Board</h3>
+      <EmbeddedIframe src={IFRAME_URLS.tasksKanban} />
 
-      <h3>Gantt Chart</h3>
-      <EmbeddedIframe src={IFRAME_URLS.projectGanttChart} />
-
+      <h3>Calendar</h3>
+      <EmbeddedIframe src={IFRAME_URLS.tasksCalendar} />
       <div>
         <Button
           className={classes.button}
@@ -36,4 +35,4 @@ const Projects = props => {
   )
 }
 
-export default Projects
+export default Tasks

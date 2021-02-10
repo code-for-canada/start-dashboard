@@ -275,6 +275,10 @@ const PRODUCTION_EXTERNAL_LINKS = {
 const STAGING_IFRAME_URLS = {
   allArtists:
     'https://airtable.com/embed/shrEj0c93sj5Xsdxo?backgroundColor=red&viewControls=on',
+  artworksPendingReview:
+    'https://airtable.com/embed/shrwq1wlPVkJ9zlKO?backgroundColor=red&viewControls=on',
+  progressUpdates:
+    'https://airtable.com/embed/shrMvrID8UD4Q8DET?backgroundColor=red&viewControls=on',
   artworksByStatus:
     'https://airtable.com/embed/shrZoQMDT0qscReWa?backgroundColor=red&viewControls=on',
   allArtworks:
@@ -320,6 +324,10 @@ const STAGING_IFRAME_URLS = {
 const PRODUCTION_IFRAME_URLS = {
   allArtists:
     'https://airtable.com/embed/shra4E5FrOJS6fzWO?backgroundColor=red&viewControls=on',
+  artworksPendingReview:
+    'https://airtable.com/embed/shrD7vjyY21h6ywuI?backgroundColor=red&layout=card&viewControls=on',
+  progressUpdates:
+    'https://airtable.com/embed/shrhywybjaOqycbNz?backgroundColor=red&layout=card&viewControls=on',
   artworksByStatus:
     'https://airtable.com/embed/shrTlL5928ssPbMeP?backgroundColor=red&viewControls=on',
   allArtworks:
