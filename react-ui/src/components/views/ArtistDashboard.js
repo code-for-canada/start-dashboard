@@ -39,6 +39,13 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     marginTop: theme.spacing(2)
+  },
+  feedback: {
+    position: 'absolute',
+    right: 0,
+  },
+  relative: {
+    position: 'relative'
   }
 }))
 
@@ -68,10 +75,13 @@ ProfileURL.propTypes = {
 }
 
 const WelcomeMessage = ({ artist }) => {
+  const classes = useStyles()
+
   if (artist) {
     const editProfileHash = artist?.edit_hash || ''
     return (
-      <React.Fragment>
+      <div className={classes.relative}>
+        <Button component={Link} to="/feedback" variant="outlined" className={classes.feedback}>Report a Bug 🐛</Button>
         <BlockTitle title="Welcome to StART Digital!" />
         <p>This is the online home of Street Art Toronto.</p>
         <p className="mb-3">
@@ -88,7 +98,7 @@ const WelcomeMessage = ({ artist }) => {
           color="primary">
           Edit your profile
         </Button>
-      </React.Fragment>
+      </div>
     )
   }
 

@@ -7,6 +7,8 @@ import PrivateRoute from 'components/common/PrivateRoute'
 
 import Unauthorized from 'components/views/Unauthorized'
 import PageMissing from 'components/views/PageMissing'
+import PrivacyPolicy from 'components/views/PrivacyPolicy'
+import FeedbackForm from 'components/views/FeedbackForm'
 import Home from 'components/views/Home'
 import StatusUpdateNew from 'components/views/StatusUpdateNew'
 import Dashboard from 'components/views/Dashboard'
@@ -76,6 +78,8 @@ const App = () => {
       />
       <Route path="/unauthorized" component={Unauthorized} />
       <Route path="/404" component={PageMissing} />
+      <Route path="/privacy" component={PrivacyPolicy} />
+      <Route path="/feedback" component={FeedbackForm} />
     </Switch>
   )
 }

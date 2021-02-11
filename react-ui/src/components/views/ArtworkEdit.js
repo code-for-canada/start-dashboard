@@ -135,7 +135,7 @@ const ArtworkEdit = () => {
         <div className={classes.container}>
           <ArtworkUnderReview artwork={artwork} />
           <Block>
-            <BlockTitle title={`Edit "${artwork.title}"`} />
+            <BlockTitle title={`Edit "${artwork.display_title}"`} />
             <p>
               Use this form to update the public view of your artwork on the
               StART Map. All the changes made here will be reviewed by the StART

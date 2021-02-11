@@ -101,7 +101,7 @@ const ProgressUpdate = () => {
     if (artwork) {
       setOptions({
         entry: {
-          ArtworkTitle: `${artwork.title}`,
+          ArtworkTitle: `${artwork.display_title}`,
           Location: `${artwork.address}`,
           ArtworkAirtableID: artwork.id
         }
@@ -122,7 +122,7 @@ const ProgressUpdate = () => {
       <Container maxWidth="md">
         <div className={classes.container}>
           <Block>
-            <BlockTitle title={`Progress Update for "${artwork.title}"`} />
+            <BlockTitle title={`Progress Update for "${artwork.display_title}"`} />
             {options && (
               <EmbeddedCognitoForm
                 formId={COGNITO_FORMS_IDS.progressUpdate}

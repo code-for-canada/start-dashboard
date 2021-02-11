@@ -86,13 +86,9 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
 
           <Hidden smDown>
             <Grid item className={classes.menuSection}>
-              <a
-                href="https://streetartoronto.ca"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={classes.nav}>
-                StART map
-              </a>
+              <NavLink to="/dashboard" className={classes.nav}>
+                Dashboard
+              </NavLink>
               <NavLink to="/account" className={classes.nav}>
                 My account
               </NavLink>
