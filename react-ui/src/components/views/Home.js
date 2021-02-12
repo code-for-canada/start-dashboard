@@ -65,7 +65,8 @@ const useStyles = makeStyles(theme => ({
   },
   feedback: {
     color: 'white',
-    borderColor: 'white'
+    borderColor: 'white',
+    flexShrink: 0,
   }
 }))
 
