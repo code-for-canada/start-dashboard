@@ -50,8 +50,12 @@ const Footer = () => {
             className={classes.nav}>
             Street Art Toronto Map
           </a>
-          <Link to="/privacy" className={classes.nav}>Privacy policy</Link>
-          <Link to="/feedback" className={classes.nav}>Submit feedback</Link>
+          <Link to="/privacy" className={classes.nav}>
+            Privacy policy
+          </Link>
+          <Link to="/feedback" className={classes.nav}>
+            Submit feedback
+          </Link>
         </div>
         <div>
           <p className="m-0">© Street Art Toronto 2020</p>
@@ -66,8 +70,12 @@ const Footer = () => {
             className={classes.nav}>
             Street Art Toronto Map
           </a>
-          <Link to="/privacy" className={classes.nav}>Privacy policy</Link>
-          <Link to="/feedback" className={classes.nav}>Submit feedback</Link>
+          <Link to="/privacy" className={classes.nav}>
+            Privacy policy
+          </Link>
+          <Link to="/feedback" className={classes.nav}>
+            Submit feedback
+          </Link>
           <p className="m-0">© Street Art Toronto 2020</p>
         </div>
       </Hidden>

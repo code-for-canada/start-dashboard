@@ -218,7 +218,8 @@ const ApplicationsList = () => {
             component="a"
             href="https://streetartto.submittable.com/submissions"
             target="_blank"
-            rel="noopener noreferrer">
+            rel="noopener noreferrer"
+            disableElevation>
             Edit in Submittable
           </Button>
         </div>

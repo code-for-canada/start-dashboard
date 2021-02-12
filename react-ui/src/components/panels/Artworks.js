@@ -37,7 +37,8 @@ const Artworks = props => {
           color="primary"
           variant="contained"
           component="a"
-          href="/artwork/new">
+          href="/artwork/new"
+          disableElevation>
           Add new artwork
         </Button>
 
@@ -47,7 +48,8 @@ const Artworks = props => {
           component="a"
           href={EXTERNAL_LINKS.artworksTable}
           target="_blank"
-          rel="noopener noreferrer">
+          rel="noopener noreferrer"
+          disableElevation>
           Edit in Airtable
         </Button>
       </div>

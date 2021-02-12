@@ -34,7 +34,8 @@ const ProfileSaved = () => {
                 to={'/dashboard'}
                 variant="contained"
                 color="primary"
-                className={classes.button}>
+                className={classes.button}
+                disableElevation>
                 Back to my dashboard
               </Button>
             </Block>

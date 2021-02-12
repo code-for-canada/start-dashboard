@@ -41,7 +41,8 @@ const Charts = props => {
           component="a"
           href={EXTERNAL_LINKS.chartsFullScreen}
           target="_blank"
-          rel="noopener noreferrer">
+          rel="noopener noreferrer"
+          disableElevation>
           Edit in Airtable
         </Button>
       </div>

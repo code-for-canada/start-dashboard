@@ -57,7 +57,8 @@ const AccountDeleteForm = ({ onSubmit, email, setAlert, isArtist }) => {
         variant="contained"
         color="secondary"
         disabled={validationEmail !== email}
-        className={classes.button}>
+        className={classes.button}
+        disableElevation>
         Delete my account
       </Button>
     </form>

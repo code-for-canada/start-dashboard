@@ -2,11 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button } from '@material-ui/core'
 
-const SignupButton = ({ handleLogin }) => {
+const SignupButton = ({ handleLogin, ...rest }) => {
   return (
     <Button
+      disableElevation
+      variant="outlined"
       onClick={() => handleLogin({ screen_hint: 'signUp' })}
-      className="btn-margin mt-2">
+      {...rest}>
       Sign Up
     </Button>
   )

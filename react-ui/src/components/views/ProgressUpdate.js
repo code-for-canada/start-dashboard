@@ -122,7 +122,9 @@ const ProgressUpdate = () => {
       <Container maxWidth="md">
         <div className={classes.container}>
           <Block>
-            <BlockTitle title={`Progress Update for "${artwork.display_title}"`} />
+            <BlockTitle
+              title={`Progress Update for "${artwork.display_title}"`}
+            />
             {options && (
               <EmbeddedCognitoForm
                 formId={COGNITO_FORMS_IDS.progressUpdate}

@@ -52,7 +52,8 @@ const AccountUpdateForm = ({ onSubmit, formData, setFormData }) => {
         type="submit"
         variant="contained"
         color="primary"
-        className={classes.button}>
+        className={classes.button}
+        disableElevation>
         Save
       </Button>
     </form>

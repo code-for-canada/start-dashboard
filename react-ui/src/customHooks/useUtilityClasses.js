@@ -18,6 +18,9 @@ const useUtilityClasses = makeStyles(theme => ({
   },
   horizListSpacing: {
     marginRight: theme.spacing(1)
+  },
+  marginBottom: {
+    marginBottom: theme.spacing(2)
   }
 }))
 

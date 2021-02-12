@@ -65,7 +65,8 @@ const ProfileView = ({ artist, isStaff }) => {
                   variant="contained"
                   color="primary"
                   component={Link}
-                  to={'/profile/edit'}>
+                  to={'/profile/edit'}
+                  disableElevation>
                   Edit your profile
                 </Button>
               )}
