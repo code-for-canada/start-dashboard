@@ -28,7 +28,8 @@ const Projects = props => {
           component="a"
           href={EXTERNAL_LINKS.projectsTable}
           target="_blank"
-          rel="noopener noreferrer">
+          rel="noopener noreferrer"
+          disableElevation>
           Edit in Airtable
         </Button>
       </div>

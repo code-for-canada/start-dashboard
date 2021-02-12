@@ -120,6 +120,7 @@ const Account = () => {
               show={Boolean(alert.message)}
               message={alert.message}
               severity={alert.severity}
+              className={utilClasses.marginBottom}
             />
           </Grid>
         </Grid>

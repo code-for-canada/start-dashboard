@@ -19,7 +19,8 @@ const Locations = props => {
           variant="contained"
           className={utilClasses.horizListSpacing}
           component="a"
-          href="/location/new">
+          href="/location/new"
+          disableElevation>
           Add new location
         </Button>
         <Button
@@ -29,7 +30,8 @@ const Locations = props => {
           component="a"
           target="_blank"
           rel="noopener noreferrer"
-          href={EXTERNAL_LINKS.locationsTable}>
+          href={EXTERNAL_LINKS.locationsTable}
+          disableElevation>
           Edit in Airtable
         </Button>
       </div>

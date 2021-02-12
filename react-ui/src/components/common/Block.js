@@ -5,7 +5,8 @@ import { Card, CardContent } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
   title: {
-    marginBottom: theme.spacing(1)
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(1)
   },
   block: {
     marginBottom: theme.spacing(2)

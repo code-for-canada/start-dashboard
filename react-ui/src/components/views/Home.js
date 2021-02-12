@@ -1,62 +1,71 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Grid } from '@material-ui/core'
+import { Grid, Button, Hidden } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useAuth0 } from '@auth0/auth0-react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 
 import LoginButton from 'components/common/LoginButton'
 import SignupButton from 'components/common/SignupButton'
 import StatusAlert from 'components/common/StatusAlert'
 import getRandomImage from 'utils/randomImage'
 
-import blob1 from 'assets/images/blob1.svg'
-import blob2 from 'assets/images/blob2.svg'
+const PLACEHOLDER_IMG =
+  'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
 
 const useStyles = makeStyles(theme => ({
-  container: {
-    paddingTop: theme.spacing(2)
-  },
-  contentArea: {
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: theme.spacing(2)
-  },
-  backgroundImage: {
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    width: '100%',
+  page: {
     height: '100%'
   },
-  imageCredit: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    background: '#343a40',
-    color: theme.palette.background.paper
+  imageContainer: {
+    height: '100%',
+    overflow: 'hidden',
+    background: theme.palette.action.hover
   },
-  content: {
+  image: {
     height: '100%',
     width: '100%',
-    position: 'absolute',
+    objectFit: 'cover',
+    border: 'none',
+    outline: 'none',
+    content: ''
+  },
+  login: {
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
     flexDirection: 'column'
   },
-  contentBackground: {
-    position: 'relative',
-    height: '100%',
+  alert: {
+    padding: theme.spacing(2)
+  },
+  mainContent: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexGrow: 1
+  },
+  para: {
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(6),
+    fontSize: '1.5em'
+  },
+  title: {
+    marginBottom: '2em',
+    fontSize: '3.5em',
+    color: theme.palette.primary.main
+  },
+  footer: {
+    background: theme.palette.primary.main,
+    color: 'white',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: theme.spacing(2),
+    bottom: 0,
     width: '100%'
   },
-  blob: {
-    opacity: '0.9'
+  feedback: {
+    color: 'white',
+    borderColor: 'white'
   }
 }))
 
@@ -92,43 +101,47 @@ const Home = () => {
   }, [image])
 
   return (
-    <div
-      className={classes.backgroundImage}
-      style={{ backgroundImage: `url(${image})` }}
-      data-aos="fade-in">
-      <Container className={classes.container}>
-        <StatusAlert
-          show={Boolean(message)}
-          message={message}
-          severity="info"
-        />
-        <Grid container>
-          <Grid item xs={10} sm={8} md={6} lg={5}>
-            <div className={classes.contentArea}>
-              <div className={classes.contentBackground}>
-                <img
-                  src={blob1}
-                  alt=""
-                  className={`${classes.blob} rotateme`}
-                  style={{ position: 'absolute' }}
-                />
-                <img
-                  src={blob2}
-                  alt=""
-                  className={`${classes.blob} rotateme-reverse`}
-                />
-              </div>
-              <div className={classes.content}>
-                <h1>StART Digital</h1>
-                <LoginButton handleLogin={loginWithRedirect} />
-                <SignupButton handleLogin={loginWithRedirect} />
-              </div>
-            </div>
-          </Grid>
+    <Grid container alignItems="stretch" className={classes.page}>
+      <Grid item xs={12} md={5} className={classes.login}>
+        <div className={classes.alert}>
+          <StatusAlert
+            show={Boolean(message)}
+            message={message}
+            severity="info"
+          />
+        </div>
+        <div className={classes.mainContent}>
+          <h1 className={classes.title}>StART Digital</h1>
+          <LoginButton handleLogin={loginWithRedirect} size="large" />
+          <p className={classes.para}>Don&apos;t have an account?</p>
+          <SignupButton handleLogin={loginWithRedirect} size="large" />
+        </div>
+        <div className={classes.footer}>
+          <div>
+            <Hidden smDown>{`Art by: ${artist}`}</Hidden>
+          </div>
+          <Button
+            component={Link}
+            to="/feedback"
+            variant="outlined"
+            className={classes.feedback}>
+            Report a Bug{' '}
+            <span role="img" aria-label="bug">
+              🐛
+            </span>
+          </Button>
+        </div>
+      </Grid>
+      <Hidden smDown>
+        <Grid item xs={12} md={7} className={classes.imageContainer}>
+          <img
+            src={image || PLACEHOLDER_IMG}
+            className={classes.image}
+            alt={`Street art by ${artist}`}
+          />
         </Grid>
-      </Container>
-      <div className={classes.imageCredit}>{`Art by: ${artist}`}</div>
-    </div>
+      </Hidden>
+    </Grid>
   )
 }
 

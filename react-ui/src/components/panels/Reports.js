@@ -28,7 +28,8 @@ const Reports = props => {
           component="a"
           href={EXTERNAL_LINKS.reportsTable}
           target="_blank"
-          rel="noopener noreferrer">
+          rel="noopener noreferrer"
+          disableElevation>
           Edit in Airtable
         </Button>
 
@@ -39,7 +40,8 @@ const Reports = props => {
           component="a"
           href={EXTERNAL_LINKS.cognitoForms}
           target="_blank"
-          rel="noopener noreferrer">
+          rel="noopener noreferrer"
+          disableElevation>
           Edit in Cognito Forms
         </Button>
       </div>

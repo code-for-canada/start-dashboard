@@ -221,7 +221,8 @@ const STAGING_COGNITO_FORMS_IDS = {
   artistProfileInternal: '23',
   artworkPublic: '22',
   artworkInternal: '18',
-  progressUpdate: '19'
+  progressUpdate: '19',
+  feedbackForm: '26'
 }
 
 const PRODUCTION_COGNITO_FORMS_IDS = {
@@ -229,7 +230,8 @@ const PRODUCTION_COGNITO_FORMS_IDS = {
   artistProfileInternal: '25',
   artworkPublic: '13',
   artworkInternal: '14',
-  progressUpdate: '17'
+  progressUpdate: '17',
+  feedbackForm: '26'
 }
 
 const STAGING_EXTERNAL_LINKS = {
@@ -273,6 +275,8 @@ const PRODUCTION_EXTERNAL_LINKS = {
 }
 
 const STAGING_IFRAME_URLS = {
+  artworkForm:
+    'https://airtable.com/embed/shrfy49OT63VD9Le5?backgroundColor=red',
   allArtists:
     'https://airtable.com/embed/shrEj0c93sj5Xsdxo?backgroundColor=red&viewControls=on',
   artworksPendingReview:
@@ -322,6 +326,8 @@ const STAGING_IFRAME_URLS = {
 }
 
 const PRODUCTION_IFRAME_URLS = {
+  artworkForm:
+    'https://airtable.com/embed/shrMvrXih5f3TAIbN?backgroundColor=red',
   allArtists:
     'https://airtable.com/embed/shra4E5FrOJS6fzWO?backgroundColor=red&viewControls=on',
   artworksPendingReview:

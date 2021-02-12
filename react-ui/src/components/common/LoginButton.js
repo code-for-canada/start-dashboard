@@ -2,10 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Button } from '@material-ui/core'
 
-const LoginButton = props => {
-  const { handleLogin } = props
+const LoginButton = ({ handleLogin, ...rest }) => {
   return (
-    <Button onClick={handleLogin} variant="contained" color="primary">
+    <Button
+      onClick={handleLogin}
+      variant="contained"
+      color="primary"
+      disableElevation
+      {...rest}>
       Log In
     </Button>
   )

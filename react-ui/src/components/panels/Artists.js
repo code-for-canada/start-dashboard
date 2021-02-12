@@ -19,7 +19,8 @@ const Artists = props => {
           component="a"
           href="/profile/new"
           target="_blank"
-          rel="noopener noreferrer">
+          rel="noopener noreferrer"
+          disableElevation>
           Add new artist
         </Button>
         <Button
@@ -29,7 +30,8 @@ const Artists = props => {
           component="a"
           href={EXTERNAL_LINKS.artistProfileEntries}
           target="_blank"
-          rel="noopener noreferrer">
+          rel="noopener noreferrer"
+          disableElevation>
           Edit in Cognito Forms
         </Button>
       </div>

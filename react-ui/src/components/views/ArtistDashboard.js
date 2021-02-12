@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useAuth0 } from '@auth0/auth0-react'
-import { Grid, Button } from '@material-ui/core'
+import { Grid, Button, Hidden } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Link, useLocation, useHistory } from 'react-router-dom'
 
@@ -39,6 +39,13 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     marginTop: theme.spacing(2)
+  },
+  feedback: {
+    position: 'absolute',
+    right: 0
+  },
+  relative: {
+    position: 'relative'
   }
 }))
 
@@ -56,7 +63,7 @@ const ProfileURL = ({ url }) => {
       <code id="copy-url" className={classes.code}>
         {url}
       </code>
-      <Button size="small" onClick={copyURL}>
+      <Button size="small" onClick={copyURL} disableElevation>
         {`${copied ? 'Copied!' : 'Copy'}`}
       </Button>
     </div>
@@ -68,10 +75,24 @@ ProfileURL.propTypes = {
 }
 
 const WelcomeMessage = ({ artist }) => {
+  const classes = useStyles()
+
   if (artist) {
     const editProfileHash = artist?.edit_hash || ''
     return (
-      <React.Fragment>
+      <div className={classes.relative}>
+        <Hidden xsDown>
+          <Button
+            component={Link}
+            to="/feedback"
+            variant="outlined"
+            className={classes.feedback}>
+            Report a Bug{' '}
+            <span role="img" aria-label="bug">
+              🐛
+            </span>
+          </Button>
+        </Hidden>
         <BlockTitle title="Welcome to StART Digital!" />
         <p>This is the online home of Street Art Toronto.</p>
         <p className="mb-3">
@@ -85,10 +106,11 @@ const WelcomeMessage = ({ artist }) => {
           component={Link}
           to={`/profile/edit${editProfileHash}`}
           variant="contained"
-          color="primary">
+          color="primary"
+          disableElevation>
           Edit your profile
         </Button>
-      </React.Fragment>
+      </div>
     )
   }
 
@@ -151,7 +173,8 @@ const ArtistProfile = ({ artist, user }) => {
           component={Link}
           to={`/profile/edit${editProfileHash}`}
           variant="contained"
-          color="primary">
+          color="primary"
+          disableElevation>
           Edit your profile
         </Button>
       </React.Fragment>
@@ -184,7 +207,8 @@ const ArtistProfile = ({ artist, user }) => {
           component={Link}
           to={`/profile/new/${user.sub}`}
           variant="contained"
-          color="primary">
+          color="primary"
+          disableElevation>
           Create your profile
         </Button>
       ) : (
@@ -345,6 +369,7 @@ const ArtistDashboard = () => {
     return () => {
       abortController.abort()
     }
+    // eslint-disable-next-line
   }, [user, getAccessTokenSilently, isAuthenticated, artist])
 
   // add profile hash if artist has profile

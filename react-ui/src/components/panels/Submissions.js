@@ -22,7 +22,8 @@ const Submissions = props => {
           component="a"
           href={EXTERNAL_LINKS.submittable}
           target="_blank"
-          rel="noopener noreferrer">
+          rel="noopener noreferrer"
+          disableElevation>
           Edit on Submittable
         </Button>
 
@@ -33,7 +34,8 @@ const Submissions = props => {
           component="a"
           href={EXTERNAL_LINKS.submissionsTable}
           target="_blank"
-          rel="noopener noreferrer">
+          rel="noopener noreferrer"
+          disableElevation>
           Edit in Airtable
         </Button>
       </div>

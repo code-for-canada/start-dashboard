@@ -84,15 +84,11 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
             </NavLink>
           </Grid>
 
-          <Hidden smDown>
+          <Hidden xsDown>
             <Grid item className={classes.menuSection}>
-              <a
-                href="https://streetartoronto.ca"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={classes.nav}>
-                StART map
-              </a>
+              <NavLink to="/dashboard" className={classes.nav}>
+                Dashboard
+              </NavLink>
               <NavLink to="/account" className={classes.nav}>
                 My account
               </NavLink>
@@ -108,11 +104,12 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
             </Grid>
           </Hidden>
 
-          <Hidden mdUp>
+          <Hidden smUp>
             <Button
               aria-controls="simple-menu"
               aria-haspopup="true"
-              onClick={handleOpen}>
+              onClick={handleOpen}
+              disableElevation>
               Menu
             </Button>
             <Menu
@@ -123,14 +120,18 @@ const NavBar = ({ useAuthHook = useAuth0 }) => {
               onClose={handleClose}>
               <MenuItem
                 onClick={handleClose}
-                component="a"
-                href="https://streetartoronto.ca"
-                target="_blank"
-                rel="noopener noreferrer">
-                StART Map
+                component={NavLink}
+                to="/dashboard">
+                Dashboard
               </MenuItem>
               <MenuItem onClick={handleClose} component={NavLink} to="/account">
                 My account
+              </MenuItem>
+              <MenuItem
+                onClick={handleClose}
+                component={NavLink}
+                to="/feedback">
+                Report a bug
               </MenuItem>
               <MenuItem onClick={handleClose}>
                 <AuthNav

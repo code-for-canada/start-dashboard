@@ -52,7 +52,8 @@ export const ArtworkUnderReview = ({
                 color="inherit"
                 size="small"
                 variant="outlined"
-                onClick={handleApproveChanges}>
+                onClick={handleApproveChanges}
+                disableElevation>
                 Approve changes
               </Button>
             </>
@@ -212,7 +213,8 @@ const ArtworkEdit = () => {
                     size="small"
                     href={`${EXTERNAL_LINKS.artworksTable}${id}`}
                     target="_blank"
-                    rel="noopener noreferrer">
+                    rel="noopener noreferrer"
+                    disableElevation>
                     Edit on Airtable
                   </Button>
                 )

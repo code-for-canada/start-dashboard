@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 
 const ArtworkItem = ({ artwork }) => {
   const classes = useStyles()
-  const text = [artwork.title, artwork.year, artwork.program_name]
+  const text = [artwork.display_title, artwork.year, artwork.program_name]
     .map(i => i)
     .join(', ')
 
