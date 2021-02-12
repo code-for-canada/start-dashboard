@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Grid, Button, Hidden } from '@material-ui/core'
+import { Grid, Button, Hidden, Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useLocation, Link } from 'react-router-dom'
@@ -31,7 +31,8 @@ const useStyles = makeStyles(theme => ({
   },
   login: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    height: '100%'
   },
   alert: {
     padding: theme.spacing(2)
@@ -103,38 +104,40 @@ const Home = () => {
 
   return (
     <Grid container alignItems="stretch" className={classes.page}>
-      <Grid item xs={12} md={5} className={classes.login}>
-        <div className={classes.alert}>
-          <StatusAlert
-            show={Boolean(message)}
-            message={message}
-            severity="info"
-          />
-        </div>
-        <div className={classes.mainContent}>
-          <h1 className={classes.title}>StART Digital</h1>
-          <LoginButton handleLogin={loginWithRedirect} size="large" />
-          <p className={classes.para}>Don&apos;t have an account?</p>
-          <SignupButton handleLogin={loginWithRedirect} size="large" />
-        </div>
-        <div className={classes.footer}>
-          <div>
-            <Hidden smDown>{`Art by: ${artist}`}</Hidden>
+      <Grid item xs={12} md={4}>
+        <Paper elevation={4} className={classes.login} square>
+          <div className={classes.alert}>
+            <StatusAlert
+              show={Boolean(message)}
+              message={message}
+              severity="info"
+            />
           </div>
-          <Button
-            component={Link}
-            to="/feedback"
-            variant="outlined"
-            className={classes.feedback}>
-            Report a Bug{' '}
-            <span role="img" aria-label="bug">
-              🐛
-            </span>
-          </Button>
-        </div>
+          <div className={classes.mainContent}>
+            <h1 className={classes.title}>StART Digital</h1>
+            <LoginButton handleLogin={loginWithRedirect} size="large" />
+            <p className={classes.para}>Don&apos;t have an account?</p>
+            <SignupButton handleLogin={loginWithRedirect} size="large" />
+          </div>
+          <div className={classes.footer}>
+            <div>
+              <Hidden smDown>{`Art by: ${artist}`}</Hidden>
+            </div>
+            <Button
+              component={Link}
+              to="/feedback"
+              variant="outlined"
+              className={classes.feedback}>
+              Report a Bug{' '}
+              <span role="img" aria-label="bug">
+                🐛
+              </span>
+            </Button>
+          </div>
+        </Paper>
       </Grid>
       <Hidden smDown>
-        <Grid item xs={12} md={7} className={classes.imageContainer}>
+        <Grid item xs={12} md={8} className={classes.imageContainer}>
           <img
             src={image || PLACEHOLDER_IMG}
             className={classes.image}
