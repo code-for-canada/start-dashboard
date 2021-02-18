@@ -74,21 +74,20 @@ const ReportsList = ({ artist }) => {
             )
 
             return (
-              <li className={classes.listItem}>
+              <li className={classes.listItem} key={report.id}>
                 <div>{report.name}</div>
                 <div>
-                  {responded ?
+                  {responded ? (
                     <a
                       href={`${report.form_url}/${responded}`}
                       className={classes.link}>
                       Edit report
-                    </a> :
-                    <a
-                      href={`${report.form_url}`}
-                      className={classes.link}>
+                    </a>
+                  ) : (
+                    <a href={`${report.form_url}`} className={classes.link}>
                       Start report
                     </a>
-                  }
+                  )}
                 </div>
               </li>
             )

@@ -20,7 +20,12 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Report = () => {
-  const { user, isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0()
+  const {
+    user,
+    isLoading,
+    isAuthenticated,
+    getAccessTokenSilently
+  } = useAuth0()
   const [opts, setOpts] = useState()
   const [report, setReport] = useState()
   const [errMsg, setError] = useState()
@@ -75,8 +80,14 @@ const Report = () => {
     return () => {
       abortController.abort()
     }
-  }, [responseId, getAccessTokenSilently, isAuthenticated, hash, history, pathname])
-
+  }, [
+    responseId,
+    getAccessTokenSilently,
+    isAuthenticated,
+    hash,
+    history,
+    pathname
+  ])
 
   useEffect(() => {
     const abortController = new AbortController()
