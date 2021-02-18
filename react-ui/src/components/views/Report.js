@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Container } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { useParams, useLocation } from 'react-router-dom'
+import { useParams, useLocation, useHistory } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
 import useRoles from 'customHooks/useRoles'
@@ -20,19 +20,68 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const Report = () => {
-  const { user, isLoading } = useAuth0()
+  const { user, isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0()
   const [opts, setOpts] = useState()
   const [report, setReport] = useState()
   const [errMsg, setError] = useState()
-  const [isLoadingReport, setLoading] = useState()
+  const [isLoadingReport, setLoading] = useState(false)
   const classes = useStyles()
-  const { slug } = useParams()
-  const { hash } = useLocation()
+  const { slug, responseId } = useParams()
+  const { hash, pathname } = useLocation()
   const { isStaff } = useRoles()
+  const history = useHistory()
+
+  useEffect(() => {
+    const abortController = new AbortController()
+
+    const getResponse = async () => {
+      setLoading(true)
+      try {
+        const token = await getAccessTokenSilently({
+          audience: 'https://dashboard.streetartoronto.ca/'
+        })
+
+        const opts = {
+          signal: abortController.signal,
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+
+        const url = `/api/report-responses?id=${responseId}`
+        const { error, record } = await getResource({ url, opts })
+
+        if (error) {
+          setError(error)
+          setLoading(false)
+        }
+
+        setLoading(false)
+        history.replace(`${pathname}${record.edit_hash}`)
+      } catch (err) {
+        if (abortController.signal.aborted) {
+          console.log('Request to fetch artworks was aborted')
+        } else {
+          console.log('Error fetching artworks', err)
+        }
+        setLoading(false)
+      }
+    }
+
+    if (isAuthenticated && responseId && !hash) {
+      getResponse()
+    }
+
+    return () => {
+      abortController.abort()
+    }
+  }, [responseId, getAccessTokenSilently, isAuthenticated, hash, history, pathname])
+
 
   useEffect(() => {
     const abortController = new AbortController()
     const fetchReport = async () => {
+      setLoading(true)
       try {
         const opts = {
           signal: abortController.signal
@@ -67,7 +116,9 @@ const Report = () => {
       }
     }
 
-    fetchReport()
+    if (!isLoadingReport) {
+      fetchReport()
+    }
 
     return () => {
       abortController.abort()

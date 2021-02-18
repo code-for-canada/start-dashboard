@@ -32,7 +32,7 @@ const ArtworkItem = ({ artwork }) => {
   return (
     <li className={classes.listItem}>
       <div>{text}</div>
-      <div className={classes.artworkLinks}>
+      <div>
         <a
           href={`/artwork/edit/${artwork.id}/${artwork.edit_hash}`}
           className={classes.artworkLink}>
