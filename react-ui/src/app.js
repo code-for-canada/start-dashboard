@@ -71,7 +71,8 @@ const App = () => {
         path="/artwork/review/:id"
         component={ArtworkReviewChanges}
       />
-      <PrivateRoute path="/report/:slug" component={Report} />
+      <PrivateRoute exact path="/report/:slug" component={Report} />
+      <PrivateRoute path="/report/:slug/:responseId" component={Report} />
       <PrivateRoute
         path="/progress-update/:artworkId"
         component={ProgressUpdate}

@@ -5,13 +5,22 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Block, BlockTitle } from 'components/common/Block'
 import { getResource } from 'utils/apiHelper'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   list: {
     listStyle: 'none',
     paddingLeft: 0,
     marginLeft: 0
+  },
+  listItem: {
+    marginBottom: theme.spacing(1),
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexWrap: 'wrap'
+  },
+  link: {
+    marginLeft: theme.spacing(2)
   }
-})
+}))
 
 const ReportsList = ({ artist }) => {
   const [reports, setReports] = useState([])
@@ -64,19 +73,22 @@ const ReportsList = ({ artist }) => {
               reportResponses.find(rRepId => rRepId === aRepId)
             )
 
-            if (responded) {
-              return (
-                <li key={report.id} className="mb-2">
-                  {`[Responded] ${report.name}`}
-                </li>
-              )
-            }
-
             return (
-              <li key={report.id} className="mb-2">
-                <a href={report.form_url} disabled={responded}>
-                  {report.name}
-                </a>
+              <li className={classes.listItem} key={report.id}>
+                <div>{report.name}</div>
+                <div>
+                  {responded ? (
+                    <a
+                      href={`${report.form_url}/${responded}`}
+                      className={classes.link}>
+                      Edit report
+                    </a>
+                  ) : (
+                    <a href={`${report.form_url}`} className={classes.link}>
+                      Start report
+                    </a>
+                  )}
+                </div>
               </li>
             )
           })}
