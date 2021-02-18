@@ -13,9 +13,6 @@ const getResponse = (req, res) => {
       return res.status(500).send({ error: err.message })
     }
 
-    console.log({record})
-    console.log({err})
-
     const response = { ...record.fields, id: record.id }
     return res.status(200).send({ record: response })
   })
