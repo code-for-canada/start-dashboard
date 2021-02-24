@@ -75,7 +75,7 @@ const StartMap = props => {
           console.log(error)
         }
 
-        if (Boolean(items.length)) {
+        if (items.length) {
           setLog(items[0])
         }
       } catch (err) {
@@ -96,8 +96,6 @@ const StartMap = props => {
     }
   }, [getAccessTokenSilently, isAuthenticated, log])
 
-  console.log({log})
-
   return (
     <div>
       <StatusAlert
@@ -108,7 +106,12 @@ const StartMap = props => {
       />
       <div>
         {log && <p>{`Last published: ${log.timestamp}`}</p>}
-        {log && <p className={classes.marginBottom}>{`Published by: ${log.account_name}`}</p>}
+        {log && (
+          <p
+            className={
+              classes.marginBottom
+            }>{`Published by: ${log.account_name}`}</p>
+        )}
         <Button
           className={classes.button}
           color="secondary"

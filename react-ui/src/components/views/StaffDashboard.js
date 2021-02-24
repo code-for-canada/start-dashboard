@@ -151,8 +151,8 @@ export const PANELS_DATA = [
     content: StartMap,
     guides: [
       {
-        title: 'How to publish the StART Map',
-        link: `${USER_GUIDE_DOC}`
+        title: 'How to publish changes to the StART Map',
+        link: `${USER_GUIDE_DOC}#heading=h.s3kzi5v49gin`
       }
     ]
   }
