@@ -11,5 +11,15 @@ const artworksTable = base('artworks')
 const artworkUpdatesTable = base('artwork_updates')
 const reportsTable = base('reports')
 const reportResponsesTable = base('report_responses')
+const deployLogTable = base('deploy_log')
 
-module.exports = { locationsTable, artistsTable, accountsTable, artworksTable, artworkUpdatesTable, reportsTable, reportResponsesTable }
+module.exports = {
+  locationsTable,
+  artistsTable,
+  accountsTable,
+  artworksTable,
+  artworkUpdatesTable,
+  reportsTable,
+  reportResponsesTable,
+  deployLogTable
+}
