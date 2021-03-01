@@ -4,7 +4,6 @@ const { GITHUB_REPO_DISPATCH_ENDPOINT } = require('./utils/constants')
 const fetch = require('node-fetch')
 
 const publishMap = async (req, res) => {
-  console.log("why ami here")
   try {
     const result = await fetch(GITHUB_REPO_DISPATCH_ENDPOINT, {
       method: 'POST',
