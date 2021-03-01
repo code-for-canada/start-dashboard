@@ -16,6 +16,7 @@ import Charts from 'components/panels/Charts'
 import Locations from 'components/panels/Locations'
 import Projects from 'components/panels/Projects'
 import Tasks from 'components/panels/Tasks'
+import StartMap from 'components/panels/StartMap'
 
 export const PANELS_DATA = [
   {
@@ -139,6 +140,19 @@ export const PANELS_DATA = [
       {
         title: 'How to add a location to the database',
         link: `${USER_GUIDE_DOC}#heading=h.d21ujobpprag`
+      }
+    ]
+  },
+  {
+    id: 'start-map',
+    title: 'StART Map',
+    isVisible: true,
+    isSmall: false,
+    content: StartMap,
+    guides: [
+      {
+        title: 'How to publish changes to the StART Map',
+        link: `${USER_GUIDE_DOC}#heading=h.s3kzi5v49gin`
       }
     ]
   }

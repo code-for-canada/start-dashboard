@@ -47,6 +47,7 @@ const EmbeddedCognitoForm = ({ formId, showForm, opts, afterSubmit }) => {
     if (scriptLoaded && !cognitoLoaded && showForm) {
       loadCognitoForm()
     }
+    // eslint-disable-next-line
   }, [showForm, cognitoLoaded, formId, opts, afterSubmit, scriptLoaded])
 
   if (error || !showForm) {

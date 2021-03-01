@@ -85,6 +85,7 @@ if (!isDev && cluster.isMaster) {
   const handleArtworkUpdates = require('./api/artworkUpdates')
   const handleReports = require('./api/reports')
   const handleResponses = require('./api/reportResponses')
+  const handleDeploy = require('./api/deploy')
 
 
   // Log requests with dev template
@@ -112,6 +113,7 @@ if (!isDev && cluster.isMaster) {
   app.all('/api/artworks', checkJwt, handleArtworks)
   app.all('/api/artwork-updates', checkJwt, handleArtworkUpdates)
   app.all('/api/report-responses', checkJwt, handleResponses)
+  app.all('/api/deploy', checkJwt, handleDeploy)
 
   // Only in production is the server the main entry point,
   // so only then serve built static files from filesystem.

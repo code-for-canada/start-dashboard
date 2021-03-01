@@ -134,6 +134,7 @@ const Report = () => {
     return () => {
       abortController.abort()
     }
+    // eslint-disable-next-line
   }, [slug])
 
   useEffect(() => {
