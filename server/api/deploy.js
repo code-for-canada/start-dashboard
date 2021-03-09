@@ -4,6 +4,9 @@ const { GITHUB_REPO_DISPATCH_ENDPOINT } = require('./utils/constants')
 const fetch = require('node-fetch')
 
 const publishMap = async (req, res) => {
+  const event_type = process.env.REACT_APP_ENV === 'production' ? 'publish_production' : 'publish'
+  console.log("Dispatched event")
+  console.log({ event_type })
   try {
     const result = await fetch(GITHUB_REPO_DISPATCH_ENDPOINT, {
       method: 'POST',
@@ -11,7 +14,7 @@ const publishMap = async (req, res) => {
         Authorization: `token ${process.env.GITHUB_TOKEN}`,
         Accept: 'application/vnd.github.everest-preview+json'
       },
-      body: JSON.stringify({ event_type: "publish" })
+      body: JSON.stringify({ event_type })
     })
     if (result.status === 204) {
       await deployLogTable.create([{ fields: { auth0_id: req.user.sub }}])
