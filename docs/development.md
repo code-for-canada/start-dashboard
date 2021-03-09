@@ -82,6 +82,13 @@ All configuration mentioned will be added to your `.env` file in the project's r
 5. Enter this key as `START_AIRTABLE_TOKEN` in your `.env` config.
 
 
+## Github Token
+
+The Github token is used for the "Publish to map" button that triggers a Github action on the code-for-canada/start-map repo that pulls the latest data from Airtable to the `public/geojson/ftrs.json` file and commits any changes. If there are changes, that will trigger a rebuild on Heroku.
+
+You can a personal Github token here: https://github.com/settings/tokens
+
+
 ## Enable local HTTPS
 
 For Auth0's `getTokenSilently` hook to work, our API can't be on localhost and it needs to be https.
