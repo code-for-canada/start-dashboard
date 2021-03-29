@@ -8,7 +8,8 @@ import Footer from 'components/common/Footer'
 const useStyles = makeStyles(theme => ({
   main: {
     backgroundColor: theme.palette.background.default,
-    flex: '1 1 auto'
+    flex: '1 1 auto',
+    display: 'flex'
   },
   app: {
     display: 'flex',
