@@ -17,7 +17,7 @@ const getRandomImage = async () => {
     if (feature.properties.media && feature.properties.media.length > 0) {
       return {
         url: feature.properties.media[0].url,
-        artist: feature.properties.artist
+        artist: feature.properties.artist ? feature.properties.artist : feature.properties.title
       }
     } else {
       throw new Error('no media url')
